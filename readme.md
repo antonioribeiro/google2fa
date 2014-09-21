@@ -46,7 +46,11 @@ Generate a secret key for your user and save it:
 
 Show the QR code to your user:
 
-    $google2fa_url = Google2FA::getQRCodeGoogleUrl('YourCompany', $user->email, $user->google2fa_secret);
+    $google2fa_url = Google2FA::getQRCodeGoogleUrl(
+    	'YourCompany',
+    	$user->email,
+    	$user->google2fa_secret
+    );
 
 	{{ HTML::image($google2fa_url) }}
 
