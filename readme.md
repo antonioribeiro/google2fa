@@ -1,4 +1,4 @@
-# GoogleAuthenticator
+# Google2FA
 
 [![Latest Stable Version](https://poser.pugx.org/pragmarx/google2fa/v/stable.png)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://poser.pugx.org/pragmarx/google2fa/license.png)](https://packagist.org/packages/pragmarx/google2fa)
 
