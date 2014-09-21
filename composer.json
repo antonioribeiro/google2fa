@@ -1,9 +1,9 @@
 {
     "name": "pragmarx/google2fa",
 
-    "description": "<Full package description.>",
+    "description": "A Two Factor Authentication package, compatible with Google Authenticator.",
 
-    "keywords": ["laravel"],
+    "keywords": ["authentication", "two factor authentication", "google2fa", "laravel"],
 
     "license": "MIT",
 
@@ -26,14 +26,8 @@
     },
 
     "extra": {
-            "component": "package",
-            "frameworks": ["Laravel 4"],
-            "versions": {
-                    "0.1.0": "master"
-            },
-            "branch-alias": {
-                    "dev-master": "0.1.0-dev"
-            }
+        "component": "package",
+        "frameworks": ["Laravel"]
     },
 
     "minimum-stability": "dev"
