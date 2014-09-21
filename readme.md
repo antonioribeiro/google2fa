@@ -66,7 +66,7 @@ And to verify, you just have to:
 
 ## Server Time
 
-It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this the crontab:
+It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this to the crontab:
 
     ntpdate ntp.ubuntu.com
 
