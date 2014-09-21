@@ -15,30 +15,19 @@ class ServiceProvider extends PragmaRXServiceProvider {
 	 */
 	const PACKAGE_NAMESPACE = 'pragmarx/google2fa';
 
+	/**
+	 * Package name.
+	 *
+	 * @var
+	 */
+	protected $packageName = 'google2fa';
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
-
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->package(self::PACKAGE_NAMESPACE, self::PACKAGE_NAMESPACE, __DIR__.'/../..');
-
-        if( $this->app['config']->get(self::PACKAGE_NAMESPACE.'::create_google2fa_alias') )
-        {
-            IlluminateAliasLoader::getInstance()->alias(
-                                                            $this->getConfig('google2fa_alias'),
-                                                            'PragmaRX\Google2FA\Vendor\Laravel\Facade'
-                                                        );
-        }
-    }
 
     /**
      * Register the service provider.

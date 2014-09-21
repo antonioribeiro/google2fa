@@ -27,11 +27,8 @@ namespace PragmaRX\Google2FA;
 use Exception;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
-use PragmaRX\Support\StaticDynamicTrait;
 
 class Google2FA {
-
-	use StaticDynamicTrait;
 
 	// Interval between key regeneration
 	const keyRegeneration = 30;
@@ -112,7 +109,7 @@ class Google2FA {
 		for ($i = 0; $i < $l; $i++)
 		{
 			$n = $n << 5; 				// Move buffer left by 5 to make room
-			$n = $n + $this->$lut[$b32[$i]]; 	// Add value into buffer
+			$n = $n + static::$lut[$b32[$i]]; 	// Add value into buffer
 			$j = $j + 5;				// Keep track of number of bits in buffer
 
 			if ($j >= 8)
