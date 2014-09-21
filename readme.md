@@ -1,108 +1,77 @@
-# Laravel Stats SDK
+# GoogleAuthenticator
 
-[![Latest Stable Version](https://poser.pugx.org/pragmarx/sdk/v/stable.png)](https://packagist.org/packages/pragmarx/sdk) [![License](https://poser.pugx.org/pragmarx/sdk/license.png)](https://packagist.org/packages/pragmarx/sdk)
+[![Latest Stable Version](https://poser.pugx.org/pragmarx/google2fa/v/stable.png)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://poser.pugx.org/pragmarx/google2fa/license.png)](https://packagist.org/packages/pragmarx/google2fa)
 
-###SDK gathers a lot of information from your requests to identify and store:
+###Google Two-Factor Authentication PHP Package
+
+Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
+
+This package is agnostic, but also supports the Laravel Framework.
 
 ## Requirements
 
-- Laravel 4.1+
 - PHP 5.3.7+
-- Package "geoip/geoip":"~1.14" (If you are planning to store Geo IP information)
 
 ## Installing
 
-Require the `sdk` package by **executing** the following command in your command line:
+Require the `google2fa` package by **executing** the following command in your command line:
 
-    composer require "pragmarx/sdk":"0.6.*"
+    composer require "pragmarx/google2fa":"0.1.*"
 
 **Or** add to your composer.json:
 
     "require": {
-        "pragmarx/sdk": "0.6.*"
+        "pragmarx/google2fa": "0.1.*"
     }
 
 And execute
 
     composer update
 
-Add the service provider to your app/config/app.php:
+## Installing on Laravel
 
-    'PragmaRX\SDK\Vendor\Laravel\ServiceProvider',
+Add the service provider to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
-Create the migration:
+    'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
 
-    php artisan sdk:tables
+## Hot To Use It
 
-Migrate it
+Generate a secret key for your user and save it:
 
-    php artisan migrate
+    $user = User::find(1);
 
-Publish sdk configuration:
+    $user->google2fa_secret = Google2FA::generateSecretKey();
 
-    php artisan config:publish pragmarx/sdk
+    $user->save();
 
-Create the UA Parser regex file (every time you run `composer update` you must also execute this command):
+Show the QR code to your user:
 
-    php artisan sdk:updateparser
+    $google2fa_url = Google2FA::getQRCodeGoogleUrl('YourCompany', $user->email, $user->google2fa_secret);
 
-And edit the file `app/config/packages/pragmarx/sdk/config.php` to enable SDK.
+	{{ HTML::image($google2fa_url) }}
 
-    'enabled' => true,
+And they should see and scan the QR code to their applications:
 
-Note that the logging function is disabled by default, because it may write too much data to your database, but you can enable it by changing:
+![QRCode](https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth%3A%2F%2Ftotp%2FPragmaRX%3Aacr%2Bpragmarx%40antoniocarlosribeiro.com%3Fsecret%3DADUMJO5634NPDEKW%26issuer%3DPragmaRX)
 
-    'log_enabled' => true,
+And to verify, you just have to:
 
-If you are planning to store Geo IP information, also install the geoip package:
+	$secret = Input::get('secret');
 
-    composer require "geoip/geoip":"~1.14"
+    $valid = Google2FA::verifyKey($user->google2fa_secret, $secret);
 
-And make sure you don't have the PHP module installed. This is a Debian/Ubuntu example:
+## Server Time
 
-	sudo apt-get purge php5-geoip
+It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this the crontab:
 
-## Database Connections & Query Logs
+    ntpdate ntp.ubuntu.com
 
-If you are planning to store your query logs, to avoid recursion while logging SQL queries, you will need to create a different database connection for it:
+## Available Apps:
 
-This is a main connection:
-
-	'postgresql' => [
-		'driver'   => 'pgsql',
-		'host'     => 'localhost',
-		'database' => getenv('MAIN.DATABASE_NAME'),
-		'username' => getenv('MAIN.DATABASE_USER'),
-		'password' => getenv('MAIN.DATABASE_PASSWORD'),
-		'charset'  => 'utf8',
-		'prefix'   => '',
-		'schema'   => 'public',
-	],
-
-This is the sdk connection pointing to the same database:
-
-	'sdk' => [
-		'driver'   => 'pgsql',
-		'host'     => 'localhost',
-		'database' => getenv('MAIN.DATABASE_NAME'),
-		'username' => getenv('MAIN.DATABASE_USER'),
-		'password' => getenv('MAIN.DATABASE_PASSWORD'),
-		'charset'  => 'utf8',
-		'prefix'   => '',
-		'schema'   => 'public',
-	],
-
-On your `sdk/config.php` file, set the SDK connection to the one you created for it:
-
-	'connection' => 'sdk',
-
-And ignore this connection for SQL queries logging:
-
-	'do_not_log_sql_queries_connections' => array(
-		'sdk'
-	),
-
-You don't need to use a different database, but, since SDK may generate a huge number of records, this would be a good practice.
+* [iOS mobile app](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
+* [Android mobile app](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
+* [Blackberry mobile app](https://m.google.com/authenticator")
+* [Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
 
 ## Author
 
@@ -110,7 +79,7 @@ You don't need to use a different database, but, since SDK may generate a huge n
 
 ## License
 
-SDK is licensed under the BSD 3-Clause License - see the `LICENSE` file for details
+Google2FA is licensed under the BSD 3-Clause License - see the `LICENSE` file for details
 
 ## Contributing
 

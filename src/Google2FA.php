@@ -14,7 +14,7 @@ namespace PragmaRX\Google2FA;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * PHP Google two-factor authentication module.
  *
@@ -30,6 +30,7 @@ namespace PragmaRX\Google2FA;
  **/
 
 use Exception;
+
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
