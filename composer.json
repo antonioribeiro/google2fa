@@ -1,0 +1,40 @@
+{
+    "name": "pragmarx/google2FA",
+
+    "description": "<Full package description.>",
+
+    "keywords": ["laravel"],
+
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Antonio Carlos Ribeiro",
+            "email": "acr@antoniocarlosribeiro.com",
+            "role": "Creator & Designer"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.7"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "PragmaRX\\Google2FA\\": "src/"
+        }
+    },
+
+    "extra": {
+            "component": "package",
+            "frameworks": ["Laravel 4"],
+            "versions": {
+                    "0.1.0": "master"
+            },
+            "branch-alias": {
+                    "dev-master": "0.1.0-dev"
+            }
+    },
+
+    "minimum-stability": "dev"
+}
