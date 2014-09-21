@@ -22,6 +22,11 @@ namespace PragmaRX\Google2FA;
  * for more details
  *
  * @author Phil
+ *
+ * Changes have been made in the original class to remove all static methods and, also,
+ * provide some other methods.
+ *
+ * @author Antonio Carlos Ribeiro
  **/
 
 use Exception;
@@ -30,16 +35,28 @@ use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 class Google2FA {
 
-	// Interval between key regeneration
+	/**
+	 * Interval between key regeneration
+	 */
 	const keyRegeneration = 30;
 
-	// Length of the Token generated
+	/**
+	 * Length of the Token generated.
+	 *
+	 */
 	const otpLength	= 6;
 
-	// Characters valid for Base 32
+	/**
+	 * Characters valid for Base 32.
+	 *
+	 */
 	const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
-	// Lookup needed for Base32 encoding
+	/**
+	 * Lookup needed for Base32 encoding.
+	 *
+	 * @var array
+	 */
 	private static $lut = array(
         "A" => 0,	"B" => 1,
         "C" => 2,	"D" => 3,
@@ -60,7 +77,8 @@ class Google2FA {
 	);
 
 	/**
-	 * Generates a 16 digit secret key in base32 format
+	 * Generates a 16 digit secret key in base32 format.
+	 *
 	 * @return string
 	 **/
 	public function generateSecretKey($length = 16)
@@ -80,6 +98,7 @@ class Google2FA {
 	/**
 	 * Returns the current Unix Timestamp devided by the keyRegeneration
 	 * period.
+	 *
 	 * @return integer
 	 **/
 	public function getTimestamp()
@@ -89,7 +108,11 @@ class Google2FA {
 
 	/**
 	 * Decodes a base32 string into a binary string.
-	 **/
+	 *
+	 * @param string $b32
+	 * @throws InvalidCharactersException
+	 * @return integer
+	 */
 	public function base32Decode($b32)
 	{
 		$b32 = strtoupper($b32);
@@ -128,7 +151,7 @@ class Google2FA {
 	 *
 	 * @param string $key - Secret key in binary form.
 	 * @param integer $counter - Timestamp as returned by getTimestamp.
-	 * @throws Exception
+	 * @throws SecretKeyTooShortException
 	 * @return string
 	 */
 	public function oathHotp($key, $counter)
@@ -146,6 +169,14 @@ class Google2FA {
 		return str_pad($this->oathTruncate($hash), static::otpLength, '0', STR_PAD_LEFT);
 	}
 
+	/**
+	 * Get the current one time password for a key.
+	 *
+	 * @param $initalizationKey
+	 * @return string
+	 * @throws InvalidCharactersException
+	 * @throws SecretKeyTooShortException
+	 */
 	public function getCurrentOtp($initalizationKey)
 	{
 		$timestamp = $this->getTimestamp();
@@ -186,6 +217,7 @@ class Google2FA {
 
 	/**
 	 * Extracts the OTP from the SHA1 hash.
+	 *
 	 * @param string $hash
 	 * @return integer
 	 **/
@@ -228,21 +260,3 @@ class Google2FA {
 	}
 
 }
-
-//$InitalizationKey = "PEHMPSDNLXIOG65U";					        // Set the inital key
-//
-//$TimeStamp	  = Google2FA::getTimestamp();
-//
-//$secretkey 	  = Google2FA::base32Decode($InitalizationKey);	// Decode it into binary
-//
-//$otp       	  = Google2FA::oathHotp($secretkey, $TimeStamp);	// Get current token
-//
-//echo("Init key: $InitalizationKey\n");
-//echo("Timestamp: $TimeStamp\n");
-//echo("One time password: $otp\n");
-//
-//// Use this to verify a key as it allows for some time drift.
-//
-//$result = Google2FA::verifyKey($InitalizationKey, "123456");
-//
-//var_dump($result);
