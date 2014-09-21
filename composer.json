@@ -19,6 +19,10 @@
         "php": ">=5.3.7"
     },
 
+    "require-dev": {
+        "phpspec/phpspec": "~2.1@dev"
+    },
+
     "autoload": {
         "psr-4": {
             "PragmaRX\\Google2FA\\": "src/"

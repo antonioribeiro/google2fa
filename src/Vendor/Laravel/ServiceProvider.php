@@ -4,8 +4,6 @@ use PragmaRX\Google2FA\Google2FA;
 
 use PragmaRX\Support\ServiceProvider as PragmaRXServiceProvider;
 
-use Illuminate\Foundation\AliasLoader as IlluminateAliasLoader;
-
 class ServiceProvider extends PragmaRXServiceProvider {
 
 	/**

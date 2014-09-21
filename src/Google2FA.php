@@ -117,8 +117,6 @@ class Google2FA {
 	{
 		$b32 = strtoupper($b32);
 
-		$b32 = $this->removeInvalidChars($b32);
-
 		if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match))
 		{
 			throw new InvalidCharactersException('Invalid characters in the base32 string.');
@@ -200,7 +198,10 @@ class Google2FA {
 	{
 		$timeStamp = $this->getTimestamp();
 
-		if ($useTimeStamp !== true) $timeStamp = (int)$useTimeStamp;
+		if ($useTimeStamp !== true)
+		{
+			$timeStamp = (int)$useTimeStamp;
+		}
 
 		$binarySeed = $this->base32Decode($b32seed);
 
@@ -239,7 +240,7 @@ class Google2FA {
 	 * @param $string
 	 * @return mixed
 	 */
-	private function removeInvalidChars($string)
+	public function removeInvalidChars($string)
 	{
 		return preg_replace('/[^'.static::VALID_FOR_B32.']/', '', $string);
 	}
