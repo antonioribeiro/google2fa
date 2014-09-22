@@ -29,8 +29,6 @@ namespace PragmaRX\Google2FA;
  * @author Antonio Carlos Ribeiro
  **/
 
-use Exception;
-
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
