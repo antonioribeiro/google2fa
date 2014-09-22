@@ -31,7 +31,18 @@ class Google2FASpec extends ObjectBehavior
 
 	function it_decodes_base32_strings()
 	{
-		$this->base32Decode($this->secret)->shouldBeBinaryEquals(chr(232) . chr(196) . chr(187) . chr(190) . chr(223) . chr(26) . chr(241) . chr(145) . chr(86));
+		$this->base32Decode($this->secret)->shouldBe(
+			  chr(0)
+			. chr(232)
+			. chr(196)
+			. chr(187)
+			. chr(190)
+			. chr(223)
+			. chr(26)
+			. chr(241)
+			. chr(145)
+			. chr(86)
+		);
 	}
 
 	function it_creates_a_one_time_password()
@@ -71,29 +82,9 @@ class Google2FASpec extends ObjectBehavior
 
 		    'beValidTimestamp' => function($timestamp)
 		    {
-			    return ((string) (int) $timestamp === (string) (int) $timestamp)
+			    return is_double($timestamp)
 						&& ($timestamp <= PHP_INT_MAX)
 						&& ($timestamp >= ~PHP_INT_MAX);
-		    },
-
-		    'beBinaryEquals' => function($one, $two)
-		    {
-			    $two = chr(0) . $two;
-
-				$s1 = '';
-			    $s2 = '';
-
-			    for ($x = 0; $x < strlen($one); $x++)
-			    {
-				    $s1 .= ord($one[$x]);
-			    }
-
-			    for ($x = 0; $x < strlen($two); $x++)
-			    {
-				    $s2 .= ord($two[$x]);
-			    }
-
-			    return $s1 === $s2;
 		    },
 
 		];
