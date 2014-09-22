@@ -1,7 +1,7 @@
 {
     "name": "pragmarx/google2fa",
 
-    "description": "A Two Factor Authentication package, compatible with Google Authenticator.",
+    "description": "A One Time Password Authentication package, compatible with Google Authenticator.",
 
     "keywords": ["authentication", "two factor authentication", "google2fa", "laravel"],
 
