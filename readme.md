@@ -34,7 +34,7 @@ Add the service provider and Facade alias to your `app/config/app.php` (Laravel 
 
     'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
 
-    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\Facade',
+    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
 
 ## Hot To Use It
 
@@ -72,12 +72,12 @@ It's really important that you keep your server time in sync with some NTP serve
 
     ntpdate ntp.ubuntu.com
 
-## Available Apps:
+## Google Authenticator Apps:
 
-* [iOS mobile app](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
-* [Android mobile app](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
-* [Blackberry mobile app](https://m.google.com/authenticator")
-* [Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
+* [For iOS](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
+* [For Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
+* [For Blackberry](https://m.google.com/authenticator")
+* [On Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
 
 ## Author
 
