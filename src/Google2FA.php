@@ -21,12 +21,13 @@ namespace PragmaRX\Google2FA;
  * See http://www.idontplaydarts.com/2011/07/google-totp-two-factor-authentication-for-php/
  * for more details
  *
- * @author Phil
+ * @author Phil (Orginal author of this class)
  *
  * Changes have been made in the original class to remove all static methods and, also,
  * provide some other methods.
  *
- * @author Antonio Carlos Ribeiro
+ * @package    Google2FA
+ * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
