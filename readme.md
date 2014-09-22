@@ -30,9 +30,11 @@ And execute
 
 ## Installing on Laravel
 
-Add the service provider to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
+Add the service provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
     'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
+
+    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\Facade',
 
 ## Hot To Use It
 
