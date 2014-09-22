@@ -20,6 +20,7 @@
     },
 
     "require-dev": {
+        "pragmarx/support": "0.3.*",
         "phpspec/phpspec": "~2.1@dev"
     },
 
