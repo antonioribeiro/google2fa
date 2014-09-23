@@ -72,7 +72,13 @@ It's really important that you keep your server time in sync with some NTP serve
 
     ntpdate ntp.ubuntu.com
 
+## Demo
+
+You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view view the code changing (almost) in real time.
+
 ## Google Authenticator Apps:
+
+To use the two factor authentication, your user will have to install a Google Authenticator compatible app, those are some of the currently available:
 
 * [For iOS](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
 * [For Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
