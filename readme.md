@@ -34,7 +34,7 @@ Add the service provider and Facade alias to your `app/config/app.php` (Laravel 
 
     'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
 
-    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
+    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\Facade',
 
 ## Hot To Use It
 
