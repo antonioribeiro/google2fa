@@ -5,7 +5,7 @@
 
     "keywords": ["authentication", "two factor authentication", "google2fa", "laravel"],
 
-    "license": "MIT",
+    "license": "BSD-3-Clause",
 
     "authors": [
         {
