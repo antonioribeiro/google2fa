@@ -83,10 +83,10 @@ To use the two factor authentication, your user will have to install a Google Au
 * [Authy for iOS, Android, Chrome, OS X](https://www.authy.com/)
 * [FreeOTP for iOS, Android and Peeble](https://fedorahosted.org/freeotp/)
 * [FreeOTP for iOS, Android and Peeble](https://www.toopher.com/)
-* [Google Authenticator for iOS](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
-* [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
-* [Google Authenticator for Blackberry](https://m.google.com/authenticator")
-* [Google Authenticator (port) on Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
+* [Google Authenticator for iOS](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8)
+* [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2)
+* [Google Authenticator for Blackberry](https://m.google.com/authenticator)
+* [Google Authenticator (port) on Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb)
 
 ## Author
 
