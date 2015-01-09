@@ -33,18 +33,19 @@ namespace PragmaRX\Google2FA;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
-class Google2FA {
+class Google2FA
+{
 
 	/**
 	 * Interval between key regeneration
 	 */
-	const keyRegeneration = 30;
+	const KEY_REGENERATION = 30;
 
 	/**
 	 * Length of the Token generated.
 	 *
 	 */
-	const otpLength	= 6;
+	const OPT_LENGTH = 6;
 
 	/**
 	 * Characters valid for Base 32.
@@ -96,14 +97,14 @@ class Google2FA {
 	}
 
 	/**
-	 * Returns the current Unix Timestamp devided by the keyRegeneration
+	 * Returns the current Unix Timestamp devided by the KEY_REGENERATION
 	 * period.
 	 *
 	 * @return integer
 	 **/
 	public function getTimestamp()
 	{
-		return floor(microtime(true) / static::keyRegeneration);
+		return floor(microtime(true) / static::KEY_REGENERATION);
 	}
 
 	/**
@@ -164,7 +165,7 @@ class Google2FA {
 
 		$hash = hash_hmac('sha1', $bin_counter, $key, true);
 
-		return str_pad($this->oathTruncate($hash), static::otpLength, '0', STR_PAD_LEFT);
+		return str_pad($this->oathTruncate($hash), static::OPT_LENGTH, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -231,7 +232,7 @@ class Google2FA {
 			((ord($hash[$offset+1]) & 0xff) << 16 ) |
 			((ord($hash[$offset+2]) & 0xff) << 8 ) |
 			(ord($hash[$offset+3]) & 0xff)
-		) % pow(10, static::otpLength);
+		) % pow(10, static::OPT_LENGTH);
 	}
 
 	/**

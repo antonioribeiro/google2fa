@@ -22,6 +22,7 @@ namespace PragmaRX\Google2FA\Exceptions;
 
 use Exception;
 
-class SecretKeyTooShortException extends Exception {
+class SecretKeyTooShortException extends Exception
+{
 
-} 
+}
