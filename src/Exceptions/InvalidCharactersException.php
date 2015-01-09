@@ -22,6 +22,7 @@ namespace PragmaRX\Google2FA\Exceptions;
 
 use Exception;
 
-class InvalidCharactersException extends Exception {
+class InvalidCharactersException extends Exception
+{
 
-} 
+}

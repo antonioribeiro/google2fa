@@ -1,12 +1,8 @@
 {
     "name": "pragmarx/google2fa",
-
     "description": "A One Time Password Authentication package, compatible with Google Authenticator.",
-
     "keywords": ["authentication", "two factor authentication", "google2fa", "laravel"],
-
     "license": "BSD-3-Clause",
-
     "authors": [
         {
             "name": "Antonio Carlos Ribeiro",
@@ -14,25 +10,21 @@
             "role": "Creator & Designer"
         }
     ],
-
     "require": {
         "php": ">=5.3.7"
     },
-
     "require-dev": {
+        "phpunit/phpunit": "~4.3.0",
         "phpspec/phpspec": "~2.1@dev"
     },
-
     "autoload": {
         "psr-4": {
             "PragmaRX\\Google2FA\\": "src/"
         }
     },
-
     "extra": {
         "component": "package",
         "frameworks": ["Laravel"]
     },
-
     "minimum-stability": "dev"
 }

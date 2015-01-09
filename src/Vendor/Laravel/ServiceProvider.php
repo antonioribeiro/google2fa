@@ -19,12 +19,12 @@
  */
 
 namespace PragmaRX\Google2FA\Vendor\Laravel;
- 
-use PragmaRX\Google2FA\Google2FA;
 
+use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class ServiceProvider extends IlluminateServiceProvider {
+class ServiceProvider extends IlluminateServiceProvider
+{
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -41,7 +41,7 @@ class ServiceProvider extends IlluminateServiceProvider {
     public function register()
     {
 	    $this->app['pragmarx.google2fa'] = $this->app->share(function($app)
-	    {
+        {
 		    return new Google2FA();
 	    });
     }
