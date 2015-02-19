@@ -88,6 +88,10 @@ To use the two factor authentication, your user will have to install a Google Au
 * [Google Authenticator for Blackberry](https://m.google.com/authenticator")
 * [Google Authenticator (port) on Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
 
+## Tests
+
+The package tests were written with [phpspec](http://www.phpspec.net/en/latest/)
+
 ## Author
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
