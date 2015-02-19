@@ -44,6 +44,8 @@ class ServiceProvider extends IlluminateServiceProvider
         {
 		    return new Google2FA();
 	    });
+
+	    $this->app->bind('PragmaRX\Google2FA\Contracts\Google2FA', 'PragmaRX\Google2FA\Google2FA');
     }
 
 	/**
