@@ -40,7 +40,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-	    $this->app['pragmarx.google2fa'] = $this->app->share(function($app)
+	    $this->app['google2fa'] = $this->app->share(function($app)
         {
 		    return new Google2FA();
 	    });
@@ -53,7 +53,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	 */
 	public function provides()
 	{
-		return array('pragmarx.google2fa');
+		return array('google2fa');
 	}
 
 }

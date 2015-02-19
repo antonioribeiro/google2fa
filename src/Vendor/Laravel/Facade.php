@@ -31,7 +31,7 @@ class Facade extends IlluminateFacade {
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return 'pragmarx.google2fa';
+		return 'google2fa';
 	}
 
 }
