@@ -2,8 +2,8 @@
 
 namespace spec\PragmaRX\Google2FA;
 
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use PhpSpec\ObjectBehavior;
 use PragmaRX\Google2FA\Google2FA;
 
 class Google2FASpec extends ObjectBehavior
