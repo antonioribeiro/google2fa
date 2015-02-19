@@ -78,10 +78,11 @@ class Google2FA
 	);
 
 	/**
-	 * Generates a 16 digit secret key in base32 format.
+	 * Generate a digit secret key in base32 format.
 	 *
+	 * @param int $length
 	 * @return string
-	 **/
+	 */
 	public function generateSecretKey($length = 16)
 	{
 		$b32 = "234567QWERTYUIOPASDFGHJKLZXCVBNM";
@@ -118,7 +119,7 @@ class Google2FA
 	{
 		$b32 = strtoupper($b32);
 
-		if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match))
+		if ( ! preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match))
 		{
 			throw new InvalidCharactersException('Invalid characters in the base32 string.');
 		}
@@ -171,7 +172,7 @@ class Google2FA
 	/**
 	 * Get the current one time password for a key.
 	 *
-	 * @param $initalizationKey
+	 * @param string $initalizationKey
 	 * @return string
 	 * @throws InvalidCharactersException
 	 * @throws SecretKeyTooShortException
