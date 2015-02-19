@@ -122,7 +122,7 @@ class Google2FA implements Google2FAContract
 
 		if ( ! preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match))
 		{
-			throw new InvalidCharactersException('Invalid characters in the base32 string.');
+			throw new InvalidCharactersException();
 		}
 
 		$l 	= strlen($b32);
@@ -159,7 +159,7 @@ class Google2FA implements Google2FAContract
 	{
 		if (strlen($key) < 8)
 		{
-			throw new SecretKeyTooShortException('Secret key is too short. Must be at least 16 base 32 characters');
+			throw new SecretKeyTooShortException();
 		}
 
 		// Counter must be 64-bit int
