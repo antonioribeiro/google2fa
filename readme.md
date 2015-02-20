@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/pragmarx/google2fa/v/stable.png)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://poser.pugx.org/pragmarx/google2fa/license.png)](https://packagist.org/packages/pragmarx/google2fa)
 
-###Google Two-Factor Authentication PHP Package
+###Google Two-Factor Authentication for PHP Package
 
 Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
