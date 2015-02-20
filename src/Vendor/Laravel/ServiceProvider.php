@@ -12,7 +12,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Register the service provider.
@@ -25,11 +25,6 @@ class ServiceProvider extends IlluminateServiceProvider
 			$contract = 'PragmaRX\Google2FA\Contracts\Google2FA',
 			$concrete = 'PragmaRX\Google2FA\Google2FA'
 		);
-
-		$this->app['google2fa'] = $this->app->share(function($app) use ($contract)
-		{
-			return $app->make($contract);
-		});
 	}
 
 	/**
@@ -39,7 +34,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	 */
 	public function provides()
 	{
-		return array('google2fa');
+		return array('PragmaRX\Google2FA\Contracts\Google2FA');
 	}
 
 }
