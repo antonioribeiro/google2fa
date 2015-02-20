@@ -12,31 +12,71 @@ This package is agnostic, but also supports the Laravel Framework.
 
 - PHP 5.3.7+
 
+## Compatibility
+
+You don't need Laravel to use it, but it's compatible with
+
+- Laravel 4.1+
+- Laravel 5+
+
 ## Installing
 
-Require the `google2fa` package by **executing** the following command in your command line:
+Use Composer to install it:
 
-    composer require "pragmarx/google2fa":"0.1.*"
-
-**Or** add to your composer.json:
-
-    "require": {
-        "pragmarx/google2fa": "0.1.*"
-    }
-
-And execute
-
-    composer update
+```
+composer require pragmarx/google2fa
+```
 
 ## Installing on Laravel
 
-Add the service provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
+Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
     'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
 
     'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\Facade',
 
-## Hot To Use It
+## Usign It
+
+#### Instantiate it directly
+
+```
+use PragmaRX\Google2FA\Google2FA;
+
+$google2fa = new Google2FA();
+
+return $google2fa->generateSecretKey()
+```
+
+#### In Laravel you can use the IoC Container and the contract
+
+```
+$google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
+
+return $google2fa->generateSecretKey()
+```
+
+#### Or Method Injection, in Laravel 5
+
+```
+use PragmaRX\Google2FA\Contracts\Google2FA;
+
+class WelcomeController extends Controller {
+
+	public function generateKey(Google2FA $google2fa)
+	{
+		return $google2fa->generateSecretKey();
+	}
+
+}
+```
+
+#### Or the Facade
+
+```
+return Google2FA::generateSecretKey()
+```
+
+## How To Generate And Use Two Factor Authentication
 
 Generate a secret key for your user and save it:
 
