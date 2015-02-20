@@ -12,7 +12,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	 *
 	 * @var bool
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Register the service provider.
@@ -22,8 +22,8 @@ class ServiceProvider extends IlluminateServiceProvider
 	public function register()
 	{
 		$this->app->bind(
-			$contract = 'PragmaRX\Google2FA\Contracts\Google2FA',
-			$concrete = 'PragmaRX\Google2FA\Google2FA'
+			'PragmaRX\Google2FA\Contracts\Google2FA',
+			'PragmaRX\Google2FA\Google2FA'
 		);
 	}
 
