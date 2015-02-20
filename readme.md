@@ -1,6 +1,6 @@
 # Google2FA
 
-[![Latest Stable Version](https://poser.pugx.org/pragmarx/google2fa/v/stable.png)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://poser.pugx.org/pragmarx/google2fa/license.png)](https://packagist.org/packages/pragmarx/google2fa)
+[![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/firewall.svg?style=flat-square)](https://packagist.org/packages/pragmarx/firewall) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/firewall.svg?style=flat-square)](https://packagist.org/packages/pragmarx/firewall)
 
 ###Google Two-Factor Authentication for PHP Package
 
