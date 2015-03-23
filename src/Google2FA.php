@@ -120,10 +120,7 @@ class Google2FA implements Google2FAContract
 	{
 		$b32 = strtoupper($b32);
 
-		if ( ! preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match))
-		{
-			throw new InvalidCharactersException();
-		}
+		$this->validateSecret($b32);
 
 		$l 	= strlen($b32);
 		$n	= 0;
@@ -263,7 +260,6 @@ class Google2FA implements Google2FAContract
 		return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl='.urlencode($url).'';
 	}
 
-
 	/**
 	 * Get a random number.
 	 *
@@ -274,6 +270,20 @@ class Google2FA implements Google2FAContract
 	private function getRandomNumber($from = 0, $to = 31)
 	{
 		return mt_rand($from, $to);
+	}
+
+	/**
+	 * Validate the secret.
+	 *
+	 * @param $b32
+	 * @throws InvalidCharactersException
+	 */
+	private function validateSecret($b32)
+	{
+		if (!preg_match('/^[' . static::VALID_FOR_B32 . ']+$/', $b32, $match))
+		{
+			throw new InvalidCharactersException();
+		}
 	}
 
 }
