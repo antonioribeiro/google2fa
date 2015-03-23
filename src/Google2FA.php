@@ -92,7 +92,7 @@ class Google2FA implements Google2FAContract
 
 		for ($i = 0; $i < $length; $i++)
 		{
-			$s .= $b32[rand(0,31)];
+			$s .= $b32[$this->getRandomNumber()];
 		}
 
 		return $s;
@@ -261,6 +261,19 @@ class Google2FA implements Google2FAContract
 		$url = 'otpauth://totp/'.$company.':'.$holder.'?secret='.$secret.'&issuer='.$company.'';
 
 		return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl='.urlencode($url).'';
+	}
+
+
+	/**
+	 * Get a random number.
+	 *
+	 * @param $from
+	 * @param $to
+	 * @return int
+	 */
+	private function getRandomNumber($from = 0, $to = 31)
+	{
+		return mt_rand($from, $to);
 	}
 
 }
