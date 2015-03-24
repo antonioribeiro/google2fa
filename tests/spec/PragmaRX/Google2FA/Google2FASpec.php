@@ -21,6 +21,10 @@ class Google2FASpec extends ObjectBehavior
 	{
 		$this->generateSecretKey()->shouldHaveLength(16);
 
+		$this->generateSecretKey(17)->shouldHaveLength(17);
+
+		$this->generateSecretKey(17, 'antoniocarlos')->shouldStartWith('MFXHI33ONFXWGYLSNRXXG');
+
 		$this->generateSecretKey()->shouldBeAmongst(Google2FA::VALID_FOR_B32);
 	}
 
@@ -67,12 +71,22 @@ class Google2FASpec extends ObjectBehavior
 		$this->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', $this->secret)->shouldBe($this->url);
 	}
 
+	function it_converts_to_base32()
+	{
+		$this->toBase32('PragmaRX')->shouldBe('KBZGCZ3NMFJFQ');
+	}
+
 	public function getMatchers()
 	{
 		return [
 			'haveLength' => function($subject, $key)
 			{
 				return strlen($subject) == $key;
+			},
+
+			'shouldStartWith' => function($subject, $key)
+			{
+				return substr($key, 0, strlen($subject)) == $subject;
 			},
 
 			'beAmongst' => function($subject, $key)
