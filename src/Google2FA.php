@@ -30,6 +30,7 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
+use Base32\Base32;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
@@ -84,18 +85,20 @@ class Google2FA implements Google2FAContract
 	 * @param int $length
 	 * @return string
 	 */
-	public function generateSecretKey($length = 16)
+	public function generateSecretKey($length = 16, $secret = '')
 	{
 		$b32 = "234567QWERTYUIOPASDFGHJKLZXCVBNM";
 
-		$s = "";
+		$secret = $secret ? $this->toBase32($secret) : '';
 
 		for ($i = 0; $i < $length; $i++)
 		{
-			$s .= $b32[$this->getRandomNumber()];
+			$secret .= $b32[$this->getRandomNumber()];
 		}
 
-		return $s;
+		$this->validateSecret($secret);
+
+		return $secret;
 	}
 
 	/**
@@ -284,6 +287,19 @@ class Google2FA implements Google2FAContract
 		{
 			throw new InvalidCharactersException();
 		}
+	}
+
+	/**
+	 * Encode a string to Base32.
+	 *
+	 * @param $string
+	 * @return mixed
+	 */
+	private function toBase32($string)
+	{
+		$encoded = Base32::encode($string);
+
+		return str_replace('=', '', $encoded);
 	}
 
 }

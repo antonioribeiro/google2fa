@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.7"
+        "php": ">=5.3.7",
+        "christian-riesen/base32": "~1"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1@dev"
