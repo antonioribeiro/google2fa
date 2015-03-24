@@ -85,11 +85,11 @@ class Google2FA implements Google2FAContract
 	 * @param int $length
 	 * @return string
 	 */
-	public function generateSecretKey($length = 16, $secret = '')
+	public function generateSecretKey($length = 16, $prefix = '')
 	{
 		$b32 = "234567QWERTYUIOPASDFGHJKLZXCVBNM";
 
-		$secret = $secret ? $this->toBase32($secret) : '';
+		$secret = $prefix ? $this->toBase32($prefix) : '';
 
 		for ($i = 0; $i < $length; $i++)
 		{
