@@ -295,7 +295,7 @@ class Google2FA implements Google2FAContract
 	 * @param $string
 	 * @return mixed
 	 */
-	private function toBase32($string)
+	public function toBase32($string)
 	{
 		$encoded = Base32::encode($string);
 
