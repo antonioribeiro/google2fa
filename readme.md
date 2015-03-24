@@ -112,6 +112,18 @@ It's really important that you keep your server time in sync with some NTP serve
 
     ntpdate ntp.ubuntu.com
 
+## Using a Bigger and Prefixing the Secret Key
+
+Although the probability of collision of a 16 bytes (128 bits) random string is very low, you can harden it by:
+ 
+####Use a bigger key
+
+    $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
+
+####Prefix it
+
+    $secretKey = $google2fa->generateSecretKey(16, $userId);
+
 ## Demo
 
 You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view view the code changing (almost) in real time.
