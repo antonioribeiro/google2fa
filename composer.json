@@ -12,10 +12,10 @@
     ],
     "require": {
         "php": ">=5.3.7",
-        "christian-riesen/base32": "~1"
+        "christian-riesen/base32": "~1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1@dev"
+        "phpspec/phpspec": "~2.1"
     },
     "autoload": {
         "psr-4": {
@@ -25,6 +25,5 @@
     "extra": {
         "component": "package",
         "frameworks": ["Laravel"]
-    },
-    "minimum-stability": "dev"
+    }
 }
