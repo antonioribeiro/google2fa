@@ -166,7 +166,7 @@ class Google2FA implements Google2FAContract
 		}
 
 		// Counter must be 64-bit int
-		$bin_counter = pack('N*', 0) . pack('N*', $counter);
+		$bin_counter = pack('N*', 0, $counter);
 
 		$hash = hash_hmac('sha1', $bin_counter, $key, true);
 
