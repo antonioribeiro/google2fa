@@ -213,7 +213,7 @@ class Google2FA implements Google2FAContract
 
 		for ($ts = $timeStamp - $window; $ts <= $timeStamp + $window; $ts++)
 		{
-			if (hash_equals($this->oathHotp($binarySeed, $ts), $key))
+			if ((function_exists('hash_equals') && hash_equals($this->oathHotp($binarySeed, $ts), $key)) || $this->oathHotp($binarySeed, $ts) === $key)
 			{
 				return true;
 			}
