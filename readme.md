@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa)
 
-###Google Two-Factor Authentication for PHP Package
+### Google Two-Factor Authentication for PHP Package
 
 Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
@@ -44,7 +44,7 @@ use PragmaRX\Google2FA\Google2FA;
 
 $google2fa = new Google2FA();
 
-return $google2fa->generateSecretKey()
+return $google2fa->generateSecretKey();
 ```
 
 #### In Laravel you can use the IoC Container and the contract
@@ -52,7 +52,7 @@ return $google2fa->generateSecretKey()
 ```
 $google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
 
-return $google2fa->generateSecretKey()
+return $google2fa->generateSecretKey();
 ```
 
 #### Or Method Injection, in Laravel 5
@@ -73,7 +73,7 @@ class WelcomeController extends Controller {
 #### Or the Facade
 
 ```
-return Google2FA::generateSecretKey()
+return Google2FA::generateSecretKey();
 ```
 
 ## How To Generate And Use Two Factor Authentication
@@ -116,17 +116,17 @@ It's really important that you keep your server time in sync with some NTP serve
 
 Although the probability of collision of a 16 bytes (128 bits) random string is very low, you can harden it by:
  
-####Use a bigger key
+#### Use a bigger key
 
     $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
 
-####Prefix it
+#### Prefix it
 
     $secretKey = $google2fa->generateSecretKey(16, $userId);
 
 ## Demo
 
-You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view view the code changing (almost) in real time.
+You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
 
 ## Google Authenticator Apps:
 
