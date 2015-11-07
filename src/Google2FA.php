@@ -42,7 +42,6 @@ use BaconQrCode\Renderer\Image\Png;
 
 class Google2FA implements Google2FAContract
 {
-
 	/**
 	 * Interval between key regeneration
 	 */
@@ -66,22 +65,22 @@ class Google2FA implements Google2FAContract
 	 * @var array
 	 */
 	private static $lut = array(
-        "A" => 0,	"B" => 1,
-        "C" => 2,	"D" => 3,
-        "E" => 4,	"F" => 5,
-        "G" => 6,	"H" => 7,
-        "I" => 8,	"J" => 9,
-        "K" => 10,	"L" => 11,
-        "M" => 12,	"N" => 13,
-        "O" => 14,	"P" => 15,
-        "Q" => 16,	"R" => 17,
-        "S" => 18,	"T" => 19,
-        "U" => 20,	"V" => 21,
-        "W" => 22,	"X" => 23,
-        "Y" => 24,	"Z" => 25,
-        "2" => 26,	"3" => 27,
-        "4" => 28,	"5" => 29,
-        "6" => 30,	"7" => 31
+		"A" => 0,   "B" => 1,
+		"C" => 2,   "D" => 3,
+		"E" => 4,   "F" => 5,
+		"G" => 6,   "H" => 7,
+		"I" => 8,   "J" => 9,
+		"K" => 10,  "L" => 11,
+		"M" => 12,  "N" => 13,
+		"O" => 14,  "P" => 15,
+		"Q" => 16,  "R" => 17,
+		"S" => 18,  "T" => 19,
+		"U" => 20,  "V" => 21,
+		"W" => 22,  "X" => 23,
+		"Y" => 24,  "Z" => 25,
+		"2" => 26,  "3" => 27,
+		"4" => 28,  "5" => 29,
+		"6" => 30,  "7" => 31
 	);
 
 	/**
@@ -130,16 +129,16 @@ class Google2FA implements Google2FAContract
 
 		$this->validateSecret($b32);
 
-		$l 	= strlen($b32);
-		$n	= 0;
-		$j	= 0;
+		$l  = strlen($b32);
+		$n  = 0;
+		$j  = 0;
 		$binary = "";
 
 		for ($i = 0; $i < $l; $i++)
 		{
-			$n = $n << 5; 				// Move buffer left by 5 to make room
-			$n = $n + static::$lut[$b32[$i]]; 	// Add value into buffer
-			$j = $j + 5;				// Keep track of number of bits in buffer
+			$n = $n << 5;               // Move buffer left by 5 to make room
+			$n = $n + static::$lut[$b32[$i]];   // Add value into buffer
+			$j = $j + 5;                // Keep track of number of bits in buffer
 
 			if ($j >= 8)
 			{
@@ -268,7 +267,7 @@ class Google2FA implements Google2FAContract
 		return Url::generateGoogleQRCodeUrl('https://chart.googleapis.com/', 'chart', 'chs=200x200&chld=M|0&cht=qr&chl=', $url);
 	}
 
-    /**
+	/**
 	 * Generates a QR code data url to display inline.
 	 *
 	 * @param $company
@@ -278,13 +277,13 @@ class Google2FA implements Google2FAContract
 	 */
 	public function getQRCodeInline($company, $holder, $secret, $size = 100)
 	{
-    	$qr = new BaconQrCodeGenerator(null, new Png);
+		$qr = new BaconQrCodeGenerator(null, new Png);
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
 		return 'data:image/png;base64,' . base64_encode($qr->margin(0)->size($size)->generate($url));
 	}
 
-    /**
+	/**
 	 * Creates a QR code url.
 	 *
 	 * @param $company
@@ -335,5 +334,4 @@ class Google2FA implements Google2FAContract
 
 		return str_replace('=', '', $encoded);
 	}
-
 }
