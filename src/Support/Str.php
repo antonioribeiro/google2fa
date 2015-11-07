@@ -4,13 +4,13 @@ namespace PragmaRX\Google2FA\Support;
 
 class Str
 {
-	/**
+    /**
      * Compares two strings using a constant-time algorithm.
      *
      * Note: This method will leak length information.
      *
-	 * Note: Extracted from Illuminate\Support\Str.
-	 *
+     * Note: Extracted from Illuminate\Support\Str.
+     *
      * Note: Adapted from Symfony\Component\Security\Core\Util\StringUtils.
      *
      * @param  string  $knownString
