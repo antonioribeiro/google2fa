@@ -167,7 +167,7 @@ class Google2FA implements Google2FAContract
 		}
 
 		// Counter must be 64-bit int
-		$bin_counter = pack('N*', 0) . pack('N*', $counter);
+		$bin_counter = pack('N*', 0, $counter);
 
 		$hash = hash_hmac('sha1', $bin_counter, $key, true);
 
@@ -232,13 +232,8 @@ class Google2FA implements Google2FAContract
 	public function oathTruncate($hash)
 	{
 		$offset = ord($hash[19]) & 0xf;
-
-		return (
-			((ord($hash[$offset+0]) & 0x7f) << 24 ) |
-			((ord($hash[$offset+1]) & 0xff) << 16 ) |
-			((ord($hash[$offset+2]) & 0xff) << 8 ) |
-			(ord($hash[$offset+3]) & 0xff)
-		) % pow(10, static::OPT_LENGTH);
+		$temp = unpack('N', substr($hash, $offset, 4));
+		return substr($temp[1] & 0x7fffffff, -static::OPT_LENGTH);
 	}
 
 	/**
