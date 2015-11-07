@@ -1,3 +1,4 @@
+formatter.name: pretty
 suites:
   main_suite:
     namespace: PragmaRX\Google2FA
