@@ -103,5 +103,4 @@ class Google2FASpec extends ObjectBehavior
 
 		];
 	}
-
 }

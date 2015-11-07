@@ -32,6 +32,7 @@ namespace PragmaRX\Google2FA;
 
 use Base32\Base32;
 use PragmaRX\Google2FA\Support\Url;
+use PragmaRX\Google2FA\Support\Str;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
@@ -214,7 +215,7 @@ class Google2FA implements Google2FAContract
 
 		for ($ts = $timeStamp - $window; $ts <= $timeStamp + $window; $ts++)
 		{
-			if ($this->oathHotp($binarySeed, $ts) == $key)
+			if (Str::equals($this->oathHotp($binarySeed, $ts), $key))
 			{
 				return true;
 			}
