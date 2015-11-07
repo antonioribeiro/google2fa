@@ -31,6 +31,7 @@ namespace PragmaRX\Google2FA;
  **/
 
 use Base32\Base32;
+use PragmaRX\Google2FA\Support\Url;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
@@ -213,7 +214,7 @@ class Google2FA implements Google2FAContract
 
 		for ($ts = $timeStamp - $window; $ts <= $timeStamp + $window; $ts++)
 		{
-			if (hash_equals($this->oathHotp($binarySeed, $ts), $key))
+			if ($this->oathHotp($binarySeed, $ts) == $key)
 			{
 				return true;
 			}
@@ -263,7 +264,7 @@ class Google2FA implements Google2FAContract
 	{
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
-		return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl='.urlencode($url).'';
+		return Url::generateGoogleQRCodeUrl('https://chart.googleapis.com/', 'chart', 'chs=200x200&chld=M|0&cht=qr&chl=', $url);
 	}
 
     /**
@@ -292,7 +293,7 @@ class Google2FA implements Google2FAContract
 	 */
 	public function getQRCodeUrl($company, $holder, $secret)
 	{
-		return 'otpauth://totp/'.urlencode($company.':'.$holder).'?secret='.$secret.'&issuer='.urlencode($company).'';
+		return 'otpauth://totp/'.$company.':'.$holder.'?secret='.$secret.'&issuer='.$company.'';
 	}
 
 	/**
