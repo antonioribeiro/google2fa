@@ -31,9 +31,11 @@ class Str
             return hash_equals($knownString, $userInput);
         }
 
-        $knownLength = mb_strlen($knownString, '8bit');
+        $mb = function_exists('mb_string');
 
-        if (mb_strlen($userInput, '8bit') !== $knownLength) {
+        $knownLength = $mb ? mb_strlen($knownString, '8bit') : strlen($knownString);
+
+        if (($mb ? mb_strlen($userInput, '8bit') : strlen($userInput)) !== $knownLength) {
             return false;
         }
 
