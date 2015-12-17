@@ -268,11 +268,16 @@ class Google2FA implements Google2FAContract
 	 * @param $company
 	 * @param $holder
 	 * @param $secret
+	 * @param $size
+	 * @param $encoding Default to UTF-8
 	 * @return string
 	 */
-	public function getQRCodeInline($company, $holder, $secret, $size = 100)
+	public function getQRCodeInline($company, $holder, $secret, $size = 100, $encoding = 'utf-8')
 	{
 		$qr = new BaconQrCodeGenerator(null, new Png);
+		if ($encoding) {
+			$qr->encoding($encoding);
+		}
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
 		return 'data:image/png;base64,' . base64_encode($qr->margin(0)->size($size)->generate($url));
