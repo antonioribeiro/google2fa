@@ -139,6 +139,7 @@ To use the two factor authentication, your user will have to install a Google Au
 * [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
 * [Google Authenticator for Blackberry](https://m.google.com/authenticator")
 * [Google Authenticator (port) on Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
+* [Microsoft Authenticator for Windows Phone](https://www.microsoft.com/en-us/store/apps/authenticator/9wzdncrfj3rj)
 
 ## Tests
 
