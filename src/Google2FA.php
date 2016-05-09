@@ -106,7 +106,7 @@ class Google2FA implements Google2FAContract
 	}
 
 	/**
-	 * Returns the current Unix Timestamp devided by the KEY_REGENERATION
+	 * Returns the current Unix Timestamp divided by the KEY_REGENERATION
 	 * period.
 	 *
 	 * @return integer
