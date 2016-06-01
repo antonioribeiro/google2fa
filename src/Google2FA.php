@@ -305,7 +305,7 @@ class Google2FA implements Google2FAContract
 	 */
 	private function getRandomNumber($from = 0, $to = 31)
 	{
-		return mt_rand($from, $to);
+		return random_int($from, $to);
 	}
 
 	/**
