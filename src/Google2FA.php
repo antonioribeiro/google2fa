@@ -277,7 +277,6 @@ class Google2FA implements Google2FAContract
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
 		$renderer = new Png();
-		$renderer->setMargin(0);
 		$renderer->setWidth($size);
 		$renderer->setHeight($size);
 
