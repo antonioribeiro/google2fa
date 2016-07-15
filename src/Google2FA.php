@@ -60,30 +60,6 @@ class Google2FA implements Google2FAContract
 	const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
 	/**
-	 * Lookup needed for Base32 encoding.
-	 *
-	 * @var array
-	 */
-	private static $lut = array(
-		"A" => 0,   "B" => 1,
-		"C" => 2,   "D" => 3,
-		"E" => 4,   "F" => 5,
-		"G" => 6,   "H" => 7,
-		"I" => 8,   "J" => 9,
-		"K" => 10,  "L" => 11,
-		"M" => 12,  "N" => 13,
-		"O" => 14,  "P" => 15,
-		"Q" => 16,  "R" => 17,
-		"S" => 18,  "T" => 19,
-		"U" => 20,  "V" => 21,
-		"W" => 22,  "X" => 23,
-		"Y" => 24,  "Z" => 25,
-		"2" => 26,  "3" => 27,
-		"4" => 28,  "5" => 29,
-		"6" => 30,  "7" => 31
-	);
-
-	/**
 	 * Generate a digit secret key in base32 format.
 	 *
 	 * @param int $length
@@ -129,25 +105,7 @@ class Google2FA implements Google2FAContract
 
 		$this->validateSecret($b32);
 
-		$l  = strlen($b32);
-		$n  = 0;
-		$j  = 0;
-		$binary = "";
-
-		for ($i = 0; $i < $l; $i++)
-		{
-			$n = $n << 5;               // Move buffer left by 5 to make room
-			$n = $n + static::$lut[$b32[$i]];   // Add value into buffer
-			$j = $j + 5;                // Keep track of number of bits in buffer
-
-			if ($j >= 8)
-			{
-				$j = $j - 8;
-				$binary .= chr(($n & (0xFF << $j)) >> $j);
-			}
-		}
-
-		return $binary;
+		return Base32::decode($b32);
 	}
 
 	/**
