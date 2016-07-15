@@ -31,14 +31,13 @@ namespace PragmaRX\Google2FA;
  **/
 
 use Base32\Base32;
+use BaconQrCode\Writer;
+use BaconQrCode\Renderer\Image\Png;
 use PragmaRX\Google2FA\Support\Url;
 use PragmaRX\Google2FA\Support\Str;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
-
-use SimpleSoftwareIO\QrCode\BaconQrCodeGenerator;
-use BaconQrCode\Renderer\Image\Png;
 
 class Google2FA implements Google2FAContract
 {
@@ -250,37 +249,42 @@ class Google2FA implements Google2FAContract
 	/**
 	 * Creates a Google QR code url.
 	 *
-	 * @param $company
-	 * @param $holder
-	 * @param $secret
+	 * @param string $company
+	 * @param string $holder
+	 * @param string $secret
+	 * @param integer $size
 	 * @return string
 	 */
-	public function getQRCodeGoogleUrl($company, $holder, $secret)
+	public function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
 	{
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
-		return Url::generateGoogleQRCodeUrl('https://chart.googleapis.com/', 'chart', 'chs=200x200&chld=M|0&cht=qr&chl=', $url);
+		return Url::generateGoogleQRCodeUrl('https://chart.googleapis.com/', 'chart', 'chs='.$size.'x'.$size.'&chld=M|0&cht=qr&chl=', $url);
 	}
 
 	/**
 	 * Generates a QR code data url to display inline.
 	 *
-	 * @param $company
-	 * @param $holder
-	 * @param $secret
-	 * @param $size
-	 * @param $encoding Default to UTF-8
+	 * @param string $company
+	 * @param string $holder
+	 * @param string $secret
+	 * @param integer $size
+	 * @param string $encoding Default to UTF-8
 	 * @return string
 	 */
-	public function getQRCodeInline($company, $holder, $secret, $size = 100, $encoding = 'utf-8')
+	public function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
 	{
-		$qr = new BaconQrCodeGenerator(null, new Png);
-		if ($encoding) {
-			$qr->encoding($encoding);
-		}
 		$url = $this->getQRCodeUrl($company, $holder, $secret);
 
-		return 'data:image/png;base64,' . base64_encode($qr->margin(0)->size($size)->generate($url));
+		$renderer = new Png();
+		$renderer->setMargin(0);
+		$renderer->setWidth($size);
+		$renderer->setHeight($size);
+
+		$writer = new Writer($renderer);
+		$data = $writer->writeString($url, $encoding);
+
+		return 'data:image/png;base64,' . base64_encode($data);
 	}
 
 	/**
