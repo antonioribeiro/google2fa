@@ -127,7 +127,7 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 
 #### Generating Inline QRCodes
 
-First you have to install BaconQrCode package, then you just have to generate the inline string using:
+First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
  
     $inlineUrl = Google2FA::getQRCodeInline(
         $companyName,
