@@ -125,6 +125,20 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 
     $secretKey = $google2fa->generateSecretKey(16, $userId);
 
+#### Generating Inline QRCodes
+
+First you have to install BaconQrCode package, then you just have to generate the inline string using:
+ 
+    $inlineUrl = Google2FA::getQRCodeInline(
+        $companyName,
+        $companyEmail,
+        $secretKey
+    );
+
+And use it in your blade template this way:
+
+    <img src="{{ $inlineUrl }}">
+
 ## Demos
 
 Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
