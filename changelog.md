@@ -5,6 +5,8 @@
 - Bumped christian-riesen/base32 to ~1.3
 - Use paragonie/random_compat to generate cryptographically secure random secret keys
 - Readme improvements
+- Drop simple-qrcode in favor of bacon/bacon-qr-code 
+- Fix tavis setup for phpspec, PHP 7, hhvm and improve cache
 
 ## [0.7.0] - 2015-11-07
 ### Changed
