@@ -60,13 +60,12 @@ return $google2fa->generateSecretKey();
 ```
 use PragmaRX\Google2FA\Contracts\Google2FA;
 
-class WelcomeController extends Controller {
-
+class WelcomeController extends Controller 
+{
 	public function generateKey(Google2FA $google2fa)
 	{
 		return $google2fa->generateSecretKey();
 	}
-
 }
 ```
 
