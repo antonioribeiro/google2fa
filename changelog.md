@@ -1,5 +1,11 @@
 ## Change Log
 
+## [0.8.0] - 2016-07-17
+### Changed
+- Bumped christian-riesen/base32 to ~1.3
+- Use paragonie/random_compat to generate cryptographically secure random secret keys
+- Readme improvements
+
 ## [0.7.0] - 2015-11-07
 ### Changed
 - Fixed URL generation for QRCodes
