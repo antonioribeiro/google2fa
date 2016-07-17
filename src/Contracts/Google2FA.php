@@ -82,11 +82,24 @@ interface Google2FA
 	/**
 	 * Creates a Google QR code url.
 	 *
-	 * @param $company
-	 * @param $holder
-	 * @param $secret
+	 * @param string $company
+	 * @param string $holder
+	 * @param string $secret
+	 * @param integer $size
 	 * @return string
 	 */
-	public function getQRCodeGoogleUrl($company, $holder, $secret);
+	public function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200);
+	
+	/**
+	 * Generates a QR code data url to display inline.
+	 *
+	 * @param string $company
+	 * @param string $holder
+	 * @param string $secret
+	 * @param integer $size
+	 * @param string $encoding Default to UTF-8
+	 * @return string
+	 */
+	public function getQRCodeInline($company, $holder, $secret, $size = 100, $encoding = 'utf-8');
 
 }

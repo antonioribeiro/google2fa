@@ -13,7 +13,7 @@
     "require": {
         "php": ">=5.3.7",
         "christian-riesen/base32": "~1.3",
-        "simplesoftwareio/simple-qrcode" : "~1.3",
+        "bacon/bacon-qr-code": "~1.0",
         "paragonie/random_compat": "~2.0",
         "symfony/polyfill-php56": "~1.2"
     },
