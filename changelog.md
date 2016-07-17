@@ -1,7 +1,11 @@
 ## Change Log
 
+## [1.0.0] - 2016-07-17
+### Changed
+- Package bacon/bacon-qr-code was moved to "suggest". 
+
 ## [0.8.1] - 2016-07-17
-### Fix
+### Fixed
 - Allow paragonie/random_compat ~1.4|~2.0.
 
 ## [0.8.0] - 2016-07-17

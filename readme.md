@@ -23,9 +23,11 @@ You don't need Laravel to use it, but it's compatible with
 
 Use Composer to install it:
 
-```
-composer require pragmarx/google2fa
-```
+    composer require pragmarx/google2fa
+
+If you prefer inline QRCodes instead of a Google generated url, you'll need to install [BaconQrCode](https://github.com/Bacon/BaconQrCode):
+  
+    composer require "bacon/bacon-qr-code":"~1.0"
 
 ## Installing on Laravel
 

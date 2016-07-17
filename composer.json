@@ -28,5 +28,8 @@
     "extra": {
         "component": "package",
         "frameworks": ["Laravel"]
+    },
+    "suggest": {
+      "bacon/bacon-qr-code": "Required to generate inline QR Codes."
     }
 }
