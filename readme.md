@@ -123,7 +123,9 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 
     $secretKey = $google2fa->generateSecretKey(16, $userId);
 
-## Demo
+## Demos
+
+Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
 
 You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
 
