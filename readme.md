@@ -31,9 +31,9 @@ composer require pragmarx/google2fa
 
 Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
-    'PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider',
+    PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
-    'Google2FA' => 'PragmaRX\Google2FA\Vendor\Laravel\Facade',
+    'Google2FA' => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
 
 ## Using It
 
@@ -60,13 +60,12 @@ return $google2fa->generateSecretKey();
 ```
 use PragmaRX\Google2FA\Contracts\Google2FA;
 
-class WelcomeController extends Controller {
-
+class WelcomeController extends Controller 
+{
 	public function generateKey(Google2FA $google2fa)
 	{
 		return $google2fa->generateSecretKey();
 	}
-
 }
 ```
 
