@@ -1,5 +1,9 @@
 ## Change Log
 
+## [0.8.1] - 2016-07-17
+### Fix
+- Allow paragonie/random_compat ~1.4|~2.0.
+
 ## [0.8.0] - 2016-07-17
 ### Changed
 - Bumped christian-riesen/base32 to ~1.3
