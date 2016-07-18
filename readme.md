@@ -41,41 +41,35 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 
 #### Instantiate it directly
 
-```
-use PragmaRX\Google2FA\Google2FA;
-
-$google2fa = new Google2FA();
-
-return $google2fa->generateSecretKey();
-```
+    use PragmaRX\Google2FA\Google2FA;
+    
+    $google2fa = new Google2FA();
+    
+    return $google2fa->generateSecretKey();
 
 #### In Laravel you can use the IoC Container and the contract
 
-```
-$google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
+    $google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
+    
+    return $google2fa->generateSecretKey();
 
-return $google2fa->generateSecretKey();
-```
 
 #### Or Method Injection, in Laravel 5
 
-```
-use PragmaRX\Google2FA\Contracts\Google2FA;
+    use PragmaRX\Google2FA\Contracts\Google2FA;
+    
+    class WelcomeController extends Controller 
+    {
+        public function generateKey(Google2FA $google2fa)
+        {
+            return $google2fa->generateSecretKey();
+        }
+    }
 
-class WelcomeController extends Controller 
-{
-	public function generateKey(Google2FA $google2fa)
-	{
-		return $google2fa->generateSecretKey();
-	}
-}
-```
 
 #### Or the Facade
 
-```
-return Google2FA::generateSecretKey();
-```
+    return Google2FA::generateSecretKey();
 
 ## How To Generate And Use Two Factor Authentication
 
