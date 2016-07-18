@@ -10,7 +10,7 @@ This package is agnostic, but also supports the Laravel Framework.
 
 ## Requirements
 
-- PHP 5.3.7+
+- PHP 5.4+
 
 ## Compatibility
 
