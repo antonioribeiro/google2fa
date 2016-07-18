@@ -1,5 +1,10 @@
 ## Change Log
 
+## [1.0.1] - 2016-07-18
+### Changed
+- Drop support for PHP 5.3.7, require PHP 5.4+. 
+- Coding style is now PSR-2 automatically enforced by StyleCI.
+
 ## [1.0.0] - 2016-07-17
 ### Changed
 - Package bacon/bacon-qr-code was moved to "suggest". 
