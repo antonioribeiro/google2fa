@@ -3,8 +3,8 @@
 namespace spec\PragmaRX\Google2FA;
 
 use PhpSpec\ObjectBehavior;
-use PragmaRX\Google2FA\Google2FA;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Google2FA;
 
 class Google2FASpec extends ObjectBehavior
 {

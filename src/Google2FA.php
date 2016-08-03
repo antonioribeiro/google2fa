@@ -65,11 +65,12 @@ class Google2FA implements Google2FAContract
      * Check if all secret key characters are valid.
      *
      * @param $b32
+     *
      * @throws InvalidCharactersException
      */
     private function checkForValidCharacters($b32)
     {
-        if (!preg_match('/^[' . static::VALID_FOR_B32 . ']+$/', $b32, $match)) {
+        if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
             throw new InvalidCharactersException();
         }
     }
@@ -78,6 +79,7 @@ class Google2FA implements Google2FAContract
      * Check if the secret key is compatible with Google Authenticator.
      *
      * @param $b32
+     *
      * @throws IncompatibleWithGoogleAuthenticatorException
      */
     private function checkGoogleAuthenticatorCompatibility($b32)
@@ -186,6 +188,7 @@ class Google2FA implements Google2FAContract
      * Setter for the enforce Google Authenticator compatibility property.
      *
      * @param mixed $enforceGoogleAuthenticatorCompatibility
+     *
      * @return $this
      */
     public function setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility)
