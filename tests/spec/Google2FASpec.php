@@ -30,7 +30,7 @@ class Google2FASpec extends ObjectBehavior
 
     public function it_generates_a_secret_keys_compatible_with_google_authenticator_or_not()
     {
-        $this->shouldThrow(new IncompatibleWithGoogleAuthenticatorException)->during('generateSecretKey', [17]);
+        $this->shouldThrow(new IncompatibleWithGoogleAuthenticatorException())->during('generateSecretKey', [17]);
 
         $this->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)->shouldHaveLength(17);
     }
