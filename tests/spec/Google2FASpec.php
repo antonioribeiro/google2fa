@@ -4,6 +4,7 @@ namespace spec\PragmaRX\Google2FA;
 
 use PhpSpec\ObjectBehavior;
 use PragmaRX\Google2FA\Google2FA;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 class Google2FASpec extends ObjectBehavior
 {
@@ -20,11 +21,18 @@ class Google2FASpec extends ObjectBehavior
     {
         $this->generateSecretKey()->shouldHaveLength(16);
 
-        $this->generateSecretKey(17)->shouldHaveLength(17);
+        $this->generateSecretKey(32)->shouldHaveLength(32);
 
-        $this->generateSecretKey(17, 'antoniocarlos')->shouldStartWith('MFXHI33ONFXWGYLSNRXXG');
+        $this->generateSecretKey(59, 'ant')->shouldStartWith('MFXHI');
 
         $this->generateSecretKey()->shouldBeAmongst(Google2FA::VALID_FOR_B32);
+    }
+
+    public function it_generates_a_secret_keys_compatible_with_google_authenticator_or_not()
+    {
+        $this->shouldThrow(IncompatibleWithGoogleAuthenticatorException::class)->during('generateSecretKey', [17]);
+
+        $this->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)->shouldHaveLength(17);
     }
 
     public function it_gets_valid_timestamps()

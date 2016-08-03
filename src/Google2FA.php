@@ -34,6 +34,7 @@ use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use Base32\Base32;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Url;
@@ -54,6 +55,37 @@ class Google2FA implements Google2FAContract
      * Characters valid for Base 32.
      */
     const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+    /**
+     * Enforce Google Authenticator compatibility.
+     */
+    private $enforceGoogleAuthenticatorCompatibility = true;
+
+    /**
+     * Check if all secret key characters are valid.
+     *
+     * @param $b32
+     * @throws InvalidCharactersException
+     */
+    private function checkForValidCharacters($b32)
+    {
+        if (!preg_match('/^[' . static::VALID_FOR_B32 . ']+$/', $b32, $match)) {
+            throw new InvalidCharactersException();
+        }
+    }
+
+    /**
+     * Check if the secret key is compatible with Google Authenticator.
+     *
+     * @param $b32
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     */
+    private function checkGoogleAuthenticatorCompatibility($b32)
+    {
+        if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
+            throw new IncompatibleWithGoogleAuthenticatorException();
+        }
+    }
 
     /**
      * Generate a digit secret key in base32 format.
@@ -148,6 +180,19 @@ class Google2FA implements Google2FAContract
         $secretKey = $this->base32Decode($initalizationKey);
 
         return $this->oathHotp($secretKey, $timestamp);
+    }
+
+    /**
+     * Setter for the enforce Google Authenticator compatibility property.
+     *
+     * @param mixed $enforceGoogleAuthenticatorCompatibility
+     * @return $this
+     */
+    public function setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility)
+    {
+        $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
+
+        return $this;
     }
 
     /**
@@ -280,14 +325,12 @@ class Google2FA implements Google2FAContract
      * Validate the secret.
      *
      * @param $b32
-     *
-     * @throws InvalidCharactersException
      */
     private function validateSecret($b32)
     {
-        if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
-            throw new InvalidCharactersException();
-        }
+        $this->checkForValidCharacters($b32);
+
+        $this->checkGoogleAuthenticatorCompatibility($b32);
     }
 
     /**

@@ -6,5 +6,5 @@ use Exception;
 
 class InvalidCharactersException extends Exception
 {
-    protected $message = 'Invalid characters in the base32 string.';
+    protected $message = 'This secret key is not compatible with Google Authenticator.';
 }
