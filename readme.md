@@ -139,19 +139,18 @@ Here's a demo app showing how to use Google2FA: [google2fa-example](https://gith
 
 You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
 
-## Google Authenticator Apps:
+## Google Authenticator Apps
 
 To use the two factor authentication, your user will have to install a Google Authenticator compatible app, those are some of the currently available:
 
 * [Authy for iOS, Android, Chrome, OS X](https://www.authy.com/)
 * [FreeOTP for iOS, Android and Peeble](https://fedorahosted.org/freeotp/)
-* [FreeOTP for iOS, Android and Peeble](https://www.toopher.com/)
-* [Google Authenticator for iOS](http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8")
-* [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2")
-* [Google Authenticator for Blackberry](https://m.google.com/authenticator")
-* [Google Authenticator (port) on Windows app store](http://apps.microsoft.com/windows/en-us/app/google-authenticator/7ea6de74-dddb-47df-92cb-40afac4d38bb")
+* [Google Authenticator for iOS](https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8)
+* [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2)
+* [Google Authenticator for BlackBerry](https://m.google.com/authenticator)
+* [Google Authenticator (port) on Windows Store](https://www.microsoft.com/en-us/store/p/google-authenticator/9wzdncrdnkrf)
 * [Microsoft Authenticator for Windows Phone](https://www.microsoft.com/en-us/store/apps/authenticator/9wzdncrfj3rj)
-* [1Password for iOS, Android, OSX, Windows](https://1password.com)
+* [1Password for iOS, Android, OS X, Windows](https://1password.com)
 
 ## Tests
 
