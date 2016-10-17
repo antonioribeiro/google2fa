@@ -71,6 +71,22 @@ interface Google2FA
     public function verifyKey($b32seed, $key, $window = 4, $useTimeStamp = true);
 
     /**
+     * Verifies a user inputted key against the current timestamp. Checks $window
+     * keys either side of the timestamp, but ensures that the given key is newer than
+     * the given oldTimestamp. Useful if you need to ensure that a single key cannot
+     * be used twice.
+     *
+     * @param string $b32seed
+     * @param string $key          - User specified key
+     * @param int    $oldTimestamp - The timestamp from the last verified key
+     * @param int    $window
+     * @param bool   $useTimeStamp
+     *
+     * @return bool|int - false (not verified) or the timestamp of the verified key
+     **/
+    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = 4, $useTimeStamp = true);
+
+    /**
      * Extracts the OTP from the SHA1 hash.
      *
      * @param string $hash
@@ -112,4 +128,11 @@ interface Google2FA
      * @return string
      */
     public function getQRCodeInline($company, $holder, $secret, $size = 100, $encoding = 'utf-8');
+
+    /**
+     * Get the key regeneration time in seconds.
+     *
+     * @return int
+     */
+    public function getKeyRegenerationTime();
 }

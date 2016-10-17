@@ -229,6 +229,40 @@ class Google2FA implements Google2FAContract
     }
 
     /**
+     * Verifies a user inputted key against the current timestamp. Checks $window
+     * keys either side of the timestamp, but ensures that the given key is newer than
+     * the given oldTimestamp. Useful if you need to ensure that a single key cannot
+     * be used twice.
+     *
+     * @param string $b32seed
+     * @param string $key          - User specified key
+     * @param int    $oldTimestamp - The timestamp from the last verified key
+     * @param int    $window
+     * @param bool   $useTimeStamp
+     *
+     * @return bool|int - false (not verified) or the timestamp of the verified key
+     **/
+    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = 4, $useTimeStamp = true)
+    {
+        $timeStamp = $this->getTimestamp();
+
+        if ($useTimeStamp !== true) {
+            $timeStamp = (int) $useTimeStamp;
+        }
+
+        $binarySeed = $this->base32Decode($b32seed);
+
+        for ($ts = max($timeStamp - $window, $oldTimestamp + 1);
+                $ts <= $timeStamp + $window; $ts++) {
+            if (hash_equals($this->oathHotp($binarySeed, $ts), $key)) {
+                return $ts;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Extracts the OTP from the SHA1 hash.
      *
      * @param string $hash
@@ -348,5 +382,15 @@ class Google2FA implements Google2FAContract
         $encoded = Base32::encode($string);
 
         return str_replace('=', '', $encoded);
+    }
+
+    /**
+     * Get the key regeneration time in seconds.
+     *
+     * @return int
+     */
+    public function getKeyRegenerationTime()
+    {
+        return static::KEY_REGENERATION;
     }
 }
