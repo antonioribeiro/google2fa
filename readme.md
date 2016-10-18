@@ -33,29 +33,35 @@ If you prefer inline QRCodes instead of a Google generated url, you'll need to i
 
 Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
+```php
     PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
     'Google2FA' => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
+```
 
 ## Using It
 
 #### Instantiate it directly
 
+```php
     use PragmaRX\Google2FA\Google2FA;
     
     $google2fa = new Google2FA();
     
     return $google2fa->generateSecretKey();
+```
 
 #### In Laravel you can use the IoC Container and the contract
 
+```php
     $google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
     
     return $google2fa->generateSecretKey();
-
+```
 
 #### Or Method Injection, in Laravel 5
 
+```php
     use PragmaRX\Google2FA\Contracts\Google2FA;
     
     class WelcomeController extends Controller 
@@ -65,24 +71,29 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
             return $google2fa->generateSecretKey();
         }
     }
-
+```
 
 #### Or the Facade
 
+```php
     return Google2FA::generateSecretKey();
+```
 
 ## How To Generate And Use Two Factor Authentication
 
 Generate a secret key for your user and save it:
 
+```php
     $user = User::find(1);
 
     $user->google2fa_secret = Google2FA::generateSecretKey();
 
     $user->save();
+```
 
 Show the QR code to your user:
 
+```php
     $google2fa_url = Google2FA::getQRCodeGoogleUrl(
     	'YourCompany',
     	$user->email,
@@ -90,6 +101,7 @@ Show the QR code to your user:
     );
 
 	{{ HTML::image($google2fa_url) }}
+```
 
 And they should see and scan the QR code to their applications:
 
@@ -97,9 +109,11 @@ And they should see and scan the QR code to their applications:
 
 And to verify, you just have to:
 
-	$secret = Input::get('secret');
+```php
+    $secret = Input::get('secret');
 
     $valid = Google2FA::verifyKey($user->google2fa_secret, $secret);
+```
 
 ## Server Time
 
@@ -113,25 +127,33 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
  
 #### Use a bigger key
 
+```php
     $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
+```
 
 #### Prefix it
 
+```php
     $secretKey = $google2fa->generateSecretKey(16, $userId);
+```
 
 #### Generating Inline QRCodes
 
 First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
  
+```php
     $inlineUrl = Google2FA::getQRCodeInline(
         $companyName,
         $companyEmail,
         $secretKey
     );
+```
 
 And use it in your blade template this way:
 
+```php
     <img src="{{ $inlineUrl }}">
+```
 
 ## Demos
 
