@@ -1,6 +1,6 @@
 # Google2FA
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![Code Quality](https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master) [![StyleCI](https://styleci.io/repos/24296182/shield)](https://styleci.io/repos/24296182)
+[![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![Travis](https://img.shields.io/travis/antonioribeiro/google2fa.svg?style=flat-square)](https://travis-ci.org/antonioribeiro/google2fa) [![Code Quality](https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master) [![StyleCI](https://styleci.io/repos/24296182/shield)](https://styleci.io/repos/24296182)
 
 ### Google Two-Factor Authentication for PHP Package
 
@@ -10,7 +10,7 @@ This package is agnostic, but also supports the Laravel Framework.
 
 ## Requirements
 
-- PHP 5.3.7+
+- PHP 5.4+
 
 ## Compatibility
 
@@ -23,55 +23,59 @@ You don't need Laravel to use it, but it's compatible with
 
 Use Composer to install it:
 
-```
-composer require pragmarx/google2fa
-```
+    composer require pragmarx/google2fa
+
+If you prefer inline QRCodes instead of a Google generated url, you'll need to install [BaconQrCode](https://github.com/Bacon/BaconQrCode):
+  
+    composer require "bacon/bacon-qr-code":"~1.0"
 
 ## Installing on Laravel
 
 Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
 
-    PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+```php
+PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
 
-    'Google2FA' => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
+'Google2FA' => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
+```
 
 ## Using It
 
 #### Instantiate it directly
 
-```
+```php
 use PragmaRX\Google2FA\Google2FA;
-
+    
 $google2fa = new Google2FA();
-
+    
 return $google2fa->generateSecretKey();
 ```
 
 #### In Laravel you can use the IoC Container and the contract
 
-```
+```php
 $google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
-
+    
 return $google2fa->generateSecretKey();
 ```
 
 #### Or Method Injection, in Laravel 5
 
-```
+```php
 use PragmaRX\Google2FA\Contracts\Google2FA;
-
+    
 class WelcomeController extends Controller 
 {
-	public function generateKey(Google2FA $google2fa)
-	{
-		return $google2fa->generateSecretKey();
-	}
+    public function generateKey(Google2FA $google2fa)
+    {
+        return $google2fa->generateSecretKey();
+    }
 }
 ```
 
 #### Or the Facade
 
-```
+```php
 return Google2FA::generateSecretKey();
 ```
 
@@ -79,21 +83,25 @@ return Google2FA::generateSecretKey();
 
 Generate a secret key for your user and save it:
 
-    $user = User::find(1);
+```php
+$user = User::find(1);
 
-    $user->google2fa_secret = Google2FA::generateSecretKey();
+$user->google2fa_secret = Google2FA::generateSecretKey();
 
-    $user->save();
+$user->save();
+```
 
 Show the QR code to your user:
 
-    $google2fa_url = Google2FA::getQRCodeGoogleUrl(
-    	'YourCompany',
-    	$user->email,
-    	$user->google2fa_secret
-    );
+```php
+$google2fa_url = Google2FA::getQRCodeGoogleUrl(
+    'YourCompany',
+    $user->email,
+    $user->google2fa_secret
+);
 
-	{{ HTML::image($google2fa_url) }}
+{{ HTML::image($google2fa_url) }}
+```
 
 And they should see and scan the QR code to their applications:
 
@@ -101,9 +109,11 @@ And they should see and scan the QR code to their applications:
 
 And to verify, you just have to:
 
-	$secret = Input::get('secret');
+```php
+$secret = Input::get('secret');
 
-    $valid = Google2FA::verifyKey($user->google2fa_secret, $secret);
+$valid = Google2FA::verifyKey($user->google2fa_secret, $secret);
+```
 
 ## Server Time
 
@@ -117,11 +127,33 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
  
 #### Use a bigger key
 
-    $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
+```php
+$secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
+```
 
 #### Prefix it
 
-    $secretKey = $google2fa->generateSecretKey(16, $userId);
+```php
+$secretKey = $google2fa->generateSecretKey(16, $userId);
+```
+
+#### Generating Inline QRCodes
+
+First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
+ 
+```php
+$inlineUrl = Google2FA::getQRCodeInline(
+    $companyName,
+    $companyEmail,
+    $secretKey
+);
+```
+
+And use it in your blade template this way:
+
+```html
+<img src="{{ $inlineUrl }}">
+```
 
 ## Demos
 
