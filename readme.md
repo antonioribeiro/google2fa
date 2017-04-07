@@ -155,6 +155,24 @@ And use it in your blade template this way:
 <img src="{{ $inlineUrl }}">
 ```
 
+## Google Authenticator secret key compatibility
+
+To be compatible with Google Authenticator, your secret key length must be at least 8 chars and be a power of 2: 8, 16, 32, 64...
+  
+So, to prevent errors, you can do something like this while generating it:
+  
+    $secretKey = '123456789';
+  
+    $secretKey = str_pad($secretKey, pow(2,ceil(log(strlen($secretKey),2))), 'X');
+
+And it will generate
+
+    123456789XXXXXXX
+    
+```php
+$secretKey = $google2fa->generateSecretKey(16, $userId);
+```
+
 ## Demos
 
 Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
