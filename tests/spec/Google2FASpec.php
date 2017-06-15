@@ -61,11 +61,26 @@ class Google2FASpec extends ObjectBehavior
         $this->getCurrentOtp($this->secret)->shouldHaveLength(6);
     }
 
-    public function it_verifies_a_key()
+    public function it_verifies_keys()
     {
-        // 26213400 = Human time (GMT): Sat, 31 Oct 1970 09:30:00 GMT
+        // $ts 26213400 with KEY_REGENERATION 30 seconds is
+        // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
 
-        $this->verifyKey($this->secret, '410272', 4, 26213400)->shouldBe(true);
+        $this->verifyKey($this->secret, '093183', 2, 26213400)->shouldBe(false); // 26213397
+        $this->verifyKey($this->secret, '558854', 2, 26213400)->shouldBe(true);  // 26213398
+        $this->verifyKey($this->secret, '981084', 2, 26213400)->shouldBe(true);  // 26213399
+        $this->verifyKey($this->secret, '512396', 2, 26213400)->shouldBe(true);  // 26213400
+        $this->verifyKey($this->secret, '410272', 2, 26213400)->shouldBe(true);  // 26213401
+        $this->verifyKey($this->secret, '239815', 2, 26213400)->shouldBe(true);  // 26213402
+        $this->verifyKey($this->secret, '313366', 2, 26213400)->shouldBe(false); // 26213403
+    }
+
+    public function it_verifies_keys_newer()
+    {
+        $this->verifyKeyNewer($this->secret, '512396', 26213401, 2, 26213400)->shouldBe(false);    // 26213400
+        $this->verifyKeyNewer($this->secret, '410272', 26213401, 2, 26213400)->shouldBe(false);    // 26213401
+        $this->verifyKeyNewer($this->secret, '239815', 26213401, 2, 26213400)->shouldBe(26213402); // 26213402
+        $this->verifyKeyNewer($this->secret, '313366', 26213401, 2, 26213400)->shouldBe(false);    // 26213403
     }
 
     public function it_removes_invalid_chars_from_secret()

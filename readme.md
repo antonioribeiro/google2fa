@@ -121,6 +121,33 @@ It's really important that you keep your server time in sync with some NTP serve
 
     ntpdate ntp.ubuntu.com
 
+## Validation Window
+
+To avoid problems with clocks that are slightly out of sync, we do not check against the current key only but also consider `$window` keys each from the past and future. You can pass `$window` as optional third parameter to `verifyKey`, it defaults to `4`. A new key is generated every 30 seconds, so this window includes keys from the previous two and next two minutes.
+
+```php
+$secret = Input::get('secret');
+$window = 8; // 8 keys (respectively 4 minutes) past and future
+
+$valid = Google2FA::verifyKey($user->google2fa_secret, $secret, $window);
+```
+
+An attacker might be able to watch the user entering his credentials and one time key.
+Without further precautions, the key remains valid until it is no longer within the window of the server time. In order to prevent usage of a one time key that has already been used, you can utilize the `verifyKeyNewer` function.
+
+```php
+$secret = Input::get('secret');
+$ts = Google2FA::verifyKeyNewer($user->google2fa_secret, $secret, $user->google2fa_ts);
+if ($ts !== false) {
+    $user->update(['google2fa_ts' => $ts]);
+    // successful
+} else {
+    // failed
+}
+```
+
+Note that `$ts` either `false` (if the key is invalid or has been used before) or the provided key's unix timestamp divided by the key regeneration period of 30 seconds.
+
 ## Using a Bigger and Prefixing the Secret Key
 
 Although the probability of collision of a 16 bytes (128 bits) random string is very low, you can harden it by:
