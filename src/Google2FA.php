@@ -141,6 +141,21 @@ class Google2FA implements Google2FAContract
     }
 
     /**
+     * Get/use a starting timestamp for key verification.
+     *
+     * @param $useTimestamp
+     * @return int
+     */
+    private function makeStartingTimestamp($useTimestamp)
+    {
+        if ($useTimestamp !== true) {
+            return (int) $useTimestamp;
+        }
+
+        return $this->getTimestamp();
+    }
+
+    /**
      * Takes the secret key and the timestamp and returns the one time
      * password.
      *
@@ -202,26 +217,30 @@ class Google2FA implements Google2FAContract
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string $b32seed
-     * @param string $key          - User specified key
-     * @param int    $window
-     * @param bool   $useTimeStamp
-     *
-     * @return bool
-     **/
-    public function verifyKey($b32seed, $key, $window = 4, $useTimeStamp = true)
+     * @param string   $b32seed
+     * @param string   $key - User specified key
+     * @param int      $window
+     * @param bool|int $useTimestamp
+     * @param null|int $oldTimestamp
+     * @return bool|int
+     */
+    public function verifyKey($b32seed, $key, $window = 4, $useTimestamp = true, $oldTimestamp = null)
     {
-        $timeStamp = $this->getTimestamp();
-
-        if ($useTimeStamp !== true) {
-            $timeStamp = (int) $useTimeStamp;
-        }
+        $timestamp = $this->makeStartingTimestamp($useTimestamp);
 
         $binarySeed = $this->base32Decode($b32seed);
 
-        for ($ts = $timeStamp - $window; $ts <= $timeStamp + $window; $ts++) {
+        $ts = is_null($oldTimestamp)
+                ? $timestamp - $window
+                : max($timestamp - $window, $oldTimestamp);
+
+        for (; $ts <= $timestamp + $window; $ts++) {
             if (hash_equals($this->oathHotp($binarySeed, $ts), $key)) {
-                return true;
+                return
+                    is_null($oldTimestamp)
+                        ? true
+                        : $ts
+                ;
             }
         }
 
@@ -238,28 +257,13 @@ class Google2FA implements Google2FAContract
      * @param string $key          - User specified key
      * @param int    $oldTimestamp - The timestamp from the last verified key
      * @param int    $window
-     * @param bool   $useTimeStamp
+     * @param bool   $useTimestamp
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
-    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = 4, $useTimeStamp = true)
+    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = 4, $useTimestamp = true)
     {
-        $timeStamp = $this->getTimestamp();
-
-        if ($useTimeStamp !== true) {
-            $timeStamp = (int) $useTimeStamp;
-        }
-
-        $binarySeed = $this->base32Decode($b32seed);
-
-        for ($ts = max($timeStamp - $window, $oldTimestamp + 1);
-                $ts <= $timeStamp + $window; $ts++) {
-            if (hash_equals($this->oathHotp($binarySeed, $ts), $key)) {
-                return $ts;
-            }
-        }
-
-        return false;
+        return $this->verifyKey($b32seed, $key, $window, $useTimestamp, $oldTimestamp);
     }
 
     /**
