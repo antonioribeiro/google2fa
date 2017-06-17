@@ -34,12 +34,11 @@ use BaconQrCode\Writer;
 use ParagonIE\ConstantTime\Base32;
 use PragmaRX\Google2FA\Support\Url;
 use BaconQrCode\Renderer\Image\Png;
-use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
-class Google2FA implements Google2FAContract
+class Google2FA
 {
     /**
      * Characters valid for Base 32.
