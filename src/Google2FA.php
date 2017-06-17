@@ -30,14 +30,14 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
-use BaconQrCode\Renderer\Image\Png;
-use BaconQrCode\Writer;
 use Base32\Base32;
+use BaconQrCode\Writer;
+use PragmaRX\Google2FA\Support\Url;
+use BaconQrCode\Renderer\Image\Png;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
-use PragmaRX\Google2FA\Support\Url;
 
 class Google2FA implements Google2FAContract
 {
