@@ -163,7 +163,7 @@ class Google2FA implements Google2FAContract
      **/
     public function getTimestamp()
     {
-        return floor(microtime(true) / $this->keyRegeneration);
+        return (int) floor(microtime(true) / $this->keyRegeneration);
     }
 
     /**

@@ -116,7 +116,7 @@ class Google2FASpec extends ObjectBehavior
             },
 
             'beValidTimestamp' => function ($timestamp) {
-                return is_float($timestamp)
+                return is_int($timestamp)
                         && ($timestamp <= PHP_INT_MAX)
                         && ($timestamp >= ~PHP_INT_MAX);
             },
