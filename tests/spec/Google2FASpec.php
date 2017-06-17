@@ -121,4 +121,25 @@ class Google2FASpec extends ObjectBehavior
 
         ];
     }
+
+    public function it_sets_the_window()
+    {
+        $this->setWindow(6);
+
+        $this->getWindow()->shouldBe(6);
+
+        $this->getWindow(1)->shouldBe(1);
+
+        $this->setWindow(0);
+
+        $this->verifyKey($this->secret, '558854', null, 26213400)->shouldBe(false);
+
+        $this->setWindow(2);
+
+        $this->verifyKey($this->secret, '558854', null, 26213400)->shouldBe(true);
+        $this->verifyKey($this->secret, '558854', null, 26213399)->shouldBe(true);
+        $this->verifyKey($this->secret, '558854', null, 26213398)->shouldBe(true);
+        $this->verifyKey($this->secret, '558854', null, 26213396)->shouldBe(true);
+        $this->verifyKey($this->secret, '558854', null, 26213395)->shouldBe(false);
+    }
 }

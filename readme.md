@@ -164,6 +164,20 @@ $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
 $secretKey = $google2fa->generateSecretKey(16, $userId);
 ```
 
+#### Window
+
+The Window property defines how long a OTP will work, or how many cycles it will last. A key has a 30 seconds cycle, setting the window to 0 will make the key lasts for those 30 seconds, setting it to 2 will make it last for 120 seconds. This is how you set the window:
+
+```php
+$secretKey = $google2fa->setWindow(4);
+```
+
+But you can also set the window while checking the key. If you need to set a window of 4 during key verification, this is how you do: 
+
+```php
+$isValid = $google2fa->verifyKey($seed, $key, 4);
+```
+
 #### Generating Inline QRCodes
 
 First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
