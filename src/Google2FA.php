@@ -49,27 +49,27 @@ class Google2FA implements Google2FAContract
     /**
      * Length of the Token generated.
      */
-    private $oneTimePasswordLength = 6;
+    protected $oneTimePasswordLength = 6;
 
     /**
      * Interval between key regeneration.
      */
-    private $keyRegeneration = 30;
+    protected $keyRegeneration = 30;
 
     /**
      * Enforce Google Authenticator compatibility.
      */
-    private $enforceGoogleAuthenticatorCompatibility = true;
+    protected $enforceGoogleAuthenticatorCompatibility = true;
 
     /**
      * Secret
      */
-    private $secret;
+    protected $secret;
 
     /**
      * Window
      */
-    private $window = 1; // Keys will be valid for 60 seconds
+    protected $window = 1; // Keys will be valid for 60 seconds
 
     /**
      * Check if all secret key characters are valid.
@@ -78,7 +78,7 @@ class Google2FA implements Google2FAContract
      *
      * @throws InvalidCharactersException
      */
-    private function checkForValidCharacters($b32)
+    protected function checkForValidCharacters($b32)
     {
         if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
             throw new InvalidCharactersException();
@@ -92,7 +92,7 @@ class Google2FA implements Google2FAContract
      *
      * @throws IncompatibleWithGoogleAuthenticatorException
      */
-    private function checkGoogleAuthenticatorCompatibility($b32)
+    protected function checkGoogleAuthenticatorCompatibility($b32)
     {
         if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
             throw new IncompatibleWithGoogleAuthenticatorException();
@@ -204,7 +204,7 @@ class Google2FA implements Google2FAContract
      * @param $useTimestamp
      * @return int
      */
-    private function makeStartingTimestamp($useTimestamp)
+    protected function makeStartingTimestamp($useTimestamp)
     {
         if ($useTimestamp !== true) {
             return (int) $useTimestamp;
@@ -315,11 +315,11 @@ class Google2FA implements Google2FAContract
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string   $key - User specified key
+     * @param string        $key - User specified key
      * @param null|string   $secret
      * @param null|int      $window
-     * @param bool|int $useTimestamp
-     * @param null|int $oldTimestamp
+     * @param bool|int      $useTimestamp
+     * @param null|int      $oldTimestamp
      * @return bool|int
      */
     public function verify($key, $secret = null, $window = null, $useTimestamp = true, $oldTimestamp = null)
@@ -477,7 +477,7 @@ class Google2FA implements Google2FAContract
      *
      * @return int
      */
-    private function getRandomNumber($from = 0, $to = 31)
+    protected function getRandomNumber($from = 0, $to = 31)
     {
         return random_int($from, $to);
     }
@@ -487,7 +487,7 @@ class Google2FA implements Google2FAContract
      *
      * @param $b32
      */
-    private function validateSecret($b32)
+    protected function validateSecret($b32)
     {
         $this->checkForValidCharacters($b32);
 
