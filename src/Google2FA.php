@@ -42,19 +42,19 @@ use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 class Google2FA implements Google2FAContract
 {
     /**
-     * Interval between key regeneration.
+     * Characters valid for Base 32.
      */
-    const KEY_REGENERATION = 30;
+    const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     /**
      * Length of the Token generated.
      */
-    const OPT_LENGTH = 6;
+    private $oneTimePasswordLength = 6;
 
     /**
-     * Characters valid for Base 32.
+     * Interval between key regeneration.
      */
-    const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    private $keyRegeneration = 30;
 
     /**
      * Enforce Google Authenticator compatibility.
@@ -69,7 +69,7 @@ class Google2FA implements Google2FAContract
     /**
      * Window
      */
-    private $window = 1;
+    private $window = 1; // Keys will be valid for 60 seconds
 
     /**
      * Check if all secret key characters are valid.
@@ -122,6 +122,26 @@ class Google2FA implements Google2FAContract
     }
 
     /**
+     * Get key regeneration.
+     *
+     * @return mixed
+     */
+    public function getKeyRegeneration()
+    {
+        return $this->keyRegeneration;
+    }
+
+    /**
+     * Get OTP length.
+     *
+     * @return mixed
+     */
+    public function getOneTimePasswordLength()
+    {
+        return $this->oneTimePasswordLength;
+    }
+
+    /**
      * Get secret.
      *
      * @return mixed
@@ -136,14 +156,14 @@ class Google2FA implements Google2FAContract
     }
 
     /**
-     * Returns the current Unix Timestamp divided by the KEY_REGENERATION
+     * Returns the current Unix Timestamp divided by the $keyRegeneration
      * period.
      *
      * @return int
      **/
     public function getTimestamp()
     {
-        return floor(microtime(true) / static::KEY_REGENERATION);
+        return floor(microtime(true) / $this->keyRegeneration);
     }
 
     /**
@@ -215,7 +235,7 @@ class Google2FA implements Google2FAContract
 
         $hash = hash_hmac('sha1', $bin_counter, $key, true);
 
-        return str_pad($this->oathTruncate($hash), static::OPT_LENGTH, '0', STR_PAD_LEFT);
+        return str_pad($this->oathTruncate($hash), $this->getOneTimePasswordLength(), '0', STR_PAD_LEFT);
     }
 
     /**
@@ -249,6 +269,26 @@ class Google2FA implements Google2FAContract
         $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
 
         return $this;
+    }
+
+    /**
+     * Set key regeneration.
+     *
+     * @param mixed $keyRegeneration
+     */
+    public function setKeyRegeneration($keyRegeneration)
+    {
+        $this->keyRegeneration = $keyRegeneration;
+    }
+
+    /**
+     * Set OTP length.
+     *
+     * @param mixed $oneTimePasswordLength
+     */
+    public function setOneTimePasswordLength($oneTimePasswordLength)
+    {
+        $this->oneTimePasswordLength = $oneTimePasswordLength;
     }
 
     /**
@@ -358,7 +398,7 @@ class Google2FA implements Google2FAContract
         $offset = ord($hash[19]) & 0xf;
         $temp = unpack('N', substr($hash, $offset, 4));
 
-        return substr($temp[1] & 0x7fffffff, -static::OPT_LENGTH);
+        return substr($temp[1] & 0x7fffffff, -$this->getOneTimePasswordLength());
     }
 
     /**
@@ -475,6 +515,6 @@ class Google2FA implements Google2FAContract
      */
     public function getKeyRegenerationTime()
     {
-        return static::KEY_REGENERATION;
+        return $this->keyRegeneration;
     }
 }

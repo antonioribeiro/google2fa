@@ -157,4 +157,31 @@ class Google2FASpec extends ObjectBehavior
 
         $this->verify('558854', null, null, 26213400)->shouldBe(true);
     }
+
+    public function it_gets_key_regeneration()
+    {
+        $this->setKeyRegeneration(11);
+
+        $this->getKeyRegeneration()->shouldBe(11);
+    }
+
+    public function it_gets_otp_length()
+    {
+        $this->setOneTimePasswordLength(7);
+
+        $this->getOneTimePasswordLength()->shouldBe(7);
+    }
+
+    public function it_generates_passwords_in_many_different_sizes()
+    {
+        $this->setWindow(2);
+
+        $this->setOneTimePasswordLength(6);
+
+        $this->verifyKey($this->secret, '558854', null, 26213400)->shouldBe(true);
+
+        $this->setOneTimePasswordLength(7);
+
+        $this->verifyKey($this->secret, '8981084', null, 26213400)->shouldBe(true);
+    }
 }
