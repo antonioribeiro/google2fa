@@ -8,6 +8,10 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
 This package is agnostic, but also supports the Laravel Framework.
 
+## Demo & Playground
+
+Please check the [Google2FA Package Playground](https://pragmarx.com/google2fa). 
+
 ## Requirements
 
 - PHP 5.4+
@@ -158,10 +162,20 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
 ```
 
-#### Prefix it
+#### You cn prefix your secret keys
+
+You may prefix your secret keys, but you have to understand that, as your secret key must have length in power of 2, your prefix will have to have a complementary size. So if your key is 16 bytes long, if you add a prefix it must be also 16 bytes long, but as your prefixes will be converted to base 32, the max length of your prefix is 10 bytes. So, those are the sizes you can use in your prefixes:
+
+```
+1, 2, 5, 10, 20, 40, 80...
+```
+
+And it can be used like so:
 
 ```php
-$secretKey = $google2fa->generateSecretKey(16, $userId);
+$prefix = strpad($userId, 10, 'X');
+
+$secretKey = $google2fa->generateSecretKey(16, $prefix);
 ```
 
 #### Window
