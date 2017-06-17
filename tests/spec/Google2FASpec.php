@@ -10,6 +10,8 @@ class Google2FASpec extends ObjectBehavior
 {
     public $secret = 'ADUMJO5634NPDEKW';
 
+    public $wrongSecret = 'ADUMJO5634NPDEKX';
+
     public $url = 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth%3A%2F%2Ftotp%2FPragmaRX%3Aacr%2Bpragmarx%40antoniocarlosribeiro.com%3Fsecret%3DADUMJO5634NPDEKW%26issuer%3DPragmaRX';
 
     public function it_is_initializable()
@@ -141,5 +143,18 @@ class Google2FASpec extends ObjectBehavior
         $this->verifyKey($this->secret, '558854', null, 26213398)->shouldBe(true);
         $this->verifyKey($this->secret, '558854', null, 26213396)->shouldBe(true);
         $this->verifyKey($this->secret, '558854', null, 26213395)->shouldBe(false);
+    }
+
+    public function it_sets_the_secret()
+    {
+        $this->verify('558854', $this->wrongSecret)->shouldBe(false);
+
+        $this->setWindow(2);
+
+        $this->verify('558854', $this->secret, null, 26213400)->shouldBe(true);
+
+        $this->setSecret($this->secret);
+
+        $this->verify('558854', null, null, 26213400)->shouldBe(true);
     }
 }

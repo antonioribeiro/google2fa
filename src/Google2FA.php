@@ -62,6 +62,11 @@ class Google2FA implements Google2FAContract
     private $enforceGoogleAuthenticatorCompatibility = true;
 
     /**
+     * Secret
+     */
+    private $secret;
+
+    /**
      * Window
      */
     private $window = 1;
@@ -114,6 +119,20 @@ class Google2FA implements Google2FAContract
         $this->validateSecret($secret);
 
         return $secret;
+    }
+
+    /**
+     * Get secret.
+     *
+     * @return mixed
+     */
+    public function getSecret($secret = null)
+    {
+        return
+            is_null($secret)
+            ? $this->secret
+            : $secret
+        ;
     }
 
     /**
@@ -233,6 +252,16 @@ class Google2FA implements Google2FAContract
     }
 
     /**
+     * Set secret.
+     *
+     * @param mixed $secret
+     */
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
+    }
+
+    /**
      * Set the OTP window.
      *
      * @param mixed $window
@@ -246,9 +275,31 @@ class Google2FA implements Google2FAContract
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
+     * @param string   $key - User specified key
+     * @param null|string   $secret
+     * @param null|int      $window
+     * @param bool|int $useTimestamp
+     * @param null|int $oldTimestamp
+     * @return bool|int
+     */
+    public function verify($key, $secret = null, $window = null, $useTimestamp = true, $oldTimestamp = null)
+    {
+        return $this->verifyKey(
+            $this->getSecret($secret),
+            $key,
+            $window,
+            $useTimestamp,
+            $oldTimestamp
+        );
+    }
+
+    /**
+     * Verifies a user inputted key against the current timestamp. Checks $window
+     * keys either side of the timestamp.
+     *
      * @param string   $secret
      * @param string   $key - User specified key
-     * @param int      $window
+     * @param null|int $window
      * @param bool|int $useTimestamp
      * @param null|int $oldTimestamp
      * @return bool|int
