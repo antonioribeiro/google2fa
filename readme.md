@@ -123,7 +123,9 @@ $valid = Google2FA::verifyKey($user->google2fa_secret, $secret);
 
 It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this to the crontab:
 
-    ntpdate ntp.ubuntu.com
+    sudo service ntp stop
+    sudo ntpd -gq
+    sudo service ntp start
 
 ## Validation Window
 
