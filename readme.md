@@ -62,7 +62,7 @@ return $google2fa->generateSecretKey();
 #### In Laravel you can use the IoC Container and the contract
 
 ```php
-$google2fa = app()->make('PragmaRX\Google2FA\Google2FA');
+$google2fa = app()->make('PragmaRX\Google2FA\Contracts\Google2FA');
     
 return $google2fa->generateSecretKey();
 ```
@@ -70,7 +70,7 @@ return $google2fa->generateSecretKey();
 #### Or Method Injection, in Laravel 5
 
 ```php
-use PragmaRX\Google2FA\Google2FA;
+use PragmaRX\Google2FA\Contracts\Google2FA;
     
 class WelcomeController extends Controller 
 {
@@ -249,12 +249,12 @@ $google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 To use the two factor authentication, your user will have to install a Google Authenticator compatible app, those are some of the currently available:
 
 * [Authy for iOS, Android, Chrome, OS X](https://www.authy.com/)
-* [FreeOTP for iOS, Android and Peeble](https://fedorahosted.org/freeotp/)
+* [FreeOTP for iOS, Android and Pebble](https://apps.getpebble.com/en_US/application/52f1a4c3c4117252f9000bb8)
 * [Google Authenticator for iOS](https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8)
 * [Google Authenticator for Android](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2)
-* [Google Authenticator for BlackBerry](https://m.google.com/authenticator)
 * [Google Authenticator (port) on Windows Store](https://www.microsoft.com/en-us/store/p/google-authenticator/9wzdncrdnkrf)
 * [Microsoft Authenticator for Windows Phone](https://www.microsoft.com/en-us/store/apps/authenticator/9wzdncrfj3rj)
+* [LastPass Authenticator for iOS, Android, OS X, Windows](https://lastpass.com/auth/)
 * [1Password for iOS, Android, OS X, Windows](https://1password.com)
 
 ## Tests
