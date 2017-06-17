@@ -246,18 +246,18 @@ class Google2FA implements Google2FAContract
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string   $b32seed
+     * @param string   $secret
      * @param string   $key - User specified key
      * @param int      $window
      * @param bool|int $useTimestamp
      * @param null|int $oldTimestamp
      * @return bool|int
      */
-    public function verifyKey($b32seed, $key, $window = null, $useTimestamp = true, $oldTimestamp = null)
+    public function verifyKey($secret, $key, $window = null, $useTimestamp = true, $oldTimestamp = null)
     {
         $timestamp = $this->makeStartingTimestamp($useTimestamp);
 
-        $binarySeed = $this->base32Decode($b32seed);
+        $binarySeed = $this->base32Decode($secret);
 
         $ts = is_null($oldTimestamp)
                 ? $timestamp - $this->getWindow($window)
@@ -282,7 +282,7 @@ class Google2FA implements Google2FAContract
      * the given oldTimestamp. Useful if you need to ensure that a single key cannot
      * be used twice.
      *
-     * @param string $b32seed
+     * @param string $secret
      * @param string $key          - User specified key
      * @param int    $oldTimestamp - The timestamp from the last verified key
      * @param int    $window
@@ -290,9 +290,9 @@ class Google2FA implements Google2FAContract
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
-    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = null, $useTimestamp = true)
+    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $useTimestamp = true)
     {
-        return $this->verifyKey($b32seed, $key, $window, $useTimestamp, $oldTimestamp);
+        return $this->verifyKey($secret, $key, $window, $useTimestamp, $oldTimestamp);
     }
 
     /**

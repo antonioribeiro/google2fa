@@ -61,14 +61,14 @@ interface Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string $b32seed
+     * @param string $secret
      * @param string $key          - User specified key
      * @param int    $window
      * @param bool   $useTimeStamp
      *
      * @return bool
      **/
-    public function verifyKey($b32seed, $key, $window = 4, $useTimeStamp = true);
+    public function verifyKey($secret, $key, $window = 4, $useTimeStamp = true);
 
     /**
      * Verifies a user inputted key against the current timestamp. Checks $window
@@ -76,7 +76,7 @@ interface Google2FA
      * the given oldTimestamp. Useful if you need to ensure that a single key cannot
      * be used twice.
      *
-     * @param string $b32seed
+     * @param string $secret
      * @param string $key          - User specified key
      * @param int    $oldTimestamp - The timestamp from the last verified key
      * @param int    $window
@@ -84,7 +84,7 @@ interface Google2FA
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
-    public function verifyKeyNewer($b32seed, $key, $oldTimestamp, $window = 4, $useTimeStamp = true);
+    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = 4, $useTimeStamp = true);
 
     /**
      * Extracts the OTP from the SHA1 hash.
