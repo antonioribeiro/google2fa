@@ -466,7 +466,7 @@ class Google2FA implements Google2FAContract
      */
     public function getQRCodeUrl($company, $holder, $secret)
     {
-        return 'otpauth://totp/'.rawurlencode($company).':'.$holder.'?secret='.$secret.'&issuer='.rawurlencode($company).'';
+        return 'otpauth://totp/'.rawurlencode($company).':'.rawurlencode($holder).'?secret='.$secret.'&issuer='.rawurlencode($company).'';
     }
 
     /**
