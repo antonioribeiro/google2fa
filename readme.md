@@ -8,9 +8,13 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
 This package is agnostic, but also supports the Laravel Framework.
 
-## Demo & Playground
+## Demos, Example & Playground
 
 Please check the [Google2FA Package Playground](https://pragmarx.com/google2fa). 
+
+Here's an demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
+
+You can scan the QR code on [this (old) demo page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
 
 ## Requirements
 
@@ -240,13 +244,7 @@ By default, this package will enforce compatibility, but, if Google Authenticato
 $google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 ```
 
-## Demos
-
-Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
-
-You can scan the QR code on [this page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
-
-## Google Authenticator Apps
+## Google Authenticator Apps:
 
 To use the two factor authentication, your user will have to install a Google Authenticator compatible app, those are some of the currently available:
 
