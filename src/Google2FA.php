@@ -30,8 +30,8 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
-use Base32\Base32;
 use BaconQrCode\Writer;
+use ParagonIE\ConstantTime\Base32;
 use PragmaRX\Google2FA\Support\Url;
 use BaconQrCode\Renderer\Image\Png;
 use PragmaRX\Google2FA\Contracts\Google2FA as Google2FAContract;
@@ -181,7 +181,7 @@ class Google2FA implements Google2FAContract
 
         $this->validateSecret($b32);
 
-        return Base32::decode($b32);
+        return Base32::decodeUpper($b32);
     }
 
     /**
@@ -503,7 +503,7 @@ class Google2FA implements Google2FAContract
      */
     public function toBase32($string)
     {
-        $encoded = Base32::encode($string);
+        $encoded = Base32::encodeUpper($string);
 
         return str_replace('=', '', $encoded);
     }
