@@ -200,16 +200,16 @@ class Google2FA
     /**
      * Get/use a starting timestamp for key verification.
      *
-     * @param $useTimestamp
+     * @param string|int|null $timestamp
      * @return int
      */
-    protected function makeStartingTimestamp($useTimestamp)
+    protected function makeStartingTimestamp($timestamp = null)
     {
-        if ($useTimestamp !== true) {
-            return (int) $useTimestamp;
+        if (is_null($timestamp)) {
+            return $this->getTimestamp();
         }
 
-        return $this->getTimestamp();
+        return (int) $timestamp;
     }
 
     /**
@@ -317,17 +317,17 @@ class Google2FA
      * @param string        $key - User specified key
      * @param null|string   $secret
      * @param null|int      $window
-     * @param bool|int      $useTimestamp
+     * @param bool|int      $timestamp
      * @param null|int      $oldTimestamp
      * @return bool|int
      */
-    public function verify($key, $secret = null, $window = null, $useTimestamp = true, $oldTimestamp = null)
+    public function verify($key, $secret = null, $window = null, $timestamp = true, $oldTimestamp = null)
     {
         return $this->verifyKey(
-            $this->getSecret($secret),
+            $secret,
             $key,
             $window,
-            $useTimestamp,
+            $timestamp,
             $oldTimestamp
         );
     }
@@ -339,15 +339,15 @@ class Google2FA
      * @param string   $secret
      * @param string   $key - User specified key
      * @param null|int $window
-     * @param bool|int $useTimestamp
+     * @param bool|int $timestamp
      * @param null|int $oldTimestamp
      * @return bool|int
      */
-    public function verifyKey($secret, $key, $window = null, $useTimestamp = true, $oldTimestamp = null)
+    public function verifyKey($secret, $key, $window = null, $timestamp = true, $oldTimestamp = null)
     {
-        $timestamp = $this->makeStartingTimestamp($useTimestamp);
+        $timestamp = $this->makeStartingTimestamp($timestamp);
 
-        $binarySeed = $this->base32Decode($secret);
+        $binarySeed = $this->base32Decode($this->getSecret($secret));
 
         $ts = is_null($oldTimestamp)
                 ? $timestamp - $this->getWindow($window)
@@ -376,13 +376,13 @@ class Google2FA
      * @param string $key          - User specified key
      * @param int    $oldTimestamp - The timestamp from the last verified key
      * @param int    $window
-     * @param bool   $useTimestamp
+     * @param bool   $timestamp
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
-    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $useTimestamp = true)
+    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = true)
     {
-        return $this->verifyKey($secret, $key, $window, $useTimestamp, $oldTimestamp);
+        return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
     }
 
     /**
