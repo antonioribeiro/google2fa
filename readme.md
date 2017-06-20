@@ -12,6 +12,8 @@ This package is agnostic, but there's a [Laravel bridge](https://github.com/anto
 
 Please check the [Google2FA Package Playground](https://pragmarx.com/google2fa). 
 
+![playground](docs/playground.jpg)
+
 Here's an demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
 
 You can scan the QR code on [this (old) demo page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
