@@ -393,19 +393,6 @@ class Google2FA
     }
 
     /**
-     * Get a random number.
-     *
-     * @param $from
-     * @param $to
-     *
-     * @return int
-     */
-    protected function getRandomNumber($from = 0, $to = 31)
-    {
-        return random_int($from, $to);
-    }
-
-    /**
      * Validate the secret.
      *
      * @param $b32

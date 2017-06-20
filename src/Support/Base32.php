@@ -59,4 +59,18 @@ trait Base32
 
         return str_replace('=', '', $encoded);
     }
+
+
+    /**
+     * Get a random number.
+     *
+     * @param $from
+     * @param $to
+     *
+     * @return int
+     */
+    protected function getRandomNumber($from = 0, $to = 31)
+    {
+        return random_int($from, $to);
+    }
 }
