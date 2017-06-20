@@ -316,7 +316,7 @@ class Google2FA
      * @param string      $key          - User specified key
      * @param null|string $secret
      * @param null|int    $window
-     * @param bool|int    $timestamp
+     * @param null|int    $timestamp
      * @param null|int    $oldTimestamp
      *
      * @return bool|int
@@ -339,7 +339,7 @@ class Google2FA
      * @param string   $secret
      * @param string   $key          - User specified key
      * @param null|int $window
-     * @param bool|int $timestamp
+     * @param null|int $timestamp
      * @param null|int $oldTimestamp
      *
      * @return bool|int
@@ -372,11 +372,11 @@ class Google2FA
      * the given oldTimestamp. Useful if you need to ensure that a single key cannot
      * be used twice.
      *
-     * @param string $secret
-     * @param string $key          - User specified key
-     * @param int    $oldTimestamp - The timestamp from the last verified key
-     * @param int    $window
-     * @param bool   $timestamp
+     * @param string     $secret
+     * @param string     $key          - User specified key
+     * @param int        $oldTimestamp - The timestamp from the last verified key
+     * @param int|null   $window
+     * @param int|null   $timestamp
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
