@@ -30,16 +30,16 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
-use BaconQrCode\Renderer\Image\Png;
-use BaconQrCode\Writer;
-use ParagonIE\ConstantTime\Base32;
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Support\Base32;
+use PragmaRX\Google2FA\Support\QRCode;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
-use PragmaRX\Google2FA\Support\Url;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 class Google2FA
 {
+    use QRCode, Base32;
+
     /**
      * Characters valid for Base 32.
      */
@@ -107,17 +107,7 @@ class Google2FA
      */
     public function generateSecretKey($length = 16, $prefix = '')
     {
-        $b32 = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
-
-        $secret = $prefix ? $this->toBase32($prefix) : '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $secret .= $b32[$this->getRandomNumber()];
-        }
-
-        $this->validateSecret($secret);
-
-        return $secret;
+        return $this->generateBase32RandomKey($length, $prefix);
     }
 
     /**
@@ -162,24 +152,6 @@ class Google2FA
     public function getTimestamp()
     {
         return (int) floor(microtime(true) / $this->keyRegeneration);
-    }
-
-    /**
-     * Decodes a base32 string into a binary string.
-     *
-     * @param string $b32
-     *
-     * @throws InvalidCharactersException
-     *
-     * @return int
-     */
-    public function base32Decode($b32)
-    {
-        $b32 = strtoupper($b32);
-
-        $this->validateSecret($b32);
-
-        return Base32::decodeUpper($b32);
     }
 
     /**
@@ -413,62 +385,6 @@ class Google2FA
     }
 
     /**
-     * Creates a Google QR code url.
-     *
-     * @param string $company
-     * @param string $holder
-     * @param string $secret
-     * @param int    $size
-     *
-     * @return string
-     */
-    public function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
-    {
-        $url = $this->getQRCodeUrl($company, $holder, $secret);
-
-        return Url::generateGoogleQRCodeUrl('https://chart.googleapis.com/', 'chart', 'chs='.$size.'x'.$size.'&chld=M|0&cht=qr&chl=', $url);
-    }
-
-    /**
-     * Generates a QR code data url to display inline.
-     *
-     * @param string $company
-     * @param string $holder
-     * @param string $secret
-     * @param int    $size
-     * @param string $encoding Default to UTF-8
-     *
-     * @return string
-     */
-    public function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
-    {
-        $url = $this->getQRCodeUrl($company, $holder, $secret);
-
-        $renderer = new Png();
-        $renderer->setWidth($size);
-        $renderer->setHeight($size);
-
-        $writer = new Writer($renderer);
-        $data = $writer->writeString($url, $encoding);
-
-        return 'data:image/png;base64,'.base64_encode($data);
-    }
-
-    /**
-     * Creates a QR code url.
-     *
-     * @param $company
-     * @param $holder
-     * @param $secret
-     *
-     * @return string
-     */
-    public function getQRCodeUrl($company, $holder, $secret)
-    {
-        return 'otpauth://totp/'.rawurlencode($company).':'.rawurlencode($holder).'?secret='.$secret.'&issuer='.rawurlencode($company).'';
-    }
-
-    /**
      * Get a random number.
      *
      * @param $from
@@ -491,20 +407,6 @@ class Google2FA
         $this->checkForValidCharacters($b32);
 
         $this->checkGoogleAuthenticatorCompatibility($b32);
-    }
-
-    /**
-     * Encode a string to Base32.
-     *
-     * @param $string
-     *
-     * @return mixed
-     */
-    public function toBase32($string)
-    {
-        $encoded = Base32::encodeUpper($string);
-
-        return str_replace('=', '', $encoded);
     }
 
     /**
