@@ -174,7 +174,7 @@ class Google2FA
      *
      * @return int
      */
-    protected function makeStartingTimestamp($timestamp = null)
+    protected function makeTimestamp($timestamp = null)
     {
         if (is_null($timestamp)) {
             return $this->getTimestamp();
@@ -318,20 +318,28 @@ class Google2FA
      */
     public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = null)
     {
-        $timestamp = $this->makeStartingTimestamp($timestamp);
+        $startingTimestamp = is_null($oldTimestamp)
+            ? ($timestamp = $this->makeTimestamp($timestamp)) - $this->getWindow($window)
+            : max($timestamp - $this->getWindow($window), $oldTimestamp);
 
-        $binarySeed = $this->base32Decode($this->getSecret($secret));
+       return $this->findValidOTP(
+           $this->base32Decode($this->getSecret($secret)),
+           $key,
+           $window,
+           $startingTimestamp,
+           $timestamp,
+           $oldTimestamp
+       );
+    }
 
-        $ts = is_null($oldTimestamp)
-                ? $timestamp - $this->getWindow($window)
-                : max($timestamp - $this->getWindow($window), $oldTimestamp);
-
-        for (; $ts <= $timestamp + $this->getWindow($window); $ts++) {
-            if (hash_equals($this->oathHotp($binarySeed, $ts), $key)) {
+    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
+    {
+        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
+            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
                 return
                     is_null($oldTimestamp)
                         ? true
-                        : $ts;
+                        : $startingTimestamp;
             }
         }
 
