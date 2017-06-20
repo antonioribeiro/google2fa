@@ -30,11 +30,10 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
-use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
-use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\QRCode;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 class Google2FA
 {
@@ -69,34 +68,6 @@ class Google2FA
      * Window.
      */
     protected $window = 1; // Keys will be valid for 60 seconds
-
-    /**
-     * Check if all secret key characters are valid.
-     *
-     * @param $b32
-     *
-     * @throws InvalidCharactersException
-     */
-    protected function checkForValidCharacters($b32)
-    {
-        if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
-            throw new InvalidCharactersException();
-        }
-    }
-
-    /**
-     * Check if the secret key is compatible with Google Authenticator.
-     *
-     * @param $b32
-     *
-     * @throws IncompatibleWithGoogleAuthenticatorException
-     */
-    protected function checkGoogleAuthenticatorCompatibility($b32)
-    {
-        if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
-            throw new IncompatibleWithGoogleAuthenticatorException();
-        }
-    }
 
     /**
      * Generate a digit secret key in base32 format.
@@ -390,18 +361,6 @@ class Google2FA
     public function removeInvalidChars($string)
     {
         return preg_replace('/[^'.static::VALID_FOR_B32.']/', '', $string);
-    }
-
-    /**
-     * Validate the secret.
-     *
-     * @param $b32
-     */
-    protected function validateSecret($b32)
-    {
-        $this->checkForValidCharacters($b32);
-
-        $this->checkGoogleAuthenticatorCompatibility($b32);
     }
 
     /**

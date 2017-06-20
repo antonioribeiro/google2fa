@@ -3,6 +3,7 @@
 namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 trait Base32
 {
@@ -71,5 +72,45 @@ trait Base32
     protected function getRandomNumber($from = 0, $to = 31)
     {
         return random_int($from, $to);
+    }
+
+    /**
+     * Validate the secret.
+     *
+     * @param $b32
+     */
+    protected function validateSecret($b32)
+    {
+        $this->checkForValidCharacters($b32);
+
+        $this->checkGoogleAuthenticatorCompatibility($b32);
+    }
+
+    /**
+     * Check if the secret key is compatible with Google Authenticator.
+     *
+     * @param $b32
+     *
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     */
+    protected function checkGoogleAuthenticatorCompatibility($b32)
+    {
+        if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
+            throw new IncompatibleWithGoogleAuthenticatorException();
+        }
+    }
+
+    /**
+     * Check if all secret key characters are valid.
+     *
+     * @param $b32
+     *
+     * @throws InvalidCharactersException
+     */
+    protected function checkForValidCharacters($b32)
+    {
+        if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
+            throw new InvalidCharactersException();
+        }
     }
 }
