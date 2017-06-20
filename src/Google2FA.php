@@ -30,10 +30,10 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
-use PragmaRX\Google2FA\Support\Base32;
-use PragmaRX\Google2FA\Support\QRCode;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
+use PragmaRX\Google2FA\Support\Base32;
+use PragmaRX\Google2FA\Support\QRCode;
 
 class Google2FA
 {
