@@ -358,8 +358,7 @@ class Google2FA
                 return
                     is_null($oldTimestamp)
                         ? true
-                        : $ts
-                ;
+                        : $ts;
             }
         }
 
