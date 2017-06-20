@@ -55,11 +55,6 @@ class Google2FA
     protected $keyRegeneration = 30;
 
     /**
-     * Enforce Google Authenticator compatibility.
-     */
-    protected $enforceGoogleAuthenticatorCompatibility = true;
-
-    /**
      * Secret.
      */
     protected $secret;

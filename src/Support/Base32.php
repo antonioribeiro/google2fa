@@ -8,6 +8,11 @@ use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 trait Base32
 {
     /**
+     * Enforce Google Authenticator compatibility.
+     */
+    protected $enforceGoogleAuthenticatorCompatibility = true;
+
+    /**
      * Generate a digit secret key in base32 format.
      *
      * @param int $length
