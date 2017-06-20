@@ -321,7 +321,7 @@ class Google2FA
      * @param null|int      $oldTimestamp
      * @return bool|int
      */
-    public function verify($key, $secret = null, $window = null, $timestamp = true, $oldTimestamp = null)
+    public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = null)
     {
         return $this->verifyKey(
             $secret,
@@ -343,7 +343,7 @@ class Google2FA
      * @param null|int $oldTimestamp
      * @return bool|int
      */
-    public function verifyKey($secret, $key, $window = null, $timestamp = true, $oldTimestamp = null)
+    public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = null)
     {
         $timestamp = $this->makeStartingTimestamp($timestamp);
 
@@ -380,7 +380,7 @@ class Google2FA
      *
      * @return bool|int - false (not verified) or the timestamp of the verified key
      **/
-    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = true)
+    public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = null)
     {
         return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
     }
