@@ -346,6 +346,7 @@ class Google2FA
     public function oathTruncate($hash)
     {
         $offset = ord($hash[19]) & 0xf;
+
         $temp = unpack('N', substr($hash, $offset, 4));
 
         return substr($temp[1] & 0x7fffffff, -$this->getOneTimePasswordLength());
