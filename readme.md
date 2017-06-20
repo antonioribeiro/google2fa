@@ -154,6 +154,14 @@ But you can also set the window while checking the key. If you need to set a win
 $isValid = $google2fa->verifyKey($seed, $key, 4);
 ```
 
+#### Key Regeneration Interval
+
+You can change key regeneration interval, which defaults to 30 seconds, but remember that this is a default value on most authentication apps, lile Google Authenticator, which will, basically, make your app out of sync with them.
+
+```php
+$google2fa->setKeyRegeneration(40);
+```
+
 #### Generating Inline QRCodes
 
 First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
@@ -178,7 +186,7 @@ $secretKey = $google2fa->generateSecretKey(16, $userId);
 
 ## Google Authenticator secret key compatibility
 
-To be compatible with Google Authenticator, your secret key length must be at least 8 chars and be a power of 2: 8, 16, 32, 64...
+To be compatible with Google Authenticator, your (converted to base 32) secret key length must be at least 8 chars and be a power of 2: 8, 16, 32, 64...
   
 So, to prevent errors, you can do something like this while generating it:
   
