@@ -30,13 +30,13 @@ namespace PragmaRX\Google2FA;
  * @author     Antonio Carlos Ribeiro @ PragmaRX
  **/
 
+use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use ParagonIE\ConstantTime\Base32;
-use PragmaRX\Google2FA\Support\Url;
-use BaconQrCode\Renderer\Image\Png;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Support\Url;
 
 class Google2FA
 {
@@ -61,12 +61,12 @@ class Google2FA
     protected $enforceGoogleAuthenticatorCompatibility = true;
 
     /**
-     * Secret
+     * Secret.
      */
     protected $secret;
 
     /**
-     * Window
+     * Window.
      */
     protected $window = 1; // Keys will be valid for 60 seconds
 
@@ -150,8 +150,7 @@ class Google2FA
         return
             is_null($secret)
             ? $this->secret
-            : $secret
-        ;
+            : $secret;
     }
 
     /**
@@ -193,14 +192,14 @@ class Google2FA
         return
             is_null($window)
                 ? $this->window
-                : $window
-        ;
+                : $window;
     }
 
     /**
      * Get/use a starting timestamp for key verification.
      *
      * @param string|int|null $timestamp
+     *
      * @return int
      */
     protected function makeStartingTimestamp($timestamp = null)
@@ -314,11 +313,12 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string        $key - User specified key
-     * @param null|string   $secret
-     * @param null|int      $window
-     * @param bool|int      $timestamp
-     * @param null|int      $oldTimestamp
+     * @param string      $key          - User specified key
+     * @param null|string $secret
+     * @param null|int    $window
+     * @param bool|int    $timestamp
+     * @param null|int    $oldTimestamp
+     *
      * @return bool|int
      */
     public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = null)
@@ -337,10 +337,11 @@ class Google2FA
      * keys either side of the timestamp.
      *
      * @param string   $secret
-     * @param string   $key - User specified key
+     * @param string   $key          - User specified key
      * @param null|int $window
      * @param bool|int $timestamp
      * @param null|int $oldTimestamp
+     *
      * @return bool|int
      */
     public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = null)
