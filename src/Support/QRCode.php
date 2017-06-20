@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Google2FA\Support;
 
-use BaconQrCode\Writer;
 use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Writer;
 
 trait QRCode
 {
