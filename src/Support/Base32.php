@@ -60,7 +60,6 @@ trait Base32
         return str_replace('=', '', $encoded);
     }
 
-
     /**
      * Get a random number.
      *
