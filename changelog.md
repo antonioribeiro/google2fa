@@ -6,6 +6,7 @@
 - Using a more secure Base 32 algorithm, to prevent cache-timing attacks.  
 - Added verifyKeyNewer() method to prevent reuse of keys.
 - Refactored to remove complexity, by extracting support methods.
+- Created a package playground page (https://pragmarx.com/google2fa)
 
 ## [1.0.1] - 2016-07-18
 ### Changed
