@@ -179,6 +179,7 @@ class Google2FA
      * Get the OTP window.
      *
      * @param null|int $window
+     *
      * @return mixed
      */
     public function getWindow($window = null)
