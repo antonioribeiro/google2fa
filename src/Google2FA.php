@@ -73,6 +73,7 @@ class Google2FA
      * @param $startingTimestamp
      * @param $timestamp
      * @param $oldTimestamp
+     *
      * @return bool
      */
     public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = '__not_set__')
@@ -314,11 +315,11 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string            $key          - User specified key
-     * @param null|string       $secret
-     * @param null|int          $window
-     * @param null|int          $timestamp
-     * @param null|string|int   $oldTimestamp
+     * @param string          $key          - User specified key
+     * @param null|string     $secret
+     * @param null|int        $window
+     * @param null|int        $timestamp
+     * @param null|string|int $oldTimestamp
      *
      * @return bool|int
      */
@@ -337,11 +338,11 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string            $secret
-     * @param string            $key          - User specified key
-     * @param null|int          $window
-     * @param null|int          $timestamp
-     * @param null|string|int   $oldTimestamp
+     * @param string          $secret
+     * @param string          $key          - User specified key
+     * @param null|int        $window
+     * @param null|int        $timestamp
+     * @param null|string|int $oldTimestamp
      *
      * @return bool|int
      */
