@@ -65,6 +65,31 @@ class Google2FA
     protected $window = 1; // Keys will be valid for 60 seconds
 
     /**
+     * Find a valid One Time Password.
+     *
+     * @param $binarySeed
+     * @param $key
+     * @param $window
+     * @param $startingTimestamp
+     * @param $timestamp
+     * @param $oldTimestamp
+     * @return bool
+     */
+    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
+    {
+        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
+            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
+                return
+                    is_null($oldTimestamp)
+                        ? true
+                        : $startingTimestamp;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Generate a digit secret key in base32 format.
      *
      * @param int $length
