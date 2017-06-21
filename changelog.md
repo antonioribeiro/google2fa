@@ -1,5 +1,13 @@
 ## Change Log
 
+## [2.0.0] - 2016-06-20
+### Changed
+- Drop the Laravel support in favor of a bridge package (https://github.com/antonioribeiro/google2fa-laravel).
+- Using a more secure Base 32 algorithm, to prevent cache-timing attacks.  
+- Added verifyKeyNewer() method to prevent reuse of keys.
+- Refactored to remove complexity, by extracting support methods.
+- Created a package playground page (https://pragmarx.com/google2fa)
+
 ## [1.0.1] - 2016-07-18
 ### Changed
 - Drop support for PHP 5.3.7, require PHP 5.4+. 
