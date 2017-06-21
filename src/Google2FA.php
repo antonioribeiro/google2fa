@@ -75,12 +75,12 @@ class Google2FA
      * @param $oldTimestamp
      * @return bool
      */
-    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
+    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = '__not_set__')
     {
         for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
             if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
                 return
-                    is_null($oldTimestamp)
+                    $oldTimestamp === '__not_set__'
                         ? true
                         : $startingTimestamp;
             }
@@ -314,15 +314,15 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string      $key          - User specified key
-     * @param null|string $secret
-     * @param null|int    $window
-     * @param null|int    $timestamp
-     * @param null|int    $oldTimestamp
+     * @param string            $key          - User specified key
+     * @param null|string       $secret
+     * @param null|int          $window
+     * @param null|int          $timestamp
+     * @param null|string|int   $oldTimestamp
      *
      * @return bool|int
      */
-    public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = null)
+    public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
     {
         return $this->verifyKey(
             $secret,
@@ -337,17 +337,17 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string   $secret
-     * @param string   $key          - User specified key
-     * @param null|int $window
-     * @param null|int $timestamp
-     * @param null|int $oldTimestamp
+     * @param string            $secret
+     * @param string            $key          - User specified key
+     * @param null|int          $window
+     * @param null|int          $timestamp
+     * @param null|string|int   $oldTimestamp
      *
      * @return bool|int
      */
-    public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = null)
+    public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
     {
-        $startingTimestamp = is_null($oldTimestamp)
+        $startingTimestamp = $oldTimestamp === '__not_set__'
             ? ($timestamp = $this->makeTimestamp($timestamp)) - $this->getWindow($window)
             : max($timestamp - $this->getWindow($window), $oldTimestamp);
 

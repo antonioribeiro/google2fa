@@ -79,10 +79,15 @@ class Google2FASpec extends ObjectBehavior
 
     public function it_verifies_keys_newer()
     {
-        $this->verifyKeyNewer($this->secret, '512396', 26213401, 2, 26213400)->shouldBe(false);    // 26213400
-        $this->verifyKeyNewer($this->secret, '410272', 26213401, 2, 26213400)->shouldBe(26213401);    // 26213401
-        $this->verifyKeyNewer($this->secret, '239815', 26213401, 2, 26213400)->shouldBe(26213402); // 26213402
-        $this->verifyKeyNewer($this->secret, '313366', 26213401, 2, 26213400)->shouldBe(false);    // 26213403
+        $this->verifyKeyNewer($this->secret, '512396', 26213401, 2, 26213400)->shouldBe(false);
+        $this->verifyKeyNewer($this->secret, '410272', 26213401, 2, 26213400)->shouldBe(26213401);
+        $this->verifyKeyNewer($this->secret, '239815', 26213401, 2, 26213400)->shouldBe(26213402);
+        $this->verifyKeyNewer($this->secret, '313366', 26213401, 2, 26213400)->shouldBe(false);
+
+        $this->verifyKeyNewer($this->secret, '512396', null, 2, 26213400)->shouldBe(26213400);
+        $this->verifyKeyNewer($this->secret, '410272', null, 2, 26213400)->shouldBe(26213401);
+        $this->verifyKeyNewer($this->secret, '239815', null, 2, 26213400)->shouldBe(26213402);
+        $this->verifyKeyNewer($this->secret, '313366', null, 2, 26213400)->shouldBe(false);
     }
 
     public function it_removes_invalid_chars_from_secret()
