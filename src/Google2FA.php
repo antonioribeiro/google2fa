@@ -77,11 +77,40 @@ class Google2FA
     }
 
     /**
+     * Get the current one time password for a key.
+     *
+     * @param string $initalizationKey
+     *
+     * @throws InvalidCharactersException
+     * @throws SecretKeyTooShortException
+     *
+     * @return string
+     */
+    public function getCurrentOtp($initalizationKey)
+    {
+        $timestamp = $this->getTimestamp();
+
+        $secretKey = $this->base32Decode($initalizationKey);
+
+        return $this->oathHotp($secretKey, $timestamp);
+    }
+
+    /**
      * Get key regeneration.
      *
      * @return mixed
      */
     public function getKeyRegeneration()
+    {
+        return $this->keyRegeneration;
+    }
+
+    /**
+     * Get the key regeneration time in seconds.
+     *
+     * @return int
+     */
+    public function getKeyRegenerationTime()
     {
         return $this->keyRegeneration;
     }
@@ -175,22 +204,31 @@ class Google2FA
     }
 
     /**
-     * Get the current one time password for a key.
+     * Extracts the OTP from the SHA1 hash.
      *
-     * @param string $initalizationKey
+     * @param string $hash
      *
-     * @throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
-     *
-     * @return string
-     */
-    public function getCurrentOtp($initalizationKey)
+     * @return int
+     **/
+    public function oathTruncate($hash)
     {
-        $timestamp = $this->getTimestamp();
+        $offset = ord($hash[19]) & 0xf;
 
-        $secretKey = $this->base32Decode($initalizationKey);
+        $temp = unpack('N', substr($hash, $offset, 4));
 
-        return $this->oathHotp($secretKey, $timestamp);
+        return substr($temp[1] & 0x7fffffff, -$this->getOneTimePasswordLength());
+    }
+
+    /**
+     * Remove invalid chars from a base 32 string.
+     *
+     * @param $string
+     *
+     * @return mixed
+     */
+    public function removeInvalidChars($string)
+    {
+        return preg_replace('/[^'.static::VALID_FOR_B32.']/', '', $string);
     }
 
     /**
@@ -315,57 +353,5 @@ class Google2FA
     public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = null)
     {
         return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
-    }
-
-    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
-    {
-        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
-            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
-                return
-                    is_null($oldTimestamp)
-                        ? true
-                        : $startingTimestamp;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Extracts the OTP from the SHA1 hash.
-     *
-     * @param string $hash
-     *
-     * @return int
-     **/
-    public function oathTruncate($hash)
-    {
-        $offset = ord($hash[19]) & 0xf;
-
-        $temp = unpack('N', substr($hash, $offset, 4));
-
-        return substr($temp[1] & 0x7fffffff, -$this->getOneTimePasswordLength());
-    }
-
-    /**
-     * Remove invalid chars from a base 32 string.
-     *
-     * @param $string
-     *
-     * @return mixed
-     */
-    public function removeInvalidChars($string)
-    {
-        return preg_replace('/[^'.static::VALID_FOR_B32.']/', '', $string);
-    }
-
-    /**
-     * Get the key regeneration time in seconds.
-     *
-     * @return int
-     */
-    public function getKeyRegenerationTime()
-    {
-        return $this->keyRegeneration;
     }
 }
