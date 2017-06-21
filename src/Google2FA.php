@@ -286,7 +286,7 @@ class Google2FA
     {
         $startingTimestamp = is_null($oldTimestamp)
             ? ($timestamp = $this->makeTimestamp($timestamp)) - $this->getWindow($window)
-            : max($timestamp - $this->getWindow($window), $oldTimestamp);
+            : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
 
         return $this->findValidOTP(
            $this->base32Decode($this->getSecret($secret)),
