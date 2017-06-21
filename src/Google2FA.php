@@ -298,20 +298,6 @@ class Google2FA
        );
     }
 
-    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
-    {
-        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
-            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
-                return
-                    is_null($oldTimestamp)
-                        ? true
-                        : $startingTimestamp;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp, but ensures that the given key is newer than
@@ -329,6 +315,20 @@ class Google2FA
     public function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = null)
     {
         return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
+    }
+
+    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp)
+    {
+        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
+            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
+                return
+                    is_null($oldTimestamp)
+                        ? true
+                        : $startingTimestamp;
+            }
+        }
+
+        return false;
     }
 
     /**
