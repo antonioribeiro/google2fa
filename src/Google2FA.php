@@ -107,9 +107,6 @@ class Google2FA
      *
      * @param string $initalizationKey
      *
-     * @throws InvalidCharactersException
-     * @throws SecretKeyTooShortException
-     *
      * @return string
      */
     public function getCurrentOtp($initalizationKey)
