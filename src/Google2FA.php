@@ -350,8 +350,10 @@ class Google2FA
      */
     public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
     {
+        $timestamp = $this->makeTimestamp($timestamp);
+
         $startingTimestamp = $oldTimestamp === '__not_set__'
-            ? ($timestamp = $this->makeTimestamp($timestamp)) - $this->getWindow($window)
+            ? $timestamp - $this->getWindow($window)
             : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
 
         return $this->findValidOTP(
