@@ -4,6 +4,7 @@ namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+
 // use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 trait Base32
 {
@@ -53,12 +54,13 @@ trait Base32
      *
      * @param $string
      * @param $length
+     *
      * @return string
      */
     private function strPadBase32($string, $length)
     {
         for ($i = 0; $i < $length; $i++) {
-            $string .= Constants::VALID_FOR_B32_SCRAMBLED[ $this->getRandomNumber() ];
+            $string .= Constants::VALID_FOR_B32_SCRAMBLED[$this->getRandomNumber()];
         }
 
         return $string;
