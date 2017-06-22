@@ -15,7 +15,7 @@ class Constants
     const VALID_FOR_B32_SCRAMBLED = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
 
     /**
-     * Argument not set constant
+     * Argument not set constant.
      */
     const ARGUMENT_NOT_SET = '__not_set__';
 }

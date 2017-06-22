@@ -88,7 +88,7 @@ class Google2FA
     /**
      * Generate a digit secret key in base32 format.
      *
-     * @param int $length
+     * @param int    $length
      * @param string $prefix
      *
      * @return string
