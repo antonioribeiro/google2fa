@@ -32,16 +32,12 @@ namespace PragmaRX\Google2FA;
 
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
+use PragmaRX\Google2FA\Support\Constants;
 use PragmaRX\Google2FA\Support\QRCode;
 
 class Google2FA
 {
     use QRCode, Base32;
-
-    /**
-     * Characters valid for Base 32.
-     */
-    const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     /**
      * Length of the Token generated.
@@ -75,12 +71,12 @@ class Google2FA
      *
      * @return bool
      */
-    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = '__not_set__')
+    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
     {
         for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
             if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
                 return
-                    $oldTimestamp === '__not_set__'
+                    $oldTimestamp === Constants::ARGUMENT_NOT_SET
                         ? true
                         : $startingTimestamp;
             }
@@ -93,6 +89,7 @@ class Google2FA
      * Generate a digit secret key in base32 format.
      *
      * @param int $length
+     * @param string $prefix
      *
      * @return string
      */
@@ -252,7 +249,7 @@ class Google2FA
      */
     public function removeInvalidChars($string)
     {
-        return preg_replace('/[^'.static::VALID_FOR_B32.']/', '', $string);
+        return preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $string);
     }
 
     /**
@@ -321,7 +318,7 @@ class Google2FA
      *
      * @return bool|int
      */
-    public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+    public function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
     {
         return $this->verifyKey(
             $secret,
@@ -344,11 +341,11 @@ class Google2FA
      *
      * @return bool|int
      */
-    public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+    public function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
     {
         $timestamp = $this->makeTimestamp($timestamp);
 
-        $startingTimestamp = $oldTimestamp === '__not_set__'
+        $startingTimestamp = $oldTimestamp === Constants::ARGUMENT_NOT_SET
             ? $timestamp - $this->getWindow($window)
             : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
 

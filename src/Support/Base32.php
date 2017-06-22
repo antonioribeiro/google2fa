@@ -4,7 +4,7 @@ namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
-
+// use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 trait Base32
 {
     /**
@@ -21,13 +21,9 @@ trait Base32
      */
     public function generateBase32RandomKey($length = 16, $prefix = '')
     {
-        $b32 = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
-
         $secret = $prefix ? $this->toBase32($prefix) : '';
 
-        for ($i = 0; $i < $length; $i++) {
-            $secret .= $b32[$this->getRandomNumber()];
-        }
+        $secret = $this->strPadBase32($secret, $length);
 
         $this->validateSecret($secret);
 
@@ -50,6 +46,22 @@ trait Base32
         $this->validateSecret($b32);
 
         return ParagonieBase32::decodeUpper($b32);
+    }
+
+    /**
+     * Pad string with random base 32 chars.
+     *
+     * @param $string
+     * @param $length
+     * @return string
+     */
+    private function strPadBase32($string, $length)
+    {
+        for ($i = 0; $i < $length; $i++) {
+            $string .= Constants::VALID_FOR_B32_SCRAMBLED[ $this->getRandomNumber() ];
+        }
+
+        return $string;
     }
 
     /**
@@ -114,7 +126,7 @@ trait Base32
      */
     protected function checkForValidCharacters($b32)
     {
-        if (!preg_match('/^['.static::VALID_FOR_B32.']+$/', $b32, $match)) {
+        if (!preg_match('/^['.Constants::VALID_FOR_B32.']+$/', $b32, $match)) {
             throw new InvalidCharactersException();
         }
     }
