@@ -60,7 +60,7 @@ trait Base32
     private function strPadBase32($string, $length)
     {
         for ($i = 0; $i < $length; $i++) {
-            $string .= Constants::VALID_FOR_B32_SCRAMBLED[$this->getRandomNumber()];
+            $string .= substr(Constants::VALID_FOR_B32_SCRAMBLED, $this->getRandomNumber(), 1);
         }
 
         return $string;
