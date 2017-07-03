@@ -4,8 +4,8 @@ namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 
-// use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 trait Base32
 {
     /**
