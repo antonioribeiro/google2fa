@@ -102,6 +102,7 @@ class Google2FA
      * Get the current one time password for a key.
      *
      * @param $secret
+     *
      * @return string
      */
     public function getCurrentOtp($secret)
