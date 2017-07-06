@@ -3,7 +3,7 @@
 namespace PragmaRX\Google2FA\Support;
 
 use BaconQrCode\Renderer\Image\Png;
-use BaconQrCode\Writer;
+use BaconQrCode\Writer as BaconQrCodeWriter;
 
 trait QRCode
 {
@@ -43,8 +43,8 @@ trait QRCode
         $renderer->setWidth($size);
         $renderer->setHeight($size);
 
-        $writer = new Writer($renderer);
-        $data = $writer->writeString($url, $encoding);
+        $bacon = new BaconQrCodeWriter($renderer);
+        $data = $bacon->writeString($url, $encoding);
 
         return 'data:image/png;base64,'.base64_encode($data);
     }
