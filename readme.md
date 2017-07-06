@@ -52,7 +52,7 @@ Generate a secret key for your user and save it:
 $user->google2fa_secret = $google2fa->generateSecretKey();
 ```
 
-Show the QR code to your user:
+Show the QR Code to your user:
 
 ```php
 $google2fa_url = $google2fa->getQRCodeGoogleUrl(
@@ -76,6 +76,25 @@ And to verify, you just have to:
 $secret = $request->input('secret');
 
 $valid = $google2fa->verifyKey($user->google2fa_secret, $secret);
+```
+
+## QR Code Libraries  
+
+This package suggests the use of Bacon/QRCode because it is known as a good library, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode).
+
+Usually you'll need a 2FA URL, so you just have to use the URL generator:
+
+```php
+    $google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)
+```
+
+Here's an example using Simple QrCode:
+
+```php
+<div class="visible-print text-center">
+    {!! QrCode::size(100)->generate($google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)); !!}
+    <p>Scan me to return to the original page.</p>
+</div>
 ```
 
 ## Server Time
