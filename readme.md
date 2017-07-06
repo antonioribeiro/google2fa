@@ -78,9 +78,9 @@ $secret = $request->input('secret');
 $valid = $google2fa->verifyKey($user->google2fa_secret, $secret);
 ```
 
-## QR Code Libraries  
+## QR Code Packages  
 
-This package suggests the use of Bacon/QRCode because it is known as a good library, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode).
+This package suggests the use of Bacon/QRCode because it is known as a good QR Code package, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode), which uses Bacon/QRCode to produce QR Codes.
 
 Usually you'll need a 2FA URL, so you just have to use the URL generator:
 
