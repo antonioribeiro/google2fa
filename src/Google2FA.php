@@ -184,6 +184,21 @@ class Google2FA
     }
 
     /**
+     * Make a window based starting timestamp.
+     *
+     * @param $window
+     * @param $timestamp
+     * @param $oldTimestamp
+     * @return mixed
+     */
+    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp)
+    {
+        return $oldTimestamp === Constants::ARGUMENT_NOT_SET
+            ? $timestamp - $this->getWindow($window)
+            : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
+    }
+
+    /**
      * Get/use a starting timestamp for key verification.
      *
      * @param string|int|null $timestamp
@@ -345,15 +360,11 @@ class Google2FA
     {
         $timestamp = $this->makeTimestamp($timestamp);
 
-        $startingTimestamp = $oldTimestamp === Constants::ARGUMENT_NOT_SET
-            ? $timestamp - $this->getWindow($window)
-            : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
-
         return $this->findValidOTP(
            $this->base32Decode($this->getSecret($secret)),
            $key,
            $window,
-           $startingTimestamp,
+           $this->makeStartingTimestamp($window, $timestamp, $oldTimestamp),
            $timestamp,
            $oldTimestamp
        );
