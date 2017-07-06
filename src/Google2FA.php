@@ -71,10 +71,10 @@ class Google2FA
      *
      * @return bool
      */
-    public function findValidOTP($binarySeed, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
+    public function findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
     {
         for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
-            if (hash_equals($this->oathHotp($binarySeed, $startingTimestamp), $key)) {
+            if (hash_equals($this->oathHotp($secret, $startingTimestamp), $key)) {
                 return
                     $oldTimestamp === Constants::ARGUMENT_NOT_SET
                         ? true
@@ -101,17 +101,12 @@ class Google2FA
     /**
      * Get the current one time password for a key.
      *
-     * @param string $initalizationKey
-     *
+     * @param $secret
      * @return string
      */
-    public function getCurrentOtp($initalizationKey)
+    public function getCurrentOtp($secret)
     {
-        $timestamp = $this->getTimestamp();
-
-        $secretKey = $this->base32Decode($initalizationKey);
-
-        return $this->oathHotp($secretKey, $timestamp);
+        return $this->oathHotp($secret, $this->getTimestamp());
     }
 
     /**
@@ -218,23 +213,25 @@ class Google2FA
      * Takes the secret key and the timestamp and returns the one time
      * password.
      *
-     * @param string $key     - Secret key in binary form.
+     * @param string $secret  - Secret key in binary form.
      * @param int    $counter - Timestamp as returned by getTimestamp.
      *
      * @throws SecretKeyTooShortException
      *
      * @return string
      */
-    public function oathHotp($key, $counter)
+    public function oathHotp($secret, $counter)
     {
-        if (strlen($key) < 8) {
+        $secret = $this->base32Decode($this->getSecret($secret));
+
+        if (strlen($secret) < 8) {
             throw new SecretKeyTooShortException();
         }
 
         // Counter must be 64-bit int
         $bin_counter = pack('N*', 0, $counter);
 
-        $hash = hash_hmac('sha1', $bin_counter, $key, true);
+        $hash = hash_hmac('sha1', $bin_counter, $secret, true);
 
         return str_pad($this->oathTruncate($hash), $this->getOneTimePasswordLength(), '0', STR_PAD_LEFT);
     }
@@ -361,7 +358,7 @@ class Google2FA
         $timestamp = $this->makeTimestamp($timestamp);
 
         return $this->findValidOTP(
-           $this->base32Decode($this->getSecret($secret)),
+           $secret,
            $key,
            $window,
            $this->makeStartingTimestamp($window, $timestamp, $oldTimestamp),
