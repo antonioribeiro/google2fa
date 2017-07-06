@@ -184,6 +184,7 @@ class Google2FA
      * @param $window
      * @param $timestamp
      * @param $oldTimestamp
+     *
      * @return mixed
      */
     private function makeStartingTimestamp($window, $timestamp, $oldTimestamp)
