@@ -1,8 +1,0 @@
-formatter.name: pretty
-suites:
-  main_suite:
-    namespace: PragmaRX\Google2FA
-    src_path: src
-    spec_path: tests
-    spec_prefix: spec
-    psr4_prefix: PragmaRX\Google2FA

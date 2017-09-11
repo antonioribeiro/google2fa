@@ -125,16 +125,6 @@ class Google2FA
     }
 
     /**
-     * Get the key regeneration time in seconds.
-     *
-     * @return int
-     */
-    public function getKeyRegenerationTime()
-    {
-        return $this->keyRegeneration;
-    }
-
-    /**
      * Get OTP length.
      *
      * @return mixed
