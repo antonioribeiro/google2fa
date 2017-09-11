@@ -27,13 +27,15 @@ require __DIR__.'/../vendor/autoload.php';
 
 date_default_timezone_set('UTC');
 
-function d($args) {
+function d($args)
+{
     foreach ($args as $arg) {
         var_dump($arg);
     }
 }
 
-function dd() {
+function dd()
+{
     d(func_get_args());
 
     die;
