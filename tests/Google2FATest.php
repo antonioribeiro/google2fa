@@ -45,10 +45,11 @@ class Google2FATest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($key = $this->google2fa->generateSecretKey(), preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $key));
     }
 
+    /**
+     * @expectedException  \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     */
     public function test_generates_a_secret_keys_compatible_with_google_authenticator_or_not()
     {
-        $this->expectException(IncompatibleWithGoogleAuthenticatorException::class);
-
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey(17);
 
         $this->assertEquals(17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)));
@@ -197,20 +198,22 @@ class Google2FATest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->google2fa->verifyKey(static::SECRET, '8981084', null, 26213400));
     }
 
+    /**
+     * @expectedException  \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     */
     public function test_short_secret_key()
     {
-        $this->expectException(SecretKeyTooShortException::class);
-
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
         $this->google2fa->verifyKey(static::SHORT_SECRET, '558854', null, 26213400);
     }
 
+    /**
+     * @expectedException  \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     */
     public function test_validate_key()
     {
         $this->assertTrue(is_numeric($this->google2fa->getCurrentOtp(static::SECRET)));
-
-        $this->expectException(InvalidCharactersException::class);
 
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 

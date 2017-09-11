@@ -18,7 +18,7 @@
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1",
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "~4",
         "bacon/bacon-qr-code": "~1.0"
     },
     "autoload": {
