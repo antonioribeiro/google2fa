@@ -68,9 +68,9 @@ class Google2FATest extends \PHPUnit_Framework_TestCase
     {
         $ts = $this->google2fa->getTimestamp();
 
-        $this->assertLessThanOrEqual(PHP_INT_MAX ,$ts);
+        $this->assertLessThanOrEqual(PHP_INT_MAX, $ts);
 
-        $this->assertGreaterThanOrEqual(~PHP_INT_MAX,$ts);
+        $this->assertGreaterThanOrEqual(~PHP_INT_MAX, $ts);
     }
 
     public function test_decodes_base32_strings()
