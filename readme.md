@@ -30,7 +30,7 @@ Use Composer to install it:
 
 If you prefer inline QRCodes instead of a Google generated url, you'll need to install [BaconQrCode](https://github.com/Bacon/BaconQrCode):
   
-    composer require "bacon/bacon-qr-code":"~1.0"
+    composer require bacon/bacon-qr-code
 
 ## Using It
 
