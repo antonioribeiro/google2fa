@@ -128,7 +128,7 @@ trait Base32
      */
     protected function checkForValidCharacters($b32)
     {
-        if (!preg_match('/^['.Constants::VALID_FOR_B32.']+$/', $b32, $match)) {
+        if (preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $b32) !== $b32) {
             throw new InvalidCharactersException();
         }
     }
