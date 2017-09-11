@@ -177,7 +177,7 @@ $isValid = $google2fa->verifyKey($seed, $key, 4);
 
 #### Key Regeneration Interval
 
-You can change key regeneration interval, which defaults to 30 seconds, but remember that this is a default value on most authentication apps, lile Google Authenticator, which will, basically, make your app out of sync with them.
+You can change key regeneration interval, which defaults to 30 seconds, but remember that this is a default value on most authentication apps, like Google Authenticator, which will, basically, make your app out of sync with them.
 
 ```php
 $google2fa->setKeyRegeneration(40);
