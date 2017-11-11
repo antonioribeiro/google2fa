@@ -2,10 +2,11 @@
 
 namespace spec\PragmaRX\Google2FA;
 
+use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
 use PragmaRX\Google2FA\Support\Constants;
 
-class Google2FATest extends \PHPUnit_Framework_TestCase
+class Google2FATest extends TestCase
 {
     const SECRET = 'ADUMJO5634NPDEKW';
 
