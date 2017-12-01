@@ -1,6 +1,18 @@
 # Google2FA
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square)](https://packagist.org/packages/pragmarx/google2fa) [![Travis](https://img.shields.io/travis/antonioribeiro/google2fa.svg?style=flat-square)](https://travis-ci.org/antonioribeiro/google2fa) [![Code Coverage](https://scrutinizer-ci.com/g/antonioribeiro/google2fa/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master) [![Code Quality](https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master) [![StyleCI](https://styleci.io/repos/24296182/shield)](https://styleci.io/repos/24296182)
+<p align="center">
+    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square"></a>
+    <a href="/antonioribeiro/google2fa/blob/master/LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="https://scrutinizer-version.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Code Quality" src="https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
+    <a href="https://scrutinizer-version.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Build" src="https://img.shields.io/scrutinizer/build/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
+</p>
+<p align="center">
+    <a href="https://scrutinizer-version.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
+    <a href="https://styleci.io/repos/24296182"><img alt="StyleCI" src="https://styleci.io/repos/24296182/shield"></a>
+    <a href="https://insight.sensiolabs.com/projects/156fbef1-b03f-4fca-ba97-57874b7a35bf"><img alt="SensioLabsInsight" src="https://img.shields.io/sensiolabs/i/156fbef1-b03f-4fca-ba97-57874b7a35bf.svg?style=flat-square"></a>
+</p>
+
+
 
 ### Google Two-Factor Authentication for PHP Package
 
