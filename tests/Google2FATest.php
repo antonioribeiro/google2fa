@@ -208,6 +208,9 @@ class Google2FATest extends TestCase
 
     public function test_qrcode_inline()
     {
-        $this->assertEquals(Constants::QRCODE, $this->google2fa->getQRCodeInline('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
+        $this->assertEquals(
+            phpversion() >= '7.2' ? Constants::QRCODEPHPABOVE72 : Constants::QRCODEPHPBELOW72,
+            $this->google2fa->getQRCodeInline('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET)
+        );
     }
 }
