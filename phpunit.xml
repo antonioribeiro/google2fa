@@ -20,6 +20,7 @@
     <logging>
         <log type="coverage-html" target="coverage/" lowUpperBound="35" highLowerBound="70"/>
         <log type="coverage-clover" target="coverage/coverage-clover.xml" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
     </logging>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
