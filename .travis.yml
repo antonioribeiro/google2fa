@@ -27,8 +27,7 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
 script:
-  # - vendor/bin/phpcs --standard=psr2 src/
-script: vendor/bin/phpspec run
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - |
