@@ -22,7 +22,7 @@ This package is agnostic, but there's a [Laravel bridge](https://github.com/anto
 
 ## Demos, Example & Playground
 
-Please check the [Google2FA Package Playground](https://pragmarx.com/google2fa). 
+Please check the [Google2FA Package Playground](http://pragmarx.com/playground/google2fa). 
 
 ![playground](docs/playground.jpg)
 
