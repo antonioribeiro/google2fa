@@ -15,7 +15,7 @@ class Google2FATest extends TestCase
 
     public function test_is_initializable()
     {
-        $this->assertInstanceOf(Google2FA::class, $this->google2fa);
+        $this->assertInstanceOf('PragmaRX\Google2FA\Google2FA', $this->google2fa);
     }
 
     public function test_generates_a_valid_secret_key()
