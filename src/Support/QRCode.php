@@ -19,13 +19,15 @@ trait QRCode
      * @param string $company
      * @param string $holder
      * @param string $secret
-     * @param int $size
-     * @return string
+     * @param int    $size
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
     {
-        if (! $this->allowInsecureCallToGoogleApis) {
+        if (!$this->allowInsecureCallToGoogleApis) {
             throw new Exception('It\'s not secure to send secret keys to Google Apis, you have to explicitly allow it by calling $google2fa->setAllowInsecureCallToGoogleApis(true).');
         }
 
@@ -77,6 +79,7 @@ trait QRCode
      * AllowInsecureCallToGoogleApis setter.
      *
      * @param mixed $allowInsecureCallToGoogleApis
+     *
      * @return QRCode
      */
     public function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
