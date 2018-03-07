@@ -13,12 +13,12 @@ class Google2FATest extends TestCase
         $this->google2fa = new Google2FA();
     }
 
-    public function test_is_initializable()
+    public function testIsInitializable()
     {
         $this->assertInstanceOf('PragmaRX\Google2FA\Google2FA', $this->google2fa);
     }
 
-    public function test_generates_a_valid_secret_key()
+    public function testGeneratesAValidSecretKey()
     {
         $this->assertEquals(16, strlen($this->google2fa->generateSecretKey()));
 
@@ -34,14 +34,14 @@ class Google2FATest extends TestCase
     /**
      * @expectedException  \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
-    public function test_generates_a_secret_keys_compatible_with_google_authenticator_or_not()
+    public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticatorOrNot()
     {
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey(17);
 
         $this->assertEquals(17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)));
     }
 
-    public function test_converts_invalid_chars_to_base32()
+    public function testConvertsInvalidCharsToBase32()
     {
         $converted = $this->google2fa->generateBase32RandomKey(16, '1234'.chr(250).chr(251).chr(252).chr(253).chr(254).chr(255));
 
@@ -50,7 +50,7 @@ class Google2FATest extends TestCase
         $this->assertEquals($converted, $valid);
     }
 
-    public function test_gets_valid_timestamps()
+    public function testGetsValidTimestamps()
     {
         $ts = $this->google2fa->getTimestamp();
 
@@ -59,7 +59,7 @@ class Google2FATest extends TestCase
         $this->assertGreaterThanOrEqual(~PHP_INT_MAX, $ts);
     }
 
-    public function test_decodes_base32_strings()
+    public function testDecodesBase32Strings()
     {
         $result = chr(0)
             .chr(232)
@@ -75,12 +75,12 @@ class Google2FATest extends TestCase
         $this->assertEquals($result, $this->google2fa->base32Decode(Constants::SECRET));
     }
 
-    public function test_creates_a_one_time_password()
+    public function testCreatesAOneTimePassword()
     {
         $this->assertEquals(6, strlen($this->google2fa->getCurrentOtp(Constants::SECRET)));
     }
 
-    public function test_verifies_keys()
+    public function testVerifiesKeys()
     {
         // $ts 26213400 with KEY_REGENERATION 30 seconds is
         // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
@@ -95,7 +95,7 @@ class Google2FATest extends TestCase
         $this->assertFalse($this->google2fa->verifyKey(Constants::SECRET, '093183', 2, 26213400)); // 26213397
     }
 
-    public function test_verifies_keys_newer()
+    public function testVerifiesKeysNewer()
     {
         $this->assertFalse($this->google2fa->verifyKeyNewer(Constants::SECRET, '512396', 26213401, 2, 26213400));
         $this->assertFalse($this->google2fa->verifyKeyNewer(Constants::SECRET, '410272', 26213401, 2, 26213400));
@@ -108,22 +108,22 @@ class Google2FATest extends TestCase
         $this->assertFalse($this->google2fa->verifyKeyNewer(Constants::SECRET, '313366', null, 2, 26213400));
     }
 
-    public function test_removes_invalid_chars_from_secret()
+    public function testRemovesInvalidCharsFromSecret()
     {
         $this->assertEquals(Constants::SECRET, $this->google2fa->removeInvalidChars(Constants::SECRET.'!1-@@@'));
     }
 
-    public function test_creates_a_qr_code()
+    public function testCreatesAQrCode()
     {
         $this->assertEquals(Constants::URL, $this->google2fa->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 
-    public function test_converts_to_base32()
+    public function testConvertsToBase32()
     {
         $this->assertEquals('KBZGCZ3NMFJFQ', $this->google2fa->toBase32('PragmaRX'));
     }
 
-    public function test_sets_the_window()
+    public function testSetsTheWindow()
     {
         $this->google2fa->setWindow(6);
 
@@ -144,7 +144,7 @@ class Google2FATest extends TestCase
         $this->assertFalse($this->google2fa->verifyKey(Constants::SECRET, '558854', null, 26213395));
     }
 
-    public function test_sets_the_secret()
+    public function testSetsTheSecret()
     {
         $this->assertFalse($this->google2fa->verify('558854', Constants::WRONG_SECRET));
 
@@ -157,21 +157,21 @@ class Google2FATest extends TestCase
         $this->assertTrue($this->google2fa->verify('558854', null, null, 26213400));
     }
 
-    public function test_gets_key_regeneration()
+    public function testGetsKeyRegeneration()
     {
         $this->google2fa->setKeyRegeneration(11);
 
         $this->assertEquals(11, $this->google2fa->getKeyRegeneration());
     }
 
-    public function test_gets_otp_length()
+    public function testGetsOtpLength()
     {
         $this->google2fa->setOneTimePasswordLength(7);
 
         $this->assertEquals(7, $this->google2fa->getOneTimePasswordLength());
     }
 
-    public function test_generates_passwords_in_many_different_sizes()
+    public function testGeneratesPasswordsInManyDifferentSizes()
     {
         $this->google2fa->setWindow(2);
 
@@ -187,7 +187,7 @@ class Google2FATest extends TestCase
     /**
      * @expectedException  \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      */
-    public function test_short_secret_key()
+    public function testShortSecretKey()
     {
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
@@ -197,7 +197,7 @@ class Google2FATest extends TestCase
     /**
      * @expectedException  \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      */
-    public function test_validate_key()
+    public function testValidateKey()
     {
         $this->assertTrue(is_numeric($this->google2fa->getCurrentOtp(Constants::SECRET)));
 
@@ -206,7 +206,7 @@ class Google2FATest extends TestCase
         $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
     }
 
-    public function test_qrcode_inline()
+    public function testQrcodeInline()
     {
         $this->assertEquals(
             phpversion() >= '7.2' ? Constants::QRCODEPHPABOVE72 : Constants::QRCODEPHPBELOW72,
