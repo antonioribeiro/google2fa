@@ -46,7 +46,7 @@ If you prefer inline QRCodes instead of a Google generated url, you'll need to i
 
 ## Using It
 
-#### Instantiate it directly
+### Instantiate it directly
 
 ```php
 use PragmaRX\Google2FA\Google2FA;
@@ -64,9 +64,35 @@ Generate a secret key for your user and save it:
 $user->google2fa_secret = $google2fa->generateSecretKey();
 ```
 
-Show the QR Code to your user:
+## Generating QRCodes
+
+The securer way of creating QRCode is to do it yourself or using a library. First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
+ 
+```php
+$inlineUrl = $google2fa->getQRCodeInline(
+    $companyName,
+    $companyEmail,
+    $secretKey
+);
+```
+
+And use it in your blade template this way:
+
+```html
+<img src="{{ $inlineUrl }}">
+```
 
 ```php
+$secretKey = $google2fa->generateSecretKey(16, $userId);
+```
+
+## Show the QR Code to your user, via Google Apis
+
+It's insecure to use it via Google Apis, so you have to enable it before using it.
+
+```php
+$google2fa->setAllowInsecureCallToGoogleApis(true);
+
 $google2fa_url = $google2fa->getQRCodeGoogleUrl(
     'YourCompany',
     $user->email,
@@ -193,28 +219,6 @@ You can change key regeneration interval, which defaults to 30 seconds, but reme
 
 ```php
 $google2fa->setKeyRegeneration(40);
-```
-
-#### Generating Inline QRCodes
-
-First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
- 
-```php
-$inlineUrl = $google2fa->getQRCodeInline(
-    $companyName,
-    $companyEmail,
-    $secretKey
-);
-```
-
-And use it in your blade template this way:
-
-```html
-<img src="{{ $inlineUrl }}">
-```
-
-```php
-$secretKey = $google2fa->generateSecretKey(16, $userId);
 ```
 
 ## Google Authenticator secret key compatibility
