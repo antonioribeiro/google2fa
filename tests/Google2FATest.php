@@ -4,7 +4,6 @@ namespace PragmaRX\Google2FA\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
-use PragmaRX\Google2FA\Exceptions\InsecureCallException;
 use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
 class Google2FATest extends TestCase
