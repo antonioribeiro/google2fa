@@ -258,13 +258,15 @@ To use the two factor authentication, your user will have to install a Google Au
 
 The package tests were written with [phpspec](http://www.phpspec.net/en/latest/).
 
-## Author
+## Authors
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
+[Phil (Orginal author of this class)](https://www.idontplaydarts.com/static/ga.php_.txt)
+[All Contributors](https://github.com/antonioribeiro/google2fa/graphs/contributors)
 
 ## License
 
-Google2FA is licensed under the BSD 3-Clause License - see the `LICENSE` file for details
+Google2FA is licensed under the MIT License - see the `LICENSE` file for details
 
 ## Contributing
 
