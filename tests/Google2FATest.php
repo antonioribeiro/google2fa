@@ -115,6 +115,13 @@ class Google2FATest extends TestCase
 
     public function testCreatesAQrCode()
     {
+        $this->assertEquals(Constants::URL, $this->google2fa->setAllowInsecureCallToGoogleApis(true)->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
+    }
+
+    public function testGetExceptionWhenUsingGoogleApis()
+    {
+        $this->expectException(\Exception::class);
+
         $this->assertEquals(Constants::URL, $this->google2fa->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 
