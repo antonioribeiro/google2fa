@@ -2,34 +2,6 @@
 
 namespace PragmaRX\Google2FA;
 
-/*
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- * PHP Google two-factor authentication module.
- *
- * See http://www.idontplaydarts.com/2011/07/google-totp-two-factor-authentication-for-php/
- * for more details
- *
- * @author Phil (Orginal author of this class)
- *
- * Changes have been made in the original class to remove all static methods and, also,
- * provide some other methods.
- *
- * @package    Google2FA
- * @author     Antonio Carlos Ribeiro @ PragmaRX
- **/
-
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
