@@ -34,13 +34,12 @@ class Google2FA
     /**
      * Find a valid One Time Password.
      *
-     * @param $binarySeed
+     * @param $secret
      * @param $key
      * @param $window
      * @param $startingTimestamp
      * @param $timestamp
-     * @param $oldTimestamp
-     *
+     * @param string $oldTimestamp
      * @return bool
      */
     public function findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = Constants::ARGUMENT_NOT_SET)
@@ -105,6 +104,7 @@ class Google2FA
     /**
      * Get secret.
      *
+     * @param string|null $secret
      * @return mixed
      */
     public function getSecret($secret = null)
