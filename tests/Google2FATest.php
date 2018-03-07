@@ -4,6 +4,7 @@ namespace PragmaRX\Google2FA\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
+use PragmaRX\Google2FA\Exceptions\InsecureCallException;
 use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
 class Google2FATest extends TestCase
@@ -118,10 +119,11 @@ class Google2FATest extends TestCase
         $this->assertEquals(Constants::URL, $this->google2fa->setAllowInsecureCallToGoogleApis(true)->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\InsecureCallException
+     */
     public function testGetExceptionWhenUsingGoogleApis()
     {
-        $this->expectException(\Exception::class);
-
         $this->assertEquals(Constants::URL, $this->google2fa->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 

@@ -4,7 +4,7 @@ namespace PragmaRX\Google2FA\Support;
 
 use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer as BaconQrCodeWriter;
-use Exception;
+use PragmaRX\Google2FA\Exceptions\InsecureCallException;
 
 trait QRCode
 {
@@ -26,7 +26,7 @@ trait QRCode
     public function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
     {
         if (! $this->allowInsecureCallToGoogleApis) {
-            throw new Exception('It\'s not secure to send secret keys to Google Apis, you have to explicitly allow it by calling $google2fa->setAllowInsecureCallToGoogleApis(true).');
+            throw new InsecureCallException();
         }
 
         $url = $this->getQRCodeUrl($company, $holder, $secret);
