@@ -263,9 +263,9 @@ The package tests were written with [phpspec](http://www.phpspec.net/en/latest/)
 
 ## Authors
 
-[Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
-[Phil (Orginal author of this class)](https://www.idontplaydarts.com/static/ga.php_.txt)
-[All Contributors](https://github.com/antonioribeiro/google2fa/graphs/contributors)
+- [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
+- [Phil (Orginal author of this class)](https://www.idontplaydarts.com/static/ga.php_.txt)
+- [All Contributors](https://github.com/antonioribeiro/google2fa/graphs/contributors)
 
 ## License
 
