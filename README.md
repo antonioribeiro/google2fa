@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square"></a>
-    <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-GPLv3-brightgreen.svg?style=flat-square"></a>
+    <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Code Quality" src="https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
     <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="Build" src="https://img.shields.io/travis/antonioribeiro/google2fa.svg?style=flat-square"></a>
 </p>
@@ -269,8 +269,7 @@ The package tests were written with [phpspec](http://www.phpspec.net/en/latest/)
 
 ## License
 
-Due to the fact that the original work was licensed under GPLv3, this package will have to maintain the same licensing, this way 
-Google2FA is licensed under the GPLv3 License - see the [LICENSE](LICENSE.md) file for details.
+Google2FA is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ## Contributing
 
