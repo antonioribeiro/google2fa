@@ -1,5 +1,9 @@
 ## Change Log
 
+## [3.0.1] - 2018-03-15
+### Changed
+- Relicensed to MIT
+
 ## [3.0.0] - 2018-03-07
 ### Changed
 - It's now mandatory to enable Google Api secret key access by executing `setAllowInsecureCallToGoogleApis(true);`
