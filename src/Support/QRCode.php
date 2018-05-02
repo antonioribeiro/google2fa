@@ -3,7 +3,11 @@
 namespace PragmaRX\Google2FA\Support;
 
 use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Writer as BaconQrCodeWriter;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use PragmaRX\Google2FA\Exceptions\InsecureCallException;
 
 trait QRCode
@@ -44,19 +48,39 @@ trait QRCode
      * @param string $secret
      * @param int    $size
      * @param string $encoding Default to UTF-8
+     * @param string $format return format: png (base64 encoding) or svg
      *
      * @return string
      */
-    public function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
+    public function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8', $format = 'png')
     {
         $url = $this->getQRCodeUrl($company, $holder, $secret);
 
-        $renderer = new Png();
-        $renderer->setWidth($size);
-        $renderer->setHeight($size);
+        if (class_exists(Png::class)) {
+            $renderer = new Png();
+            $renderer->setWidth($size);
+            $renderer->setHeight($size);
+        } else {
+            switch ($format) {
+                case 'svg':
+                    $backend = new SvgImageBackEnd();
+                    break;
+                default:
+                    $backend = new ImagickImageBackEnd();
+                    break;
+            }
+            $renderer = new ImageRenderer(
+                new RendererStyle($size),
+                $backend
+            );
+        }
 
         $bacon = new BaconQrCodeWriter($renderer);
         $data = $bacon->writeString($url, $encoding);
+
+        if ($format == 'svg') {
+            return $data;
+        }
 
         return 'data:image/png;base64,'.base64_encode($data);
     }
