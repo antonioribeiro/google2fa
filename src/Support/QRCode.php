@@ -2,12 +2,12 @@
 
 namespace PragmaRX\Google2FA\Support;
 
-use BaconQrCode\Renderer\Image\Png;
-use BaconQrCode\Renderer\ImageRenderer;
-use BaconQrCode\Writer as BaconQrCodeWriter;
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer as BaconQrCodeWriter;
 use PragmaRX\Google2FA\Exceptions\InsecureCallException;
 
 trait QRCode
@@ -48,7 +48,7 @@ trait QRCode
      * @param string $secret
      * @param int    $size
      * @param string $encoding Default to UTF-8
-     * @param string $format return format: png (base64 encoding) or svg
+     * @param string $format   return format: png (base64 encoding) or svg
      *
      * @return string
      */
