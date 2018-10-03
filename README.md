@@ -182,7 +182,7 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
 ```
 
-#### You cn prefix your secret keys
+#### You can prefix your secret keys
 
 You may prefix your secret keys, but you have to understand that, as your secret key must have length in power of 2, your prefix will have to have a complementary size. So if your key is 16 bytes long, if you add a prefix it must be also 16 bytes long, but as your prefixes will be converted to base 32, the max length of your prefix is 10 bytes. So, those are the sizes you can use in your prefixes:
 
