@@ -224,6 +224,7 @@ class Google2FATest extends TestCase
     public function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
     {
         $this->allowInsecureCallToGoogleApis = $allowInsecureCallToGoogleApis;
+
         return $this;
     }
 }

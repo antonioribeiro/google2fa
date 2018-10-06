@@ -17,7 +17,7 @@ trait QRCode
      * @param string $company
      * @param string $holder
      * @param string $secret
-     * @param int $size
+     * @param int    $size
      *
      * @throws \PragmaRX\Google2FA\Exceptions\InsecureCallException
      *
