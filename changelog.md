@@ -1,5 +1,9 @@
 ## Change Log
 
+## [4.0.0] - 2018-10-06
+### Changed
+- Bacon QRCode package removed
+
 ## [3.0.1] - 2018-03-15
 ### Changed
 - Relicensed to MIT

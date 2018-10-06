@@ -3,8 +3,8 @@
 namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 trait Base32
 {
@@ -18,7 +18,10 @@ trait Base32
      *
      * @param int $length
      *
+     * @param string $prefix
      * @return string
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws InvalidCharactersException
      */
     public function generateBase32RandomKey($length = 16, $prefix = '')
     {
@@ -37,6 +40,7 @@ trait Base32
      * @param string $b32
      *
      * @throws InvalidCharactersException
+     * @throws IncompatibleWithGoogleAuthenticatorException
      *
      * @return int
      */
@@ -56,6 +60,7 @@ trait Base32
      * @param $length
      *
      * @return string
+     * @throws \Exception
      */
     private function strPadBase32($string, $length)
     {
@@ -87,6 +92,7 @@ trait Base32
      * @param $to
      *
      * @return int
+     * @throws \Exception
      */
     protected function getRandomNumber($from = 0, $to = 31)
     {
@@ -97,6 +103,8 @@ trait Base32
      * Validate the secret.
      *
      * @param $b32
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws InvalidCharactersException
      */
     protected function validateSecret($b32)
     {
