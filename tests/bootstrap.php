@@ -12,7 +12,7 @@
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -38,5 +38,5 @@ function dd()
 {
     d(func_get_args());
 
-    die;
+    die();
 }

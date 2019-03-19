@@ -67,7 +67,11 @@ trait Base32
     private function strPadBase32($string, $length)
     {
         for ($i = 0; $i < $length; $i++) {
-            $string .= substr(Constants::VALID_FOR_B32_SCRAMBLED, $this->getRandomNumber(), 1);
+            $string .= substr(
+                Constants::VALID_FOR_B32_SCRAMBLED,
+                $this->getRandomNumber(),
+                1
+            );
         }
 
         return $string;
@@ -126,7 +130,10 @@ trait Base32
      */
     protected function checkGoogleAuthenticatorCompatibility($b32)
     {
-        if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
+        if (
+            $this->enforceGoogleAuthenticatorCompatibility &&
+            (strlen($b32) & (strlen($b32) - 1)) !== 0
+        ) {
             throw new IncompatibleWithGoogleAuthenticatorException();
         }
     }
@@ -140,7 +147,10 @@ trait Base32
      */
     protected function checkForValidCharacters($b32)
     {
-        if (preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $b32) !== $b32) {
+        if (
+            preg_replace('/[^' . Constants::VALID_FOR_B32 . ']/', '', $b32) !==
+            $b32
+        ) {
             throw new InvalidCharactersException();
         }
     }
