@@ -1,3 +1,11 @@
+![image](http://lingtalfi.com/services/pngtext?color=cc0000&size=50&text=WARNING)
+
+<p style="font-color: red;">
+    Google API for QR generator is turned off. 
+</p>
+
+All version of that package prior to 5.0.0 are deprecated. Please, make composer update and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
+
 # Google2FA
 
 <p align="center">
