@@ -39,7 +39,7 @@ Use Composer to install it:
 
     composer require pragmarx/google2fa
 
-If you prefer inline QRCodes instead of a Google generated url, you'll need to install a QR code generator, e.g. [BaconQrCode](https://github.com/Bacon/BaconQrCode):
+To generate inline QRCodes, you'll need to install a QR code generator, e.g. [BaconQrCode](https://github.com/Bacon/BaconQrCode):
   
     composer require bacon/bacon-qr-code
 
@@ -77,27 +77,14 @@ $qrCodeUrl = $google2fa->getQRCodeUrl(
 
 Once you have the QR code url, you can feed it to your preferred QR code generator.
 
-## Show the QR Code to your user, via Google Apis
-
-It's insecure to use it via Google Apis, so you have to enable it before using it.
-
 ```php
-$google2fa->setAllowInsecureCallToGoogleApis(true);
-
-$google2fa_url = $google2fa->getQRCodeGoogleUrl(
-    'YourCompany',
-    $user->email,
-    $user->google2fa_secret
-);
+// Use your own QR Code generator to generate a data URL:
+google2fa_url = custom_generate_qrcode_url($qrCodeUrl);
 
 /// and in your view:
 
 <img src="{{ $google2fa_url }}" alt="">
 ```
-
-And they should see and scan the QR code to their applications:
-
-![QRCode](https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth%3A%2F%2Ftotp%2FPragmaRX%3Aacr%2Bpragmarx%40antoniocarlosribeiro.com%3Fsecret%3DADUMJO5634NPDEKW%26issuer%3DPragmaRX)
 
 And to verify, you just have to:
 
@@ -109,7 +96,7 @@ $valid = $google2fa->verifyKey($user->google2fa_secret, $secret);
 
 ## QR Code Packages  
 
-This package suggests the use of Bacon/QRCode because it is known as a good QR Code package, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode), which uses Bacon/QRCode to produce QR Codes.
+This package suggests the use of Bacon/QRCode because it is known as a good QR Code package, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode) or [Endroid QR Code](https://github.com/endroid/qr-code), which both use Bacon/QRCode to produce QR Codes.
 
 Usually you'll need a 2FA URL, so you just have to use the URL generator:
 
@@ -122,6 +109,21 @@ Here's an example using Simple QrCode:
 ```php
 <div class="visible-print text-center">
     {!! QrCode::size(100)->generate($google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)); !!}
+    <p>Scan me to return to the original page.</p>
+</div>
+```
+
+And using Endroid QR Code Generator:
+
+```php
+// Generato the data URL:
+$qrCode = new \Endroid\QrCode\QrCode($value);
+$qrCode->setSize(100);
+$google2fa_url = $qrCode->writeDataUri();
+   
+// In your view:
+<div class="visible-print text-center">
+    {!! $google2fa_url !!}
     <p>Scan me to return to the original page.</p>
 </div>
 ```
