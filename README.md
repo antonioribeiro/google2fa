@@ -104,12 +104,12 @@ $valid = $google2fa->verifyKey($user->google2fa_secret, $secret);
 
 ## QR Code Packages  
 
-This package suggests the use of Bacon/QRCode because it is known as a good QR Code package, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode) or [Endroid QR Code](https://github.com/endroid/qr-code), which both use Bacon/QRCode to produce QR Codes.
+This package suggests the use of [Bacon/QRCode](https://github.com/Bacon/BaconQrCode) because it is known as a good QR Code package, but you can use it with any other package, for instance [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode) or [Endroid QR Code](https://github.com/endroid/qr-code), which both use [Bacon/QRCode](https://github.com/Bacon/BaconQrCode) to produce QR Codes.
 
 Usually you'll need a 2FA URL, so you just have to use the URL generator:
 
 ```php
-    $google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)
+$google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)
 ```
 
 #### Here's an example using Simple QrCode:
