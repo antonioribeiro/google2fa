@@ -112,7 +112,7 @@ Usually you'll need a 2FA URL, so you just have to use the URL generator:
     $google2fa->getQRCodeUrl($companyName, $companyEmail, $secretKey)
 ```
 
-Here's an example using Simple QrCode:
+#### Here's an example using Simple QrCode:
 
 ```php
 <div class="visible-print text-center">
@@ -121,22 +121,27 @@ Here's an example using Simple QrCode:
 </div>
 ```
 
-Using Endroid QR Code Generator:
+#### Endroid QR Code Generator
+
+Generate the data URL
 
 ```php
-// Generato the data URL:
+
 $qrCode = new \Endroid\QrCode\QrCode($value);
 $qrCode->setSize(100);
 $google2fa_url = $qrCode->writeDataUri();
+```
    
-// In your view:
+And in your view
+
+```php
 <div class="visible-print text-center">
     {!! $google2fa_url !!}
     <p>Scan me to return to the original page.</p>
 </div>
 ```
 
-And BaconQRCode directly:
+#### BaconQRCode directly
 
 ```php
 <?php
@@ -167,8 +172,8 @@ $qrcode_image = base64_encode($writer->writeString($g2faUrl));
 
 And show it as an image:
 
-```html
-<img src="data:image/png;base64, <?php echo $qrcode_image; ?> " />
+```php
+<img src="data:image/png;base64, <?php echo $qrcode_image; ?> "/>
 ```
 
 ## Server Time
