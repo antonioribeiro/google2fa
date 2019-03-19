@@ -39,7 +39,7 @@ Use Composer to install it:
 
     composer require pragmarx/google2fa
 
-If you prefer inline QRCodes instead of a Google generated url, you'll need to install [BaconQrCode](https://github.com/Bacon/BaconQrCode):
+If you prefer inline QRCodes instead of a Google generated url, you'll need to install a QR code generator, e.g. [BaconQrCode](https://github.com/Bacon/BaconQrCode):
   
     composer require bacon/bacon-qr-code
 
@@ -65,25 +65,17 @@ $user->google2fa_secret = $google2fa->generateSecretKey();
 
 ## Generating QRCodes
 
-The securer way of creating QRCode is to do it yourself or using a library. First you have to install the BaconQrCode package, as stated above, then you just have to generate the inline string using:
+The securer way of creating QRCode is to do it yourself or using a library. First you have to install a QR code generator e.g. BaconQrCode, as stated above, then you just have to generate the QR code url using:
  
 ```php
-$inlineUrl = $google2fa->getQRCodeInline(
+$qrCodeUrl = $google2fa->getQRCodeUrl(
     $companyName,
     $companyEmail,
     $secretKey
 );
 ```
 
-And use it in your blade template this way:
-
-```html
-<img src="{{ $inlineUrl }}">
-```
-
-```php
-$secretKey = $google2fa->generateSecretKey(16, $userId);
-```
+Once you have the QR code url, you can feed it to your preferred QR code generator.
 
 ## Show the QR Code to your user, via Google Apis
 
