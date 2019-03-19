@@ -2,8 +2,6 @@
 
 namespace PragmaRX\Google2FA\Support;
 
-use PragmaRX\Google2FA\Exceptions\InsecureCallException;
-
 trait QRCode
 {
     /**
