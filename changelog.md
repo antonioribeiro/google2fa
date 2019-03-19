@@ -1,5 +1,9 @@
 ## Change Log
 
+## [5.0.0] - 2019-05-19
+### Changed
+- Remove dead Google Charts API 
+
 ## [4.0.0] - 2018-10-06
 ### Changed
 - Bacon QRCode package removed

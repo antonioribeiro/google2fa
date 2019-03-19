@@ -113,19 +113,6 @@ class Google2FATest extends TestCase
         $this->assertEquals(Constants::SECRET, $this->google2fa->removeInvalidChars(Constants::SECRET.'!1-@@@'));
     }
 
-    public function testCreatesAQrCode()
-    {
-        $this->assertEquals(Constants::URL, $this->google2fa->setAllowInsecureCallToGoogleApis(true)->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
-    }
-
-    /**
-     * @expectedException \PragmaRX\Google2FA\Exceptions\InsecureCallException
-     */
-    public function testGetExceptionWhenUsingGoogleApis()
-    {
-        $this->assertEquals(Constants::URL, $this->google2fa->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
-    }
-
     public function testConvertsToBase32()
     {
         $this->assertEquals('KBZGCZ3NMFJFQ', $this->google2fa->toBase32('PragmaRX'));
@@ -212,19 +199,5 @@ class Google2FATest extends TestCase
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
         $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
-    }
-
-    /**
-     * AllowInsecureCallToGoogleApis setter.
-     *
-     * @param mixed $allowInsecureCallToGoogleApis
-     *
-     * @return QRCode
-     */
-    public function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
-    {
-        $this->allowInsecureCallToGoogleApis = $allowInsecureCallToGoogleApis;
-
-        return $this;
     }
 }

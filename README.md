@@ -113,7 +113,7 @@ Here's an example using Simple QrCode:
 </div>
 ```
 
-And using Endroid QR Code Generator:
+Using Endroid QR Code Generator:
 
 ```php
 // Generato the data URL:
@@ -126,6 +126,41 @@ $google2fa_url = $qrCode->writeDataUri();
     {!! $google2fa_url !!}
     <p>Scan me to return to the original page.</p>
 </div>
+```
+
+And BaconQRCode directly:
+
+```
+<?php
+
+use PragmaRX\Google2FA\Google2FA;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
+
+$google2fa = app(Google2FA::class);
+
+$g2faUrl = $google2fa->getQRCodeUrl(
+    'pragmarx',
+    'google2fa@pragmarx.com',
+    $google2fa->generateSecretKey()
+);
+
+$writer = new Writer(
+    new ImageRenderer(
+        new RendererStyle(400),
+        new ImagickImageBackEnd()
+    )
+);
+
+$qrcode_image = base64_encode($writer->writeString($g2faUrl));
+```
+
+And show it as an image:
+
+```
+<img src="data:image/png;base64, <?php echo $qrcode_image; ?> " />
 ```
 
 ## Server Time
