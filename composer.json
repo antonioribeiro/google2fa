@@ -28,6 +28,9 @@
     "scripts": {
         "post-update-cmd": [
             "@php -r 'echo \"\\e[41m===== WARNING ===== Please upgrade to pragmarx/google2fa:^5.0 and check the README  \";'"
+        ],
+        "post-install-cmd": [
+            "@php -r 'echo \"\\e[41m===== WARNING ===== Please upgrade to pragmarx/google2fa:^5.0 and check the README  \";'"
         ]
     },
     "extra": {
