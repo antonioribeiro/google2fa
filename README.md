@@ -138,7 +138,7 @@ $google2fa_url = $qrCode->writeDataUri();
 
 And BaconQRCode directly:
 
-```
+```php
 <?php
 
 use PragmaRX\Google2FA\Google2FA;
@@ -167,7 +167,7 @@ $qrcode_image = base64_encode($writer->writeString($g2faUrl));
 
 And show it as an image:
 
-```
+```html
 <img src="data:image/png;base64, <?php echo $qrcode_image; ?> " />
 ```
 
@@ -175,9 +175,11 @@ And show it as an image:
 
 It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this to the crontab:
 
-    sudo service ntp stop
-    sudo ntpd -gq
-    sudo service ntp start
+```bash
+sudo service ntp stop
+sudo ntpd -gq
+sudo service ntp start
+```
 
 ## Validation Window
 
