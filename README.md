@@ -19,6 +19,12 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
 This package is agnostic, but there's a [Laravel bridge](https://github.com/antonioribeiro/google2fa-laravel).
 
+### QRCode
+
+This package does not generate QRCodes for 2FA.
+
+If you are looking for Google Two-Factor Authentication, but also need to generate QRCode for it, you can use the [Google2FA QRCode package](https://github.com/antonioribeiro/google2fa-qrcode), which integrates this package and also generates QRCodes using the BaconQRCode library, or check options on how to do it yourself [here in the docs](#qr-code-packages). 
+
 ## Demos, Example & Playground
 
 Please check the [Google2FA Package Playground](http://pragmarx.com/playground/google2fa). 
