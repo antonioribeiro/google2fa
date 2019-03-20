@@ -87,7 +87,7 @@ Once you have the QR code url, you can feed it to your preferred QR code generat
 
 ```php
 // Use your own QR Code generator to generate a data URL:
-google2fa_url = custom_generate_qrcode_url($qrCodeUrl);
+$google2fa_url = custom_generate_qrcode_url($qrCodeUrl);
 
 /// and in your view:
 
