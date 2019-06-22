@@ -2,9 +2,7 @@
 
 namespace PragmaRX\Google2FA\Exceptions;
 
-use Exception;
-
-class InvalidCharactersException extends Exception
+class InvalidCharactersException extends Google2FAException
 {
     protected $message = 'Invalid characters in the base32 string.';
 }
