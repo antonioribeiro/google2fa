@@ -3,7 +3,7 @@
 namespace PragmaRX\Google2FA\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PragmaRX\Google2FA\Exceptions\Google2FAException;
+use PragmaRX\Google2FA\Exceptions\Google2FAExceptionInterface;
 use PragmaRX\Google2FA\Google2FA;
 use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
@@ -57,7 +57,7 @@ class Google2FATest extends TestCase
             $this->google2fa
                 ->setEnforceGoogleAuthenticatorCompatibility(true)
                 ->generateSecretKey(17);
-        } catch (Google2FAException $exception) {
+        } catch (Google2FAExceptionInterface $exception) {
             $this->assertInstanceOf('PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException',
                 $exception);
         }
@@ -422,7 +422,7 @@ class Google2FATest extends TestCase
                 null,
                 26213400
             );
-        } catch (Google2FAException $exception) {
+        } catch (Google2FAExceptionInterface $exception) {
             $this->assertInstanceOf('PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException', $exception);
         }
     }
@@ -437,7 +437,7 @@ class Google2FATest extends TestCase
 
         try {
             $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
-        } catch (Google2FAException $exception) {
+        } catch (Google2FAExceptionInterface $exception) {
             $this->assertInstanceOf('PragmaRX\Google2FA\Exceptions\InvalidCharactersException', $exception);
         }
     }
