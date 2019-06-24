@@ -1,5 +1,9 @@
 ## Change Log
 
+## [5.1.0] - 2019-06-23
+### Added
+- Base exception class and interfaces 
+
 ## [5.0.0] - 2019-05-19
 ### Changed
 - Remove dead Google Charts API 
