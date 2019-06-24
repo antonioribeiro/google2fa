@@ -443,7 +443,7 @@ class Google2FATest extends TestCase
         $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
     }
 
-    public function testCanCatchBaseException()
+    public function testThrowsBaseException()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Google2FAException::class);
 
@@ -457,7 +457,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testCanCatchException()
+    public function testThrowsRegularException()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
