@@ -446,17 +446,52 @@ class Google2FATest extends TestCase
     public function testThrowsBaseException()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Google2FAException::class);
+
+        $this->throwSecretKeyTooShortException();
+    }
+
+    public function testThrowsBaseExceptionContract()
+    {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\Google2FA::class);
+
+        $this->throwSecretKeyTooShortException();
+    }
+
+    public function testThrowsSecretKeyTooShortException()
+    {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
+
+        $this->throwSecretKeyTooShortException();
+    }
+
+    public function testThrowsSecretKeyTooShortExceptionContract()
+    {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\SecretKeyTooShort::class);
 
-        $this->throwSecretKeyTooShortExceptionException();
+        $this->throwSecretKeyTooShortException();
     }
 
     public function testThrowsIncompatibleWithGoogleAuthenticatorExceptionInterface()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator::class);
 
+        $this->throwIncompatibleWithGoogleAuthenticatorException();
+    }
+
+    public function throwSecretKeyTooShortException()
+    {
+        $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
+
+        $this->google2fa->verifyKey(
+            Constants::SHORT_SECRET, // <------------- BUG
+            '558854',
+            null,
+            26213400
+        );
+    }
+
+    public function throwIncompatibleWithGoogleAuthenticatorException()
+    {
         $this->google2fa
             ->setEnforceGoogleAuthenticatorCompatibility(true)
             ->generateSecretKey(17);
@@ -468,18 +503,6 @@ class Google2FATest extends TestCase
                     ->setEnforceGoogleAuthenticatorCompatibility(false)
                     ->generateSecretKey(17)
             )
-        );
-    }
-
-    public function throwSecretKeyTooShortExceptionException()
-    {
-        $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
-
-        $this->google2fa->verifyKey(
-            Constants::SHORT_SECRET, // <------------- BUG
-            '558854',
-            null,
-            26213400
         );
     }
 }
