@@ -3,8 +3,8 @@
 namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
-use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 
 trait Base32
 {
@@ -16,12 +16,13 @@ trait Base32
     /**
      * Generate a digit secret key in base32 format.
      *
-     * @param int $length
-     *
+     * @param int    $length
      * @param string $prefix
-     * @return string
+     *
      * @throws IncompatibleWithGoogleAuthenticatorException
      * @throws InvalidCharactersException
+     *
+     * @return string
      */
     public function generateBase32RandomKey($length = 16, $prefix = '')
     {
@@ -59,13 +60,18 @@ trait Base32
      * @param $string
      * @param $length
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     private function strPadBase32($string, $length)
     {
         for ($i = 0; $i < $length; $i++) {
-            $string .= substr(Constants::VALID_FOR_B32_SCRAMBLED, $this->getRandomNumber(), 1);
+            $string .= substr(
+                Constants::VALID_FOR_B32_SCRAMBLED,
+                $this->getRandomNumber(),
+                1
+            );
         }
 
         return $string;
@@ -91,8 +97,9 @@ trait Base32
      * @param $from
      * @param $to
      *
-     * @return int
      * @throws \Exception
+     *
+     * @return int
      */
     protected function getRandomNumber($from = 0, $to = 31)
     {
@@ -103,6 +110,7 @@ trait Base32
      * Validate the secret.
      *
      * @param $b32
+     *
      * @throws IncompatibleWithGoogleAuthenticatorException
      * @throws InvalidCharactersException
      */
@@ -122,7 +130,10 @@ trait Base32
      */
     protected function checkGoogleAuthenticatorCompatibility($b32)
     {
-        if ($this->enforceGoogleAuthenticatorCompatibility && ((strlen($b32) & (strlen($b32) - 1)) !== 0)) {
+        if (
+            $this->enforceGoogleAuthenticatorCompatibility &&
+            (strlen($b32) & (strlen($b32) - 1)) !== 0
+        ) {
             throw new IncompatibleWithGoogleAuthenticatorException();
         }
     }
@@ -136,7 +147,10 @@ trait Base32
      */
     protected function checkForValidCharacters($b32)
     {
-        if (preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $b32) !== $b32) {
+        if (
+            preg_replace('/[^' . Constants::VALID_FOR_B32 . ']/', '', $b32) !==
+            $b32
+        ) {
             throw new InvalidCharactersException();
         }
     }

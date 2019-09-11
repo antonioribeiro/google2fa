@@ -1,7 +1,12 @@
 {
     "name": "pragmarx/google2fa",
     "description": "A One Time Password Authentication package, compatible with Google Authenticator.",
-    "keywords": ["authentication", "two factor authentication", "google2fa", "2fa"],
+    "keywords": [
+        "authentication",
+        "two factor authentication",
+        "google2fa",
+        "2fa"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -28,7 +33,7 @@
     "extra": {
         "component": "package",
         "branch-alias": {
-          "dev-master": "2.0-dev"
+            "dev-master": "2.0-dev"
         }
     },
     "minimum-stability": "dev",
