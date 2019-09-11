@@ -259,7 +259,7 @@ To use the two factor authentication, your user will have to install a Google Au
 
 ## Tests
 
-The package tests were written with [phpspec](http://www.phpspec.net/en/latest/).
+The package tests were written with [PHPUnit](https://phpunit.de/).
 
 ## Authors
 
