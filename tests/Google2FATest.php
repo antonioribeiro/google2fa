@@ -8,7 +8,7 @@ use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
 class Google2FATest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->google2fa = new Google2FA();
     }
@@ -31,11 +31,10 @@ class Google2FATest extends TestCase
         $this->assertEquals($key = $this->google2fa->generateSecretKey(), preg_replace('/[^'.Google2FAConstants::VALID_FOR_B32.']/', '', $key));
     }
 
-    /**
-     * @expectedException  \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
-     */
     public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticatorOrNot()
     {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
+
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey(17);
 
         $this->assertEquals(17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)));
@@ -118,11 +117,10 @@ class Google2FATest extends TestCase
         $this->assertEquals(Constants::URL, $this->google2fa->setAllowInsecureCallToGoogleApis(true)->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 
-    /**
-     * @expectedException \PragmaRX\Google2FA\Exceptions\InsecureCallException
-     */
     public function testGetExceptionWhenUsingGoogleApis()
     {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\InsecureCallException::class);
+
         $this->assertEquals(Constants::URL, $this->google2fa->getQRCodeGoogleUrl('PragmaRX', 'acr+pragmarx@antoniocarlosribeiro.com', Constants::SECRET));
     }
 
@@ -192,21 +190,19 @@ class Google2FATest extends TestCase
         $this->assertTrue($this->google2fa->verifyKey(Constants::SECRET, '8981084', null, 26213400));
     }
 
-    /**
-     * @expectedException  \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
-     */
     public function testShortSecretKey()
     {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
+
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
         $this->google2fa->verifyKey(Constants::SHORT_SECRET, '558854', null, 26213400);
     }
 
-    /**
-     * @expectedException  \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
-     */
     public function testValidateKey()
     {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidCharactersException::class);
+
         $this->assertTrue(is_numeric($this->google2fa->getCurrentOtp(Constants::SECRET)));
 
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
@@ -224,6 +220,7 @@ class Google2FATest extends TestCase
     public function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
     {
         $this->allowInsecureCallToGoogleApis = $allowInsecureCallToGoogleApis;
+
         return $this;
     }
 }
