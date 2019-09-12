@@ -43,7 +43,7 @@ class Google2FATest extends TestCase
         $this->assertEquals(
             $key = $this->google2fa->generateSecretKey(),
             preg_replace(
-                '/[^' . Google2FAConstants::VALID_FOR_B32 . ']/',
+                '/[^'.Google2FAConstants::VALID_FOR_B32.']/',
                 '',
                 $key
             )
@@ -63,17 +63,17 @@ class Google2FATest extends TestCase
     {
         $converted = $this->google2fa->generateBase32RandomKey(
             16,
-            '1234' .
-            chr(250) .
-            chr(251) .
-            chr(252) .
-            chr(253) .
-            chr(254) .
+            '1234'.
+            chr(250).
+            chr(251).
+            chr(252).
+            chr(253).
+            chr(254).
             chr(255)
         );
 
         $valid = preg_replace(
-            '/[^' . Google2FAConstants::VALID_FOR_B32 . ']/',
+            '/[^'.Google2FAConstants::VALID_FOR_B32.']/',
             '',
             $converted
         );
@@ -93,15 +93,15 @@ class Google2FATest extends TestCase
     public function testDecodesBase32Strings()
     {
         $result =
-            chr(0) .
-            chr(232) .
-            chr(196) .
-            chr(187) .
-            chr(190) .
-            chr(223) .
-            chr(26) .
-            chr(241) .
-            chr(145) .
+            chr(0).
+            chr(232).
+            chr(196).
+            chr(187).
+            chr(190).
+            chr(223).
+            chr(26).
+            chr(241).
+            chr(145).
             chr(86);
 
         $this->assertEquals(
@@ -267,7 +267,7 @@ class Google2FATest extends TestCase
     {
         $this->assertEquals(
             Constants::SECRET,
-            $this->google2fa->removeInvalidChars(Constants::SECRET . '!1-@@@')
+            $this->google2fa->removeInvalidChars(Constants::SECRET.'!1-@@@')
         );
     }
 

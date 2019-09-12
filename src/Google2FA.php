@@ -55,8 +55,7 @@ class Google2FA
         $timestamp,
         $oldTimestamp = Constants::ARGUMENT_NOT_SET
     ) {
-        for (
-            ;
+        for (;
             $startingTimestamp <= $timestamp + $this->getWindow($window);
             $startingTimestamp++
         ) {
@@ -254,7 +253,7 @@ class Google2FA
     public function removeInvalidChars($string)
     {
         return preg_replace(
-            '/[^' . Constants::VALID_FOR_B32 . ']/',
+            '/[^'.Constants::VALID_FOR_B32.']/',
             '',
             $string
         );
