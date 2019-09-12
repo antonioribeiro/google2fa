@@ -1,5 +1,9 @@
 ## Change Log
 
+## [6.0.1] - 2019-09-11
+### Fixed
+- Default key size set to 20 bytes 
+
 ## [6.0.0] - 2019-09-11
 ### Added
 - Base exception class and interfaces 
