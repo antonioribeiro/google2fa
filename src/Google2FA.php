@@ -83,7 +83,7 @@ class Google2FA
      *
      * @return string
      */
-    public function generateSecretKey($length = 20, $prefix = '')
+    public function generateSecretKey($length = 16, $prefix = '')
     {
         return $this->generateBase32RandomKey($length, $prefix);
     }
