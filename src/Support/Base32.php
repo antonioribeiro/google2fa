@@ -3,8 +3,9 @@
 namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 trait Base32
 {
@@ -141,6 +142,8 @@ trait Base32
         $this->checkForValidCharacters($b32);
 
         $this->checkGoogleAuthenticatorCompatibility($b32);
+
+        $this->checkIsBigEnough($b32);
     }
 
     /**
@@ -154,10 +157,7 @@ trait Base32
     {
         if (
             $this->enforceGoogleAuthenticatorCompatibility &&
-            (
-                $this->isCharCountNotAPowerOfTwo($b32) || // Google Authenticator requires it to be a power of 2 base32 length string
-                $this->charCountBits($b32) < 128 // minimum number of bits = 128 / recommended = 160 / compatible with GA = 256
-            )
+            $this->isCharCountNotAPowerOfTwo($b32) // Google Authenticator requires it to be a power of 2 base32 length string
         ) {
             throw new IncompatibleWithGoogleAuthenticatorException();
         }
@@ -177,6 +177,26 @@ trait Base32
             $b32
         ) {
             throw new InvalidCharactersException();
+        }
+    }
+
+    /**
+     * Check if secret key length is big enough
+     *
+     * @param $b32
+     *
+     * @throws InvalidCharactersException
+     */
+    protected function checkIsBigEnough($b32)
+    {
+        // Minimum = 128 bits
+        // Recommended = 160 bits
+        // Compatible with Google Authenticator = 256 bits
+
+        if (
+            $this->charCountBits($b32) < 128
+        ) {
+            throw new SecretKeyTooShortException();
         }
     }
 }

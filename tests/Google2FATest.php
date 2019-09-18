@@ -59,6 +59,19 @@ class Google2FATest extends TestCase
         $this->assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
+    public function testGeneratesASecretKeysGenerationSize()
+    {
+        // 128 bits are allowed
+        $this->assertEquals($size = 16, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+
+        // anything below 128 bits are NOT allowed
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
+
+        $this->assertEquals($size = 2, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        $this->assertEquals($size = 4, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        $this->assertEquals($size = 8, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+    }
+
     public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
