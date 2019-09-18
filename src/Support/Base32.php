@@ -14,6 +14,17 @@ trait Base32
     protected $enforceGoogleAuthenticatorCompatibility = true;
 
     /**
+     * Calculate char count bits.
+     *
+     * @param $b32
+     * @return float|int
+     */
+    protected function charCountBits($b32)
+    {
+        return (strlen($b32) * 8);
+    }
+
+    /**
      * Generate a digit secret key in base32 format.
      *
      * @param int    $length
@@ -52,6 +63,17 @@ trait Base32
         $this->validateSecret($b32);
 
         return ParagonieBase32::decodeUpper($b32);
+    }
+
+    /**
+     * Check if the string length is power of two.
+     *
+     * @param $b32
+     * @return bool
+     */
+    protected function isCharCountNotAPowerOfTwo($b32): bool
+    {
+        return (strlen($b32) & (strlen($b32) - 1)) !== 0;
     }
 
     /**
@@ -132,7 +154,10 @@ trait Base32
     {
         if (
             $this->enforceGoogleAuthenticatorCompatibility &&
-            (strlen($b32) & (strlen($b32) - 1)) !== 0
+            (
+                $this->isCharCountNotAPowerOfTwo($b32) || // Google Authenticator requires it to be a power of 2 base32 length string
+                $this->charCountBits($b32) < 128 // minimum number of bits = 128 / recommended = 160 / compatible with GA = 256
+            )
         ) {
             throw new IncompatibleWithGoogleAuthenticatorException();
         }

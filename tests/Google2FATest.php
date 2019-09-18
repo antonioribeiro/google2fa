@@ -50,13 +50,25 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticatorOrNot()
+    public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticator()
+    {
+        $this->assertEquals($size =  16, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// minimum = 128 bits
+        $this->assertEquals($size =  20, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey($size))); /// recommended = 160 bits - not compatible
+        $this->assertEquals($size =  32, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// recommended = 256 bits - compatible
+        $this->assertEquals($size =  64, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        $this->assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+    }
+
+    public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
+        $this->assertEquals($size = 15, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
 
-        $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey(17);
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
+        $this->assertEquals($size = 17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
 
-        $this->assertEquals(17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey(17)));
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
+        $this->assertEquals($size = 21, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
     public function testConvertsInvalidCharsToBase32()
