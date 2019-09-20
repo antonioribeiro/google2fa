@@ -217,7 +217,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213400
         $this->assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -226,7 +226,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213401
         $this->assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
@@ -236,7 +236,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213402
         $this->assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -245,7 +245,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213403
 
         $this->assertEquals(
             26213400,
@@ -256,7 +256,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213400
         $this->assertEquals(
             26213401,
             $this->google2fa->verifyKeyNewer(
@@ -266,7 +266,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213401
         $this->assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
@@ -276,7 +276,7 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213402
         $this->assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -285,7 +285,305 @@ class Google2FATest extends TestCase
                 2,
                 26213400
             )
-        );
+        ); // 26213403
+    }
+
+    public function testVerifiesSha256Keys()
+    {
+        // $ts 26213400 with KEY_REGENERATION 30 seconds is
+        // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
+
+        $this->google2fa->setAlgorithm(Google2FAConstants::SHA256);
+
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '230152',
+                2,
+                26213400
+            )
+        ); // 26213398
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '064978',
+                2,
+                26213400
+            )
+        ); // 26213399
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '758576',
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '935741',
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '044590',
+                2,
+                26213400
+            )
+        ); // 26213402
+
+        $this->assertFalse(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '576276',
+                2,
+                26213400
+            )
+        ); // 26213403
+        $this->assertFalse(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '152688',
+                2,
+                26213400
+            )
+        ); // 26213397
+    }
+
+    public function testVerifiesSha256KeysNewer()
+    {
+        $this->google2fa->setAlgorithm(Google2FAConstants::SHA256);
+
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '758576',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '935741',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertEquals(
+            26213402,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '044590',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213402
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '576276',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213403
+
+        $this->assertEquals(
+            26213400,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '758576',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertEquals(
+            26213401,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '935741',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertEquals(
+            26213402,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '044590',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213402
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '576276',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213403
+    }
+
+    public function testVerifiesSha512Keys()
+    {
+        // $ts 26213400 with KEY_REGENERATION 30 seconds is
+        // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
+
+        $this->google2fa->setAlgorithm(Google2FAConstants::SHA512);
+
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '772377',
+                2,
+                26213400
+            )
+        ); // 26213398
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '048034',
+                2,
+                26213400
+            )
+        ); // 26213399
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '752139',
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '572238',
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertTrue(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '424074',
+                2,
+                26213400
+            )
+        ); // 26213402
+
+        $this->assertFalse(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '237162',
+                2,
+                26213400
+            )
+        ); // 26213403
+        $this->assertFalse(
+            $this->google2fa->verifyKey(
+                Constants::SECRET,
+                '705476',
+                2,
+                26213400
+            )
+        ); // 26213397
+    }
+
+    public function testVerifiesSha512KeysNewer()
+    {
+        $this->google2fa->setAlgorithm(Google2FAConstants::SHA512);
+
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '752139',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '572238',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertEquals(
+            26213402,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '424074',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213402
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '237162',
+                26213401,
+                2,
+                26213400
+            )
+        ); // 26213403
+
+        $this->assertEquals(
+            26213400,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '752139',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213400
+        $this->assertEquals(
+            26213401,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '572238',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213401
+        $this->assertEquals(
+            26213402,
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '424074',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213402
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '237162',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213403
     }
 
     public function testRemovesInvalidCharsFromSecret()
@@ -389,6 +687,30 @@ class Google2FATest extends TestCase
         $this->assertTrue(
             $this->google2fa->verify('558854', null, null, 26213400)
         );
+    }
+
+    public function testGetsAlgorithm()
+    {
+        $this->google2fa->setAlgorithm('md5');
+
+        $this->assertNotEquals('md5', $this->google2fa->getAlgorithm());
+        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
+        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
+
+        $this->google2fa->setAlgorithm('sha1');
+
+        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
+        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
+
+        $this->google2fa->setAlgorithm('sha256');
+
+        $this->assertEquals('sha256', $this->google2fa->getAlgorithm());
+        $this->assertEquals(Google2FAConstants::SHA256, $this->google2fa->getAlgorithm());
+
+        $this->google2fa->setAlgorithm('sha512');
+
+        $this->assertEquals('sha512', $this->google2fa->getAlgorithm());
+        $this->assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
     }
 
     public function testGetsKeyRegeneration()
