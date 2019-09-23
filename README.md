@@ -1,11 +1,3 @@
-![image](http://lingtalfi.com/services/pngtext?color=cc0000&size=50&text=WARNING)
-
-<p style="font-color: red;">
-    Google API for QR generator is turned off. 
-</p>
-
-All version of that package prior to 5.0.0 are deprecated. Please upgrade and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
-
 # Google2FA
 
 <p align="center">
@@ -16,6 +8,7 @@ All version of that package prior to 5.0.0 are deprecated. Please upgrade and ch
 </p>
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square"></a>
+    [![Monthly Downloads](https://poser.pugx.org/pragmarx/google2fa/d/monthly)](https://packagist.org/packages/pragmarx/google2fa)
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
     <a href="https://styleci.io/repos/24296182"><img alt="StyleCI" src="https://styleci.io/repos/24296182/shield"></a>
     <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-5.4%20--%207.3-brightgreen.svg?style=flat-square"></a>
@@ -209,6 +202,14 @@ And show it as an image:
 <img src="data:image/png;base64, <?php echo $qrcode_image; ?> "/>
 ```
 
+## HMAC Algorithms 
+
+To comply with [RFC6238](https://tools.ietf.org/html/rfc6238), this package supports SHA1, SHA256 and SHA512. It defaults to SHA1, so to use a different algorithm you just have to use the method `setAlgorith()`:
+
+``` php
+$google2fa->setAlgorithm(Constants::SHA512);
+```
+
 ## Server Time
 
 It's really important that you keep your server time in sync with some NTP server, on Ubuntu you can add this to the crontab:
@@ -333,6 +334,10 @@ To use the two factor authentication, your user will have to install a Google Au
 * [Microsoft Authenticator for Windows Phone](https://www.microsoft.com/en-us/store/apps/authenticator/9wzdncrfj3rj)
 * [LastPass Authenticator for iOS, Android, OS X, Windows](https://lastpass.com/auth/)
 * [1Password for iOS, Android, OS X, Windows](https://1password.com)
+
+## Deprecation Warning
+
+Google API for QR generator is turned off. All version of that package prior to 5.0.0 are deprecated. Please upgrade and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
 
 ## Tests
 
