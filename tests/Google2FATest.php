@@ -303,6 +303,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213398
+
         $this->assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
@@ -311,6 +312,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213399
+
         $this->assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
@@ -319,6 +321,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
+
         $this->assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
@@ -327,6 +330,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
+
         $this->assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
@@ -344,6 +348,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213403
+
         $this->assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
@@ -691,12 +696,6 @@ class Google2FATest extends TestCase
 
     public function testGetsAlgorithm()
     {
-        $this->google2fa->setAlgorithm('md5');
-
-        $this->assertNotEquals('md5', $this->google2fa->getAlgorithm());
-        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
-        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
-
         $this->google2fa->setAlgorithm('sha1');
 
         $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
@@ -711,6 +710,16 @@ class Google2FATest extends TestCase
 
         $this->assertEquals('sha512', $this->google2fa->getAlgorithm());
         $this->assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
+    }
+
+    public function testSetWrongAlgorithm()
+    {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException::class);
+
+        $this->google2fa->setAlgorithm('md5');
+
+        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
+        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
     }
 
     public function testGetsKeyRegeneration()

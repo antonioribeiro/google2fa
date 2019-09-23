@@ -2,10 +2,11 @@
 
 namespace PragmaRX\Google2FA;
 
-use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
-use PragmaRX\Google2FA\Support\Constants;
 use PragmaRX\Google2FA\Support\QRCode;
+use PragmaRX\Google2FA\Support\Constants;
+use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 class Google2FA
 {
@@ -84,7 +85,7 @@ class Google2FA
      * @param $counter
      * @return string
      */
-    protected function generateHotp($secret, $counter): string
+    protected function generateHotp($secret, $counter)
     {
         return hash_hmac(
             $this->getAlgorithm(),
@@ -179,6 +180,20 @@ class Google2FA
     public function getTimestamp()
     {
         return (int) floor(microtime(true) / $this->keyRegeneration);
+    }
+
+    /**
+     * Get a list of valid HMAC algorithms.
+     *
+     * @return array
+     */
+    protected function getValidAlgorithms()
+    {
+        return [
+            Constants::SHA1,
+            Constants::SHA256,
+            Constants::SHA512,
+        ];
     }
 
     /**
@@ -308,23 +323,18 @@ class Google2FA
      * Set the HMAC hashing algorithm.
      *
      * @param mixed $algorithm
+     * @return \PragmaRX\Google2FA\Google2FA
      */
     public function setAlgorithm($algorithm)
     {
-        $validAlgorithms = [
-            Constants::SHA1,
-            Constants::SHA256,
-            Constants::SHA512,
-        ];
-
         // Default to SHA1 HMAC algorithm
-        if (! in_array($algorithm, $validAlgorithms)) {
-            $this->algorithm = Constants::SHA1;
-
-            return;
+        if (! in_array($algorithm, $this->getValidAlgorithms())) {
+            throw new InvalidAlgorithmException();
         }
 
         $this->algorithm = $algorithm;
+
+        return $this;
     }
 
     /**

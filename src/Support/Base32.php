@@ -72,7 +72,7 @@ trait Base32
      * @param $b32
      * @return bool
      */
-    protected function isCharCountNotAPowerOfTwo($b32): bool
+    protected function isCharCountNotAPowerOfTwo($b32)
     {
         return (strlen($b32) & (strlen($b32) - 1)) !== 0;
     }
