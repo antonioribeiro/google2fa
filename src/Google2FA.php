@@ -12,6 +12,11 @@ class Google2FA
     use QRCode, Base32;
 
     /**
+     * Algorithm.
+     */
+    protected $algorithm = Constants::SHA1;
+
+    /**
      * Length of the Token generated.
      */
     protected $oneTimePasswordLength = 6;
@@ -61,7 +66,7 @@ class Google2FA
             $startingTimestamp++
         ) {
             if (
-                hash_equals($this->oathHotp($secret, $startingTimestamp), $key)
+                hash_equals($this->oathTotp($secret, $startingTimestamp), $key)
             ) {
                 return $oldTimestamp === Constants::ARGUMENT_NOT_SET
                     ? true
@@ -101,7 +106,19 @@ class Google2FA
      */
     public function getCurrentOtp($secret)
     {
-        return $this->oathHotp($secret, $this->getTimestamp());
+        return $this->oathTotp($secret, $this->getTimestamp());
+    }
+
+    /**
+     * Get the HMAC algorithm.
+     *
+     * @param null|int $algorithm
+     *
+     * @return mixed
+     */
+    public function getAlgorithm()
+    {
+        return $this->algorithm;
     }
 
     /**
@@ -204,7 +221,7 @@ class Google2FA
      *
      * @return string
      */
-    public function oathHotp($secret, $counter)
+    public function oathTotp($secret, $counter)
     {
         $secret = $this->base32Decode($this->getSecret($secret));
 
@@ -215,7 +232,7 @@ class Google2FA
         // Counter must be 64-bit int
         $bin_counter = pack('N*', 0, $counter);
 
-        $hash = hash_hmac('sha1', $bin_counter, $secret, true);
+        $hash = hash_hmac($this->getAlgorithm(), $bin_counter, $secret, true);
 
         return str_pad(
             $this->oathTruncate($hash),
@@ -234,7 +251,7 @@ class Google2FA
      **/
     public function oathTruncate($hash)
     {
-        $offset = ord($hash[19]) & 0xf;
+        $offset = ord($hash[strlen($hash) - 1]) & 0xf;
 
         $temp = unpack('N', substr($hash, $offset, 4));
 
@@ -273,6 +290,29 @@ class Google2FA
         $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
 
         return $this;
+    }
+
+    /**
+     * Set the HMAC hashing algorithm.
+     *
+     * @param mixed $algorithm
+     */
+    public function setAlgorithm($algorithm)
+    {
+        $validAlgorithms = [
+            Constants::SHA1,
+            Constants::SHA256,
+            Constants::SHA512,
+        ];
+
+        // Default to SHA1 HMAC algorithm
+        if (! in_array($algorithm, $validAlgorithms)) {
+            $this->algorithm = Constants::SHA1;
+
+            return;
+        }
+
+        $this->algorithm = $algorithm;
     }
 
     /**

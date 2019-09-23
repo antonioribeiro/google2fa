@@ -23,6 +23,12 @@ trait QRCode
             $secret .
             '&issuer=' .
             rawurlencode($company) .
+            '&algorithm=' .
+            rawurlencode(strtoupper($this->getAlgorithm())) .
+            '&digits=' .
+            rawurlencode(strtoupper($this->getOneTimePasswordLength())) .
+            '&period=' .
+            rawurlencode(strtoupper($this->getKeyRegeneration())) .
             '';
     }
 }
