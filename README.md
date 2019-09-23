@@ -11,7 +11,7 @@
     [![Monthly Downloads](https://poser.pugx.org/pragmarx/google2fa/d/monthly)](https://packagist.org/packages/pragmarx/google2fa)
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
     <a href="https://styleci.io/repos/24296182"><img alt="StyleCI" src="https://styleci.io/repos/24296182/shield"></a>
-    <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-5.4%20--%207.3-brightgreen.svg?style=flat-square"></a>
+    <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%207.3-brightgreen.svg?style=flat-square"></a>
 </p>
 
 ### Google Two-Factor Authentication for PHP Package
@@ -38,7 +38,7 @@ You can scan the QR code on [this (old) demo page](https://antoniocarlosribeiro.
 
 ## Requirements
 
-- PHP 5.4+
+- PHP 7.1 or greater
 
 ## Installing
 
