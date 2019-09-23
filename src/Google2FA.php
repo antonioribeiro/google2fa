@@ -78,6 +78,23 @@ class Google2FA
     }
 
     /**
+     * Generate the HMAC OTP
+     *
+     * @param $secret
+     * @param $counter
+     * @return string
+     */
+    protected function generateHotp($secret, $counter): string
+    {
+        return hash_hmac(
+            $this->getAlgorithm(),
+            pack('N*', 0, $counter), // Counter must be 64-bit int
+            $secret,
+            true
+        );
+    }
+
+    /**
      * Generate a digit secret key in base32 format.
      *
      * @param int    $length
@@ -229,13 +246,8 @@ class Google2FA
             throw new SecretKeyTooShortException();
         }
 
-        // Counter must be 64-bit int
-        $bin_counter = pack('N*', 0, $counter);
-
-        $hash = hash_hmac($this->getAlgorithm(), $bin_counter, $secret, true);
-
         return str_pad(
-            $this->oathTruncate($hash),
+            $this->oathTruncate($this->generateHotp($secret, $counter)),
             $this->getOneTimePasswordLength(),
             '0',
             STR_PAD_LEFT
