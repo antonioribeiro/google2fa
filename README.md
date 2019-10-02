@@ -10,7 +10,6 @@
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Monthly Downloads" src="https://poser.pugx.org/pragmarx/google2fa/d/monthly?format=flat-square"></a>
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
-    <a href="https://styleci.io/repos/24296182"><img alt="StyleCI" src="https://styleci.io/repos/24296182/shield"></a>
     <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%207.3-brightgreen.svg?style=flat-square"></a>
 </p>
 
