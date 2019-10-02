@@ -17,6 +17,8 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
     <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%207.3-brightgreen.svg?style=flat-square"></a>
 </p>
 
+---
+
 ## Menu
 
   - [Google Two-Factor Authentication for PHP Package](#google-two-factor-authentication-for-php-package)
