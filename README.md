@@ -1,4 +1,7 @@
 # Google2FA
+## Google Two-Factor Authentication for PHP
+
+Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square"></a>
@@ -16,6 +19,7 @@
 ## Menu
 
   - [Google Two-Factor Authentication for PHP Package](#google-two-factor-authentication-for-php-package)
+  - [Laravel bridge](#laravel-bridge)
   - [Demos, Example & Playground](#demos--example---playground)
   - [Requirements](#requirements)
   - [Installing](#installing)
@@ -35,14 +39,12 @@
   - [Authors](#authors)
   - [License](#license)
   - [Contributing](#contributing)
-  
-### Google Two-Factor Authentication for PHP Package
 
-Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
+## Laravel bridge
 
 This package is agnostic, but there's a [Laravel bridge](https://github.com/antonioribeiro/google2fa-laravel).
-
-### QRCode
+  
+## About QRCode generation
 
 This package does not generate QRCodes for 2FA.
 
