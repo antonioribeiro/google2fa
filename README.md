@@ -14,6 +14,34 @@
     <a href="https://travis-ci.org/antonioribeiro/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%207.3-brightgreen.svg?style=flat-square"></a>
 </p>
 
+- [Google2FA](#google2fa)
+    + [Google Two-Factor Authentication for PHP Package](#google-two-factor-authentication-for-php-package)
+    + [QRCode](#qrcode)
+  * [Demos, Example & Playground](#demos--example---playground)
+  * [Requirements](#requirements)
+  * [Installing](#installing)
+  * [Using It](#using-it)
+    + [Instantiate it directly](#instantiate-it-directly)
+  * [How To Generate And Use Two Factor Authentication](#how-to-generate-and-use-two-factor-authentication)
+  * [Generating QRCodes](#generating-qrcodes)
+  * [QR Code Packages](#qr-code-packages)
+    + [Examples of Usage](#examples-of-usage)
+  * [HMAC Algorithms](#hmac-algorithms)
+  * [Server Time](#server-time)
+  * [Validation Window](#validation-window)
+  * [Using a Bigger and Prefixing the Secret Key](#using-a-bigger-and-prefixing-the-secret-key)
+      - [Use a bigger key](#use-a-bigger-key)
+      - [You can prefix your secret keys](#you-can-prefix-your-secret-keys)
+      - [Window](#window)
+      - [Key Regeneration Interval](#key-regeneration-interval)
+  * [Google Authenticator secret key compatibility](#google-authenticator-secret-key-compatibility)
+  * [Google Authenticator Apps:](#google-authenticator-apps-)
+  * [Deprecation Warning](#deprecation-warning)
+  * [Tests](#tests)
+  * [Authors](#authors)
+  * [License](#license)
+  * [Contributing](#contributing)
+  
 ### Google Two-Factor Authentication for PHP Package
 
 Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
