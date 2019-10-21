@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Google2FA\Exceptions;
 
-use Exception;
 use PragmaRX\Google2FA\Exceptions\Contracts\Google2FA as Google2FAExceptionContract;
 use PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator as IncompatibleWithGoogleAuthenticatorExceptionContract;
 
