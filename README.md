@@ -366,9 +366,21 @@ To use the two factor authentication, your user will have to install a Google Au
 
 Google API for QR generator is turned off. All version of that package prior to 5.0.0 are deprecated. Please upgrade and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
 
-## Tests
+## Testing
 
-The package tests were written with [PHPUnit](https://phpunit.de/).
+The package tests were written with [PHPUnit](https://phpunit.de/). There are some Composer scripts to help you run tests and analysis:
+
+PHPUnit:
+
+````
+composer test
+````
+
+PHPStan analysis:
+
+````
+composer analyse
+````
 
 ## Authors
 
