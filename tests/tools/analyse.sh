@@ -7,7 +7,7 @@ function main
 
     banner
 
-    $PHPSTAN analyse --level 4 src
+    $PHPSTAN analyse --level max src
 }
 
 function get_phpstan_path()

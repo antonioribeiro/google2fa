@@ -81,7 +81,7 @@ trait Base32
      * Pad string with random base 32 chars.
      *
      * @param string $string
-     * @param string $length
+     * @param int $length
      *
      * @throws \Exception
      *

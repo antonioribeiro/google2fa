@@ -50,18 +50,18 @@ class Google2FA
     /**
      * Find a valid One Time Password.
      *
-     * @param string $secret
-     * @param string $key
-     * @param int $window
-     * @param int $startingTimestamp
-     * @param int $timestamp
-     * @param int|null $oldTimestamp
+     * @param string    $secret
+     * @param string    $key
+     * @param int|null  $window
+     * @param int       $startingTimestamp
+     * @param int       $timestamp
+     * @param int|null  $oldTimestamp
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @return bool
+     * @return bool|int
      */
     public function findValidOTP(
         $secret,
@@ -219,7 +219,7 @@ class Google2FA
     /**
      * Make a window based starting timestamp.
      *
-     * @param int $window
+     * @param int|null $window
      * @param int $timestamp
      * @param int|null $oldTimestamp
      *
@@ -290,8 +290,10 @@ class Google2FA
 
         $temp = unpack('N', substr($hash, $offset, 4));
 
+        $temp = $temp[1] & 0x7fffffff;
+
         return substr(
-            $temp[1] & 0x7fffffff,
+            (string) $temp,
             -$this->getOneTimePasswordLength()
         );
     }
@@ -301,7 +303,7 @@ class Google2FA
      *
      * @param string $string
      *
-     * @return string
+     * @return string|null
      */
     public function removeInvalidChars($string)
     {
@@ -389,11 +391,11 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string          $key          - User specified key
-     * @param null|string     $secret
-     * @param null|int        $window
-     * @param null|int        $timestamp
-     * @param null|string|int $oldTimestamp
+     * @param string        $key          - User specified key
+     * @param string        $secret
+     * @param null|int      $window
+     * @param null|int      $timestamp
+     * @param null|int      $oldTimestamp
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
@@ -403,7 +405,7 @@ class Google2FA
      */
     public function verify(
         $key,
-        $secret = null,
+        $secret,
         $window = null,
         $timestamp = null,
         $oldTimestamp = null
@@ -421,11 +423,11 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string          $secret
-     * @param string          $key          - User specified key
-     * @param null|int        $window
-     * @param null|int        $timestamp
-     * @param null|string|int $oldTimestamp
+     * @param string    $secret
+     * @param string    $key          - User specified key
+     * @param int|null  $window
+     * @param null|int  $timestamp
+     * @param null|int  $oldTimestamp
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException

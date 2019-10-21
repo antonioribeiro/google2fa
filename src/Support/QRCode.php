@@ -26,9 +26,9 @@ trait QRCode
             '&algorithm=' .
             rawurlencode(strtoupper($this->getAlgorithm())) .
             '&digits=' .
-            rawurlencode(strtoupper($this->getOneTimePasswordLength())) .
+            rawurlencode(strtoupper((string) $this->getOneTimePasswordLength())) .
             '&period=' .
-            rawurlencode(strtoupper($this->getKeyRegeneration())) .
+            rawurlencode(strtoupper((string) $this->getKeyRegeneration())) .
             '';
     }
 }
