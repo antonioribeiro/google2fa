@@ -1,5 +1,23 @@
 ## Change Log
 
+## [7.0.0] - 2019-09-21
+### Added
+- PHPStan checks
+### Removed
+- Constants::ARGUMENT_NOT_SET - This is a BC break
+
+## [6.1.3] - 2019-09-21
+### Drafted
+- To fix inserted BC break
+ 
+## [6.1.2] - 2019-09-21 
+### DELETED
+- To fix inserted BC break
+
+## [6.1.1] - 2019-09-21
+### DELETED
+- To fix inserted BC break
+
 ## [6.0.0] - 2019-09-11
 ### Added
 - Base exception class and interfaces 
