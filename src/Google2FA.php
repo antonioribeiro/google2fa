@@ -14,38 +14,48 @@ class Google2FA
 
     /**
      * Algorithm.
+     *
+     * @var string
      */
     protected $algorithm = Constants::SHA1;
 
     /**
      * Length of the Token generated.
+     *
+     * @var int
      */
     protected $oneTimePasswordLength = 6;
 
     /**
      * Interval between key regeneration.
+     *
+     * @var int
      */
     protected $keyRegeneration = 30;
 
     /**
      * Secret.
+     *
+     * @var string
      */
     protected $secret;
 
     /**
      * Window.
+     *
+     * @var int
      */
     protected $window = 1; // Keys will be valid for 60 seconds
 
     /**
      * Find a valid One Time Password.
      *
-     * @param $secret
-     * @param $key
-     * @param $window
-     * @param $startingTimestamp
-     * @param $timestamp
-     * @param string $oldTimestamp
+     * @param string $secret
+     * @param string $key
+     * @param int $window
+     * @param int $startingTimestamp
+     * @param int $timestamp
+     * @param int|null $oldTimestamp
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
@@ -59,7 +69,7 @@ class Google2FA
         $window,
         $startingTimestamp,
         $timestamp,
-        $oldTimestamp = Constants::ARGUMENT_NOT_SET
+        $oldTimestamp = null
     ) {
         for (
             ;
@@ -69,7 +79,7 @@ class Google2FA
             if (
                 hash_equals($this->oathTotp($secret, $startingTimestamp), $key)
             ) {
-                return $oldTimestamp === Constants::ARGUMENT_NOT_SET
+                return is_null($oldTimestamp)
                     ? true
                     : $startingTimestamp;
             }
@@ -81,8 +91,8 @@ class Google2FA
     /**
      * Generate the HMAC OTP
      *
-     * @param $secret
-     * @param $counter
+     * @param string $secret
+     * @param int $counter
      * @return string
      */
     protected function generateHotp($secret, $counter)
@@ -114,7 +124,7 @@ class Google2FA
     /**
      * Get the current one time password for a key.
      *
-     * @param $secret
+     * @param string $secret
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
@@ -130,9 +140,7 @@ class Google2FA
     /**
      * Get the HMAC algorithm.
      *
-     * @param null|int $algorithm
-     *
-     * @return mixed
+     * @return string
      */
     public function getAlgorithm()
     {
@@ -142,7 +150,7 @@ class Google2FA
     /**
      * Get key regeneration.
      *
-     * @return mixed
+     * @return int
      */
     public function getKeyRegeneration()
     {
@@ -152,7 +160,7 @@ class Google2FA
     /**
      * Get OTP length.
      *
-     * @return mixed
+     * @return int
      */
     public function getOneTimePasswordLength()
     {
@@ -164,7 +172,7 @@ class Google2FA
      *
      * @param string|null $secret
      *
-     * @return mixed
+     * @return string
      */
     public function getSecret($secret = null)
     {
@@ -201,7 +209,7 @@ class Google2FA
      *
      * @param null|int $window
      *
-     * @return mixed
+     * @return int
      */
     public function getWindow($window = null)
     {
@@ -211,15 +219,15 @@ class Google2FA
     /**
      * Make a window based starting timestamp.
      *
-     * @param $window
-     * @param $timestamp
-     * @param $oldTimestamp
+     * @param int $window
+     * @param int $timestamp
+     * @param int|null $oldTimestamp
      *
      * @return mixed
      */
-    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp)
+    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null)
     {
-        return $oldTimestamp === Constants::ARGUMENT_NOT_SET
+        return is_null($oldTimestamp)
             ? $timestamp - $this->getWindow($window)
             : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
     }
@@ -274,7 +282,7 @@ class Google2FA
      *
      * @param string $hash
      *
-     * @return int
+     * @return string
      **/
     public function oathTruncate($hash)
     {
@@ -291,9 +299,9 @@ class Google2FA
     /**
      * Remove invalid chars from a base 32 string.
      *
-     * @param $string
+     * @param string $string
      *
-     * @return mixed
+     * @return string
      */
     public function removeInvalidChars($string)
     {
@@ -398,7 +406,7 @@ class Google2FA
         $secret = null,
         $window = null,
         $timestamp = null,
-        $oldTimestamp = Constants::ARGUMENT_NOT_SET
+        $oldTimestamp = null
     ) {
         return $this->verifyKey(
             $secret,
@@ -430,7 +438,7 @@ class Google2FA
         $key,
         $window = null,
         $timestamp = null,
-        $oldTimestamp = Constants::ARGUMENT_NOT_SET
+        $oldTimestamp = null
     ) {
         $timestamp = $this->makeTimestamp($timestamp);
 

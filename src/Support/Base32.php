@@ -17,8 +17,8 @@ trait Base32
     /**
      * Calculate char count bits.
      *
-     * @param $b32
-     * @return float|int
+     * @param string $b32
+     * @return int
      */
     protected function charCountBits($b32)
     {
@@ -55,7 +55,7 @@ trait Base32
      * @throws InvalidCharactersException
      * @throws IncompatibleWithGoogleAuthenticatorException
      *
-     * @return int
+     * @return string
      */
     public function base32Decode($b32)
     {
@@ -69,7 +69,7 @@ trait Base32
     /**
      * Check if the string length is power of two.
      *
-     * @param $b32
+     * @param string $b32
      * @return bool
      */
     protected function isCharCountNotAPowerOfTwo($b32)
@@ -80,8 +80,8 @@ trait Base32
     /**
      * Pad string with random base 32 chars.
      *
-     * @param $string
-     * @param $length
+     * @param string $string
+     * @param string $length
      *
      * @throws \Exception
      *
@@ -103,9 +103,9 @@ trait Base32
     /**
      * Encode a string to Base32.
      *
-     * @param $string
+     * @param string $string
      *
-     * @return mixed
+     * @return string
      */
     public function toBase32($string)
     {
@@ -117,8 +117,8 @@ trait Base32
     /**
      * Get a random number.
      *
-     * @param $from
-     * @param $to
+     * @param int $from
+     * @param int $to
      *
      * @throws \Exception
      *
@@ -132,7 +132,7 @@ trait Base32
     /**
      * Validate the secret.
      *
-     * @param $b32
+     * @param string $b32
      *
      * @throws IncompatibleWithGoogleAuthenticatorException
      * @throws InvalidCharactersException
@@ -149,7 +149,7 @@ trait Base32
     /**
      * Check if the secret key is compatible with Google Authenticator.
      *
-     * @param $b32
+     * @param string $b32
      *
      * @throws IncompatibleWithGoogleAuthenticatorException
      */
@@ -166,7 +166,7 @@ trait Base32
     /**
      * Check if all secret key characters are valid.
      *
-     * @param $b32
+     * @param string $b32
      *
      * @throws InvalidCharactersException
      */
@@ -183,7 +183,7 @@ trait Base32
     /**
      * Check if secret key length is big enough
      *
-     * @param $b32
+     * @param string $b32
      *
      * @throws InvalidCharactersException
      */

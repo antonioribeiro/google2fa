@@ -7,9 +7,9 @@ trait QRCode
     /**
      * Creates a QR code url.
      *
-     * @param $company
-     * @param $holder
-     * @param $secret
+     * @param string $company
+     * @param string $holder
+     * @param string $secret
      *
      * @return string
      */
