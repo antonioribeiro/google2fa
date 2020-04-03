@@ -5,7 +5,5 @@
 /.scrutinizer.yml export-ignore
 /.travis.yml export-ignore
 /phpunit.xml export-ignore
-/README.md export-ignore
-/CHANGELOG.md export-ignore
 /RELICENSED.md export-ignore
 /upgrading.md export-ignore
