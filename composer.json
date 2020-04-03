@@ -30,6 +30,9 @@
             "PragmaRX\\Google2FA\\Tests\\": "tests/"
         }
     },
+    "autoload-dev": {
+        "files": ["tests/autoload.php"]
+    },
     "extra": {
         "component": "package",
         "branch-alias": {
@@ -44,5 +47,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "archive": {
+        "exclude": ["/tests"]
+    }
 }

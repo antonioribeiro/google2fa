@@ -6,9 +6,18 @@ use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
 use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
+if (!trait_exists('PragmaRX\Google2FA\Tests\TestCaseTrait')) {
+    require __DIR__ . '/autoload.php';
+}
+
 class Google2FATest extends TestCase
 {
-    public function setUp(): void
+    use TestCaseTrait;
+
+    /** @var Google2FA */
+    protected $google2fa;
+
+    public function setUpCompat()
     {
         $this->google2fa = new Google2FA();
     }
@@ -59,29 +68,46 @@ class Google2FATest extends TestCase
         $this->assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
-    public function testGeneratesASecretKeysGenerationSize()
+    /**
+     * @dataProvider generatesASecretKeysGenerationSizeProvider
+     * anything below 128 bits are NOT allowed
+     * @expectedException  \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     */
+    public function testGeneratesASecretKeysGenerationSize($size)
     {
         // 128 bits are allowed
-        $this->assertEquals($size = 16, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        $this->assertEquals(16, strlen($this->google2fa->generateSecretKey(16)));  /// minimum = 128 bits
 
-        // anything below 128 bits are NOT allowed
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
-
-        $this->assertEquals($size = 2, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
-        $this->assertEquals($size = 4, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
-        $this->assertEquals($size = 8, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        // exception
+        $this->assertEquals($size, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
     }
 
-    public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator()
+    public function generatesASecretKeysGenerationSizeProvider()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 15, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        return array(
+            array(2),
+            array(4),
+            array(8),
+        );
+    }
 
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+    /**
+     * @param int $size
+     * @dataProvider generatesASecretKeysNotCompatibleWithGoogleAuthenticatorProvider
+     * @expectedException \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     */
+    public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator($size)
+    {
+        $this->assertEquals($size, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+    }
 
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 21, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+    public function generatesASecretKeysNotCompatibleWithGoogleAuthenticatorProvider()
+    {
+        return array(
+            array(15),
+            array(17),
+            array(21),
+        );
     }
 
     public function testConvertsInvalidCharsToBase32()
@@ -712,10 +738,11 @@ class Google2FATest extends TestCase
         $this->assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
     }
 
+    /**
+     * @expectedException  \PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException
+     */
     public function testSetWrongAlgorithm()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException::class);
-
         $this->google2fa->setAlgorithm('md5');
 
         $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
@@ -763,10 +790,11 @@ class Google2FATest extends TestCase
         );
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     */
     public function testShortSecretKey()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
-
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
         $this->google2fa->verifyKey(
@@ -777,10 +805,11 @@ class Google2FATest extends TestCase
         );
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     */
     public function testValidateKey()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidCharactersException::class);
-
         $this->assertTrue(
             is_numeric($this->google2fa->getCurrentOtp(Constants::SECRET))
         );
@@ -790,38 +819,43 @@ class Google2FATest extends TestCase
         $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\Google2FAException
+     */
     public function testThrowsBaseException()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\Google2FAException::class);
-
         $this->throwSecretKeyTooShortException();
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\Contracts\Google2FA
+     */
     public function testThrowsBaseExceptionContract()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\Google2FA::class);
-
         $this->throwSecretKeyTooShortException();
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     */
     public function testThrowsSecretKeyTooShortException()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
-
         $this->throwSecretKeyTooShortException();
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\Contracts\SecretKeyTooShort
+     */
     public function testThrowsSecretKeyTooShortExceptionContract()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\SecretKeyTooShort::class);
-
         $this->throwSecretKeyTooShortException();
     }
 
+    /**
+     * @expectedException \PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator
+     */
     public function testThrowsIncompatibleWithGoogleAuthenticatorExceptionInterface()
     {
-        $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator::class);
-
         $this->throwIncompatibleWithGoogleAuthenticatorException();
     }
 
