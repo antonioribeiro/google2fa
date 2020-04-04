@@ -32,18 +32,9 @@
             "PragmaRX\\Google2FA\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "component": "package",
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
-    },
     "scripts": {
         "test": "bash ./tests/tools/test.sh",
         "analyse": "bash ./tests/tools/analyse.sh",
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
