@@ -34,7 +34,7 @@
     },
     "scripts": {
         "test": "bash ./tests/tools/test.sh",
-        "analyse": "bash ./tests/tools/analyse.sh",
+        "analyse": "bash ./tests/tools/analyse.sh"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
