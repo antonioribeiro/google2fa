@@ -814,7 +814,6 @@ class Google2FATest extends TestCase
         $this->throwSecretKeyTooShortException();
     }
 
-
     public function testThrowsBaseExceptionContract()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\Google2FA::class);
