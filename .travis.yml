@@ -1,4 +1,4 @@
-ist: xenial
+dist: xenial
 
 language: php
 
