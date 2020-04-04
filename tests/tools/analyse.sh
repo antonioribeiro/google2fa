@@ -7,7 +7,7 @@ function main
 
     banner
 
-    $PHPSTAN analyse --level max src
+    $PHPSTAN analyse -c phpstan.neon
 }
 
 function get_phpstan_path()

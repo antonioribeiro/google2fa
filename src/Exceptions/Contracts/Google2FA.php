@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Google2FA\Exceptions\Contracts;
 
-interface Google2FA
+use Throwable;
+
+interface Google2FA extends Throwable
 {
 }

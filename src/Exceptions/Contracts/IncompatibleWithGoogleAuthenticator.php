@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Google2FA\Exceptions\Contracts;
 
-interface IncompatibleWithGoogleAuthenticator
+use Throwable;
+
+interface IncompatibleWithGoogleAuthenticator extends Throwable
 {
 }

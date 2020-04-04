@@ -1,0 +1,9 @@
+parameters:
+  paths:
+    - src
+    - tests
+
+  level: 5
+
+  autoload_files:
+    - tests/helpers.php

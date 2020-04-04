@@ -466,7 +466,7 @@ class Google2FA
      *
      * @param string   $secret
      * @param string   $key          User specified key
-     * @param int      $oldTimestamp The timestamp from the last verified key
+     * @param int|null $oldTimestamp The timestamp from the last verified key
      * @param int|null $window
      * @param int|null $timestamp
      *

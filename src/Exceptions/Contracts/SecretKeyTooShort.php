@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Google2FA\Exceptions\Contracts;
 
-interface SecretKeyTooShort
+use Throwable;
+
+interface SecretKeyTooShort extends Throwable
 {
 }

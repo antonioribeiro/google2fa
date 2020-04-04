@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Google2FA\Exceptions\Contracts;
 
-interface InvalidAlgorithm
+use Throwable;
+
+interface InvalidAlgorithm extends Throwable
 {
 }
