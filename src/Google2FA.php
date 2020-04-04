@@ -253,8 +253,8 @@ class Google2FA
      * Takes the secret key and the timestamp and returns the one time
      * password.
      *
-     * @param string $secret  - Secret key in binary form.
-     * @param int    $counter - Timestamp as returned by getTimestamp.
+     * @param string $secret  Secret key in binary form.
+     * @param int    $counter Timestamp as returned by getTimestamp.
      *
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
@@ -393,7 +393,7 @@ class Google2FA
      * Verifies a user inputted key against the current timestamp. Checks $window
      * keys either side of the timestamp.
      *
-     * @param string   $key          - User specified key
+     * @param string   $key          User specified key
      * @param string   $secret
      * @param null|int $window
      * @param null|int $timestamp
@@ -426,7 +426,7 @@ class Google2FA
      * keys either side of the timestamp.
      *
      * @param string   $secret
-     * @param string   $key          - User specified key
+     * @param string   $key          User specified key
      * @param int|null $window
      * @param null|int $timestamp
      * @param null|int $oldTimestamp
@@ -463,8 +463,8 @@ class Google2FA
      * be used twice.
      *
      * @param string   $secret
-     * @param string   $key          - User specified key
-     * @param int      $oldTimestamp - The timestamp from the last verified key
+     * @param string   $key          User specified key
+     * @param int      $oldTimestamp The timestamp from the last verified key
      * @param int|null $window
      * @param int|null $timestamp
      *
@@ -472,7 +472,7 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      *
-     * @return bool|int - false (not verified) or the timestamp of the verified key
+     * @return bool|int
      */
     public function verifyKeyNewer(
         $secret,
