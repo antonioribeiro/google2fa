@@ -3,9 +3,9 @@
 namespace PragmaRX\Google2FA\Support;
 
 use ParagonIE\ConstantTime\Base32 as ParagonieBase32;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
-use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 
 trait Base32
 {
@@ -29,15 +29,15 @@ trait Base32
     /**
      * Generate a digit secret key in base32 format.
      *
-     * @param int $length
+     * @param int    $length
      * @param string $prefix
-     *
-     * @return string
      *
      * @throws \Exception
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     *
+     * @return string
      */
     public function generateBase32RandomKey($length = 16, $prefix = '')
     {
@@ -55,11 +55,11 @@ trait Base32
      *
      * @param string $b32
      *
-     * @return string
-     *
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     *
+     * @return string
      */
     public function base32Decode($b32)
     {
@@ -125,9 +125,9 @@ trait Base32
      * @param int $from
      * @param int $to
      *
-     * @return int
-     *
      * @throws \Exception
+     *
+     * @return int
      */
     protected function getRandomNumber($from = 0, $to = 31)
     {
