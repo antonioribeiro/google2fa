@@ -1,4 +1,4 @@
-dist: xenial
+ist: xenial
 
 language: php
 
@@ -8,6 +8,11 @@ php:
   - 7.3
   - 7.4
   - nightly
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
 
 install:
   - |
@@ -22,7 +27,7 @@ script:
 
 after_script:
   - |
-    if [[ "$TRAVIS_PHP_VERSION" == '7.2' ]]; then
+    if [[ "$TRAVIS_PHP_VERSION" == '7.4' ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     fi

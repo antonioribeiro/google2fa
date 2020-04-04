@@ -21,6 +21,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
 ## Menu
 
+  - [Version Compatibility](#version-compatibility)
   - [Google Two-Factor Authentication for PHP Package](#google-two-factor-authentication-for-php-package)
   - [Laravel bridge](#laravel-bridge)
   - [Demos, Example & Playground](#demos--example---playground)
@@ -43,6 +44,18 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
   - [License](#license)
   - [Contributing](#contributing)
 
+## Version Compatibility
+
+ PHP    | Google2FA
+:-------|:----------
+ 5.4    | 7.0 LTS 
+ 5.5    | 7.0 LTS 
+ 5.6    | 7.0 LTS 
+ 7.1    | 8.0
+ 7.2    | 8.0
+ 7.3    | 8.0
+ 7.4    | 8.0
+ 
 ## Laravel bridge
 
 This package is agnostic, but there's a [Laravel bridge](https://github.com/antonioribeiro/google2fa-laravel).
