@@ -228,7 +228,7 @@ class Google2FA
      */
     private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null)
     {
-        return $oldTimestamp === Constants::ARGUMENT_NOT_SET
+        return is_null($oldTimestamp)
             ? $timestamp - $this->getWindow($window)
             : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
     }
