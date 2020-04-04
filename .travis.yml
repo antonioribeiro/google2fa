@@ -9,10 +9,6 @@ php:
   - 7.4
   - nightly
 
-matrix:
-  allow_failures:
-    - php: nightly
-
 install:
   - |
     if [[ "$TRAVIS_PHP_VERSION" == 'nightly' ]]; then
