@@ -8,6 +8,11 @@ use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
 class Google2FATest extends TestCase
 {
+    /**
+     * @var \PragmaRX\Google2FA\Google2FA
+     */
+    public $google2fa;
+
     public function setUp(): void
     {
         $this->google2fa = new Google2FA();
@@ -16,7 +21,7 @@ class Google2FATest extends TestCase
     public function testIsInitializable()
     {
         $this->assertInstanceOf(
-            'PragmaRX\Google2FA\Google2FA',
+            Google2FA::class,
             $this->google2fa
         );
     }
@@ -209,6 +214,22 @@ class Google2FATest extends TestCase
 
     public function testVerifiesKeysNewer()
     {
+        $this->assertFalse(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '512396',
+                null /// first time user gets in
+            )
+        ); // 26213400
+        $this->assertTrue(
+            $this->google2fa->verifyKeyNewer(
+                Constants::SECRET,
+                '512396',
+                null,
+                2,
+                26213400
+            )
+        ); // 26213400
         $this->assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
