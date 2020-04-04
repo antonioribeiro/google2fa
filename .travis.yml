@@ -1,4 +1,5 @@
-dist: trusty
+dist: xenial
+
 language: php
 
 php:
@@ -8,21 +9,13 @@ php:
   - 7.4
   - nightly
 
-matrix:
-  allow_failures:
-    - php: nightly
-
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
-sudo: false
-
-## Cache composer
-cache:
-  directories:
-    - $HOME/.composer/cache
-
-before_script:
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+install:
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" == 'nightly' ]]; then
+      travis_retry composer update --ignore-platform-reqs --no-interaction --prefer-dist
+    else
+      travis_retry composer update --no-interaction --prefer-dist
+    fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
