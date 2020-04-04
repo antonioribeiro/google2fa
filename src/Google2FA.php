@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Google2FA;
 
-use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
-use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
+use PragmaRX\Google2FA\Support\QRCode;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
-use PragmaRX\Google2FA\Support\QRCode;
+use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 class Google2FA
 {
@@ -109,13 +109,14 @@ class Google2FA
     /**
      * Generate a digit secret key in base32 format.
      *
-     * @param int    $length
+     * @param int $length
      * @param string $prefix
      *
-     * @throws Exceptions\InvalidCharactersException
-     * @throws Exceptions\IncompatibleWithGoogleAuthenticatorException
-     *
      * @return string
+     *
+     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
      */
     public function generateSecretKey($length = 16, $prefix = '')
     {
@@ -336,6 +337,7 @@ class Google2FA
      * @param mixed $algorithm
      *
      * @return \PragmaRX\Google2FA\Google2FA
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException
      */
     public function setAlgorithm($algorithm)
     {
