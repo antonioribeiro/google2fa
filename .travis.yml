@@ -1,16 +1,28 @@
-ist: xenial
+dist: xenial
 
 language: php
 
-php:
-  - 7.1
-  - 7.2
-  - 7.3
-  - 7.4
-  - nightly
+matrix:
+  include:
+    - php: hhvm-3.30
+      dist: trusty
+    - php: 5.4
+      dist: trusty
+    - php: 5.5
+      dist: trusty
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    - php: 7.4
+    - php: nightly
 
 install:
   - |
+    if [[ "$TRAVIS_PHP_VERSION" == 'hhvm-3.30' ]]; then
+      travis_retry composer require "phpunit/phpunit:^5.7.27" --dev --no-update -n
+    fi
     if [[ "$TRAVIS_PHP_VERSION" == 'nightly' ]]; then
       travis_retry composer update --ignore-platform-reqs --no-interaction --prefer-dist
     else
