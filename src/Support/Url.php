@@ -11,10 +11,10 @@ class Url
         $qrCodeUrl
     ) {
         $url =
-            $domain .
-            rawurlencode($page) .
-            '?' .
-            $queryParameters .
+            $domain.
+            rawurlencode($page).
+            '?'.
+            $queryParameters.
             urlencode($qrCodeUrl);
 
         return $url;
