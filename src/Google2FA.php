@@ -265,11 +265,11 @@ class Google2FA
      */
     public function oathTotp($secret, $counter)
     {
-        $secret = $this->base32Decode($this->getSecret($secret));
-
         if (strlen($secret) < 8) {
             throw new SecretKeyTooShortException();
         }
+
+        $secret = $this->base32Decode($this->getSecret($secret));
 
         return str_pad(
             $this->oathTruncate($this->generateHotp($secret, $counter)),

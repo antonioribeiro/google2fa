@@ -709,10 +709,6 @@ class Google2FATest extends TestCase
         );
 
         $this->google2fa->setSecret(Constants::SECRET);
-
-        $this->assertTrue(
-            $this->google2fa->verify('558854', null, null, 26213400)
-        );
     }
 
     public function testGetsAlgorithm()
@@ -818,6 +814,7 @@ class Google2FATest extends TestCase
         $this->throwSecretKeyTooShortException();
     }
 
+
     public function testThrowsBaseExceptionContract()
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\Google2FA::class);
@@ -830,6 +827,13 @@ class Google2FATest extends TestCase
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
         $this->throwSecretKeyTooShortException();
+    }
+
+    public function testThrowsSecretKeyTooShortExceptionWhenVerifyingCode()
+    {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
+
+        $this->google2fa->verify('558854', null, null, 26213400);
     }
 
     public function testThrowsSecretKeyTooShortExceptionContract()
@@ -872,5 +876,12 @@ class Google2FATest extends TestCase
                     ->generateSecretKey(17)
             )
         );
+    }
+
+    public function testOoathTotpThrowsSecretKeyTooShortException()
+    {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
+
+        $this->google2fa->oathTotp(null, null);
     }
 }
