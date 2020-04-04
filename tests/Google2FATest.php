@@ -225,7 +225,7 @@ class Google2FATest extends TestCase
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '512396',
-                null,
+                null, /// first time user gets in
                 2,
                 26213400
             )
