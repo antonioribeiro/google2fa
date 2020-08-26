@@ -14,6 +14,6 @@ if (!function_exists('dd')) {
     {
         d(func_get_args());
 
-        die();
+        exit();
     }
 }
