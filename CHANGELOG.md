@@ -1,5 +1,9 @@
 ## Change Log
 
+## [8.0.0] - 2020-05-05
+### Added
+- PHP 8 Support
+
 ## [7.0.0] - 2019-09-21
 ### Added
 - PHPStan checks
