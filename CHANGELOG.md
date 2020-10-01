@@ -3,6 +3,11 @@
 ## [8.0.0] - 2020-05-05
 ### Added
 - PHP 8 Support
+- Tests
+- Extract som test helpers
+- PHPStan checks
+### Changed
+- Exception interfaces extending Throwable  
 
 ## [7.0.0] - 2019-09-21
 ### Added
