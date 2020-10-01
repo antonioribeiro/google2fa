@@ -7,7 +7,7 @@
 - Extract som test helpers
 - PHPStan checks
 ### Changed
-- PHP version bumped to <= 7.1
+- PHP required version bumped to >= 7.1
 - Exception interfaces extending Throwable  
 
 ## [7.0.0] - 2019-09-21
