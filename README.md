@@ -1,4 +1,5 @@
-# Google2FA - Google Two-Factor Authentication for PHP
+# Google2FA 
+## Google Two-Factor Authentication for PHP
 
 Google2FA is a PHP implementation of the Google Two-Factor Authentication Module, supporting the HMAC-Based One-time Password (HOTP) algorithm specified in [RFC 4226](https://tools.ietf.org/html/rfc4226) and the Time-based One-time Password (TOTP) algorithm specified in [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
