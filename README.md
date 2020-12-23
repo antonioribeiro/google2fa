@@ -28,7 +28,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
   - [Demos, Example & Playground](#demos--example---playground)
   - [Requirements](#requirements)
   - [Installing](#installing)
-  - [Usage](#using-it)
+  - [Usage](#usage)
   - [How To Generate And Use Two Factor Authentication](#how-to-generate-and-use-two-factor-authentication)
   - [Generating QRCodes](#generating-qrcodes)
   - [QR Code Packages](#qr-code-packages)
