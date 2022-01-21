@@ -231,7 +231,7 @@ class Google2FA
     {
         return is_null($oldTimestamp)
             ? $timestamp - $this->getWindow($window)
-            : max($timestamp - $this->getWindow($window), $oldTimestamp + 1);
+            : max($timestamp - $this->getWindow($window), intval($oldTimestamp) + 1);
     }
 
     /**
