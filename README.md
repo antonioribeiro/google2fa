@@ -23,9 +23,9 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 ## Menu
 
   - [Version Compatibility](#version-compatibility)
-  - [Google Two-Factor Authentication for PHP Package](#google-two-factor-authentication-for-php-package)
+  - [Google Two-Factor Authentication for PHP](#google-two-factor-authentication-for-php)
   - [Laravel bridge](#laravel-bridge)
-  - [Demos, Example & Playground](#demos--example---playground)
+  - [Demos, Example & Playground](#demos-example--playground)
   - [Requirements](#requirements)
   - [Installing](#installing)
   - [Usage](#usage)
@@ -38,9 +38,9 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
   - [Validation Window](#validation-window)
   - [Using a Bigger and Prefixing the Secret Key](#using-a-bigger-and-prefixing-the-secret-key)
   - [Google Authenticator secret key compatibility](#google-authenticator-secret-key-compatibility)
-  - [Google Authenticator Apps:](#google-authenticator-apps-)
+  - [Google Authenticator Apps](#google-authenticator-apps)
   - [Deprecation Warning](#deprecation-warning)
-  - [Tests](#tests)
+  - [Testing](#testing)
   - [Authors](#authors)
   - [License](#license)
   - [Contributing](#contributing)
@@ -364,7 +364,7 @@ By default, this package will enforce compatibility, but, if Google Authenticato
 $google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 ```
 
-## Google Authenticator Apps:
+## Google Authenticator Apps
 
 To use the two factor authentication, your user will have to install a Google Authenticator compatible app, those are some of the currently available:
 
