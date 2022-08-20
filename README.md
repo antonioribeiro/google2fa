@@ -74,7 +74,7 @@ Please check the [Google2FA Package Playground](http://pragmarx.com/playground/g
 
 ![playground](docs/playground.jpg)
 
-Here's an demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
+Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
 
 You can scan the QR code on [this (old) demo page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
 
@@ -114,7 +114,7 @@ $user->google2fa_secret = $google2fa->generateSecretKey();
 
 ## Generating QRCodes
 
-The securer way of creating QRCode is to do it yourself or using a library. First you have to install a QR code generator e.g. BaconQrCode, as stated above, then you just have to generate the QR code url using:
+The more secure way of creating QRCode is to do it yourself or using a library. First you have to install a QR code generator e.g. BaconQrCode, as stated above, then you just have to generate the QR code url using:
  
 ```php
 $qrCodeUrl = $google2fa->getQRCodeUrl(
@@ -293,7 +293,7 @@ if ($timestamp !== false) {
 }
 ```
 
-Note that `$timestamp` either `false` (if the key is invalid or has been used before) or the provided key's unix timestamp divided by the key regeneration period of 30 seconds.
+Note that `$timestamp` is either `false` (if the key is invalid or has been used before) or the provided key's unix timestamp divided by the key regeneration period of 30 seconds.
 
 ## Using a Bigger and Prefixing the Secret Key
 
@@ -307,7 +307,7 @@ $secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
 
 #### You can prefix your secret keys
 
-You may prefix your secret keys, but you have to understand that, as your secret key must have length in power of 2, your prefix will have to have a complementary size. So if your key is 16 bytes long, if you add a prefix it must be also 16 bytes long, but as your prefixes will be converted to base 32, the max length of your prefix is 10 bytes. So, those are the sizes you can use in your prefixes:
+You may prefix your secret keys, but you have to understand that, as your secret key must have length in power of 2, your prefix will have to have a complementary size. So if your key is 16 bytes long, if you add a prefix it must also be 16 bytes long, but as your prefixes will be converted to base 32, the max length of your prefix is 10 bytes. So, those are the sizes you can use in your prefixes:
 
 ```
 1, 2, 5, 10, 20, 40, 80...
@@ -323,7 +323,7 @@ $secretKey = $google2fa->generateSecretKey(16, $prefix);
 
 #### Window
 
-The Window property defines how long a OTP will work, or how many cycles it will last. A key has a 30 seconds cycle, setting the window to 0 will make the key lasts for those 30 seconds, setting it to 2 will make it last for 120 seconds. This is how you set the window:
+The Window property defines how long a OTP will work, or how many cycles it will last. A key has a 30 seconds cycle, setting the window to 0 will make the key last for those 30 seconds, setting it to 2 will make it last for 120 seconds. This is how you set the window:
 
 ```php
 $secretKey = $google2fa->setWindow(4);
@@ -382,7 +382,7 @@ To use the two factor authentication, your user will have to install a Google Au
 
 ## Deprecation Warning
 
-Google API for QR generator is turned off. All version of that package prior to 5.0.0 are deprecated. Please upgrade and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
+Google API for QR generator is turned off. All versions of that package prior to 5.0.0 are deprecated. Please upgrade and check documentation regarding [QRCode generation](https://github.com/antonioribeiro/google2fa#generating-qrcodes).
 
 ## Testing
 
