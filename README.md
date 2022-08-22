@@ -422,5 +422,5 @@ None.
 
 ### Indirect
 
-- JetBrains - [Open Source License](https://www.jetbrains.com/community/opensource/#support)
-- Blackfire - [Open Source License](https://www.blackfire.io/open-source/)
+- JetBrains - [Open Source License](https://www.jetbrains.com/community/opensource/#support) (since 2020)
+- Blackfire - [Open Source License](https://www.blackfire.io/open-source/) (since 2022)
