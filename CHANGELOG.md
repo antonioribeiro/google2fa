@@ -1,5 +1,11 @@
 ## Change Log
 
+## [8.0.1] - 2020-05-05
+### Added
+- Test using GitHub Actions
+### Fixed
+- Improve PHP 8.1 compatibility
+
 ## [8.0.0] - 2020-05-05
 ### Added
 - PHP 8 Support
