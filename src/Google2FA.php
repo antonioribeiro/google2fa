@@ -77,7 +77,7 @@ class Google2FA
             $startingTimestamp++
         ) {
             if (
-                hash_equals($this->oathTotp($secret, $startingTimestamp), $key)
+                hash_equals($this->oathTotp($secret, $startingTimestamp), (string) $key)
             ) {
                 return is_null($oldTimestamp)
                     ? true
