@@ -413,3 +413,14 @@ Google2FA is licensed under the MIT License - see the [LICENSE](LICENSE.md) file
 ## Contributing
 
 Pull requests and issues are more than welcome.
+
+## Sponsorships
+
+### Direct
+
+None.
+
+### Indirect
+
+- JetBrains - [Open Source License](https://www.jetbrains.com/community/opensource/#support)
+- Blackfire - [Open Source License](https://www.blackfire.io/open-source/)
