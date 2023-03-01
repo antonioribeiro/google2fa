@@ -2,6 +2,7 @@ name: Run tests
 
 on:
   push:
+  pull_request:
   schedule:
     - cron: '0 0 * * *'
 
@@ -29,3 +30,6 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
+
+      - name: Execute PHPStan
+        run: vendor/bin/phpstan analyse -c phpstan.neon

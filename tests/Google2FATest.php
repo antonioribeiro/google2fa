@@ -832,7 +832,7 @@ class Google2FATest extends TestCase
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
-        $this->google2fa->verify('558854', null, null, 26213400);
+        $this->google2fa->verify('558854', '', null, 26213400);
     }
 
     public function testThrowsSecretKeyTooShortExceptionContract()
@@ -881,6 +881,6 @@ class Google2FATest extends TestCase
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
-        $this->google2fa->oathTotp(null, null);
+        $this->google2fa->oathTotp('', 0);
     }
 }
