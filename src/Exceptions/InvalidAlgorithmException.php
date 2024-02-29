@@ -7,5 +7,6 @@ use PragmaRX\Google2FA\Exceptions\Contracts\InvalidAlgorithm as InvalidAlgorithm
 
 class InvalidAlgorithmException extends Google2FAException implements Google2FAExceptionContract, InvalidAlgorithmExceptionContract
 {
+    /** @var string */
     protected $message = 'Invalid HMAC algorithm.';
 }

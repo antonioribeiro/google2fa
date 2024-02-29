@@ -7,5 +7,6 @@ use PragmaRX\Google2FA\Exceptions\Contracts\InvalidCharacters as InvalidCharacte
 
 class InvalidCharactersException extends Google2FAException implements Google2FAExceptionContract, InvalidCharactersExceptionContract
 {
+    /** @var string */
     protected $message = 'Invalid characters in the base32 string.';
 }
