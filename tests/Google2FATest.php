@@ -18,7 +18,7 @@ class Google2FATest extends TestCase
         $this->google2fa = new Google2FA();
     }
 
-    public function testIsInitializable()
+    public function testIsInitializable(): void
     {
         $this->assertInstanceOf(
             Google2FA::class,
@@ -26,7 +26,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testGeneratesAValidSecretKey()
+    public function testGeneratesAValidSecretKey(): void
     {
         $this->assertEquals(16, strlen($this->google2fa->generateSecretKey()));
 
@@ -55,7 +55,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticator()
+    public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticator(): void
     {
         $this->assertEquals($size = 16, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// minimum = 128 bits
         $this->assertEquals($size = 20, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey($size))); /// recommended = 160 bits - not compatible
@@ -64,7 +64,7 @@ class Google2FATest extends TestCase
         $this->assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
-    public function testGeneratesASecretKeysGenerationSize()
+    public function testGeneratesASecretKeysGenerationSize(): void
     {
         // 128 bits are allowed
         $this->assertEquals($size = 16, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
@@ -77,7 +77,7 @@ class Google2FATest extends TestCase
         $this->assertEquals($size = 8, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
     }
 
-    public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator()
+    public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
         $this->assertEquals($size = 15, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
@@ -89,7 +89,7 @@ class Google2FATest extends TestCase
         $this->assertEquals($size = 21, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
-    public function testConvertsInvalidCharsToBase32()
+    public function testConvertsInvalidCharsToBase32(): void
     {
         $converted = $this->google2fa->generateBase32RandomKey(
             16,
@@ -111,7 +111,7 @@ class Google2FATest extends TestCase
         $this->assertEquals($converted, $valid);
     }
 
-    public function testGetsValidTimestamps()
+    public function testGetsValidTimestamps(): void
     {
         $ts = $this->google2fa->getTimestamp();
 
@@ -120,7 +120,7 @@ class Google2FATest extends TestCase
         $this->assertGreaterThanOrEqual(~PHP_INT_MAX, $ts);
     }
 
-    public function testDecodesBase32Strings()
+    public function testDecodesBase32Strings(): void
     {
         $result =
             chr(0).
@@ -140,7 +140,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testCreatesAOneTimePassword()
+    public function testCreatesAOneTimePassword(): void
     {
         $this->assertEquals(
             6,
@@ -148,7 +148,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testVerifiesKeys()
+    public function testVerifiesKeys(): void
     {
         // $ts 26213400 with KEY_REGENERATION 30 seconds is
         // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
@@ -212,7 +212,7 @@ class Google2FATest extends TestCase
         ); // 26213397
     }
 
-    public function testVerifiesKeysNewer()
+    public function testVerifiesKeysNewer(): void
     {
         $this->assertFalse(
             $this->google2fa->verifyKeyNewer(
@@ -309,7 +309,7 @@ class Google2FATest extends TestCase
         ); // 26213403
     }
 
-    public function testVerifiesSha256Keys()
+    public function testVerifiesSha256Keys(): void
     {
         // $ts 26213400 with KEY_REGENERATION 30 seconds is
         // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
@@ -380,7 +380,7 @@ class Google2FATest extends TestCase
         ); // 26213397
     }
 
-    public function testVerifiesSha256KeysNewer()
+    public function testVerifiesSha256KeysNewer(): void
     {
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA256);
 
@@ -463,7 +463,7 @@ class Google2FATest extends TestCase
         ); // 26213403
     }
 
-    public function testVerifiesSha512Keys()
+    public function testVerifiesSha512Keys(): void
     {
         // $ts 26213400 with KEY_REGENERATION 30 seconds is
         // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
@@ -529,7 +529,7 @@ class Google2FATest extends TestCase
         ); // 26213397
     }
 
-    public function testVerifiesSha512KeysNewer()
+    public function testVerifiesSha512KeysNewer(): void
     {
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA512);
 
@@ -612,7 +612,7 @@ class Google2FATest extends TestCase
         ); // 26213403
     }
 
-    public function testRemovesInvalidCharsFromSecret()
+    public function testRemovesInvalidCharsFromSecret(): void
     {
         $this->assertEquals(
             Constants::SECRET,
@@ -620,7 +620,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testConvertsToBase32()
+    public function testConvertsToBase32(): void
     {
         $this->assertEquals(
             'KBZGCZ3NMFJFQ',
@@ -628,7 +628,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testSetsTheWindow()
+    public function testSetsTheWindow(): void
     {
         $this->google2fa->setWindow(6);
 
@@ -691,7 +691,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testSetsTheSecret()
+    public function testSetsTheSecret(): void
     {
         $this->assertFalse(
             $this->google2fa->verify('558854', Constants::WRONG_SECRET)
@@ -711,7 +711,7 @@ class Google2FATest extends TestCase
         $this->google2fa->setSecret(Constants::SECRET);
     }
 
-    public function testGetsAlgorithm()
+    public function testGetsAlgorithm(): void
     {
         $this->google2fa->setAlgorithm('sha1');
 
@@ -729,7 +729,7 @@ class Google2FATest extends TestCase
         $this->assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
     }
 
-    public function testSetWrongAlgorithm()
+    public function testSetWrongAlgorithm(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException::class);
 
@@ -739,21 +739,21 @@ class Google2FATest extends TestCase
         $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
     }
 
-    public function testGetsKeyRegeneration()
+    public function testGetsKeyRegeneration(): void
     {
         $this->google2fa->setKeyRegeneration(11);
 
         $this->assertEquals(11, $this->google2fa->getKeyRegeneration());
     }
 
-    public function testGetsOtpLength()
+    public function testGetsOtpLength(): void
     {
         $this->google2fa->setOneTimePasswordLength(7);
 
         $this->assertEquals(7, $this->google2fa->getOneTimePasswordLength());
     }
 
-    public function testGeneratesPasswordsInManyDifferentSizes()
+    public function testGeneratesPasswordsInManyDifferentSizes(): void
     {
         $this->google2fa->setWindow(2);
 
@@ -780,7 +780,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testShortSecretKey()
+    public function testShortSecretKey(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
@@ -794,7 +794,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testValidateKey()
+    public function testValidateKey(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidCharactersException::class);
 
@@ -807,49 +807,49 @@ class Google2FATest extends TestCase
         $this->google2fa->getCurrentOtp(Constants::INVALID_SECRET);
     }
 
-    public function testThrowsBaseException()
+    public function testThrowsBaseException(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Google2FAException::class);
 
         $this->throwSecretKeyTooShortException();
     }
 
-    public function testThrowsBaseExceptionContract()
+    public function testThrowsBaseExceptionContract(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\Google2FA::class);
 
         $this->throwSecretKeyTooShortException();
     }
 
-    public function testThrowsSecretKeyTooShortException()
+    public function testThrowsSecretKeyTooShortException(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
         $this->throwSecretKeyTooShortException();
     }
 
-    public function testThrowsSecretKeyTooShortExceptionWhenVerifyingCode()
+    public function testThrowsSecretKeyTooShortExceptionWhenVerifyingCode(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
         $this->google2fa->verify('558854', '', null, 26213400);
     }
 
-    public function testThrowsSecretKeyTooShortExceptionContract()
+    public function testThrowsSecretKeyTooShortExceptionContract(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\SecretKeyTooShort::class);
 
         $this->throwSecretKeyTooShortException();
     }
 
-    public function testThrowsIncompatibleWithGoogleAuthenticatorExceptionInterface()
+    public function testThrowsIncompatibleWithGoogleAuthenticatorExceptionInterface(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator::class);
 
         $this->throwIncompatibleWithGoogleAuthenticatorException();
     }
 
-    public function throwSecretKeyTooShortException()
+    public function throwSecretKeyTooShortException(): void
     {
         $this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false);
 
@@ -861,7 +861,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function throwIncompatibleWithGoogleAuthenticatorException()
+    public function throwIncompatibleWithGoogleAuthenticatorException(): void
     {
         $this->google2fa
             ->setEnforceGoogleAuthenticatorCompatibility(true)
@@ -877,7 +877,7 @@ class Google2FATest extends TestCase
         );
     }
 
-    public function testOoathTotpThrowsSecretKeyTooShortException()
+    public function testOoathTotpThrowsSecretKeyTooShortException(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 

@@ -204,9 +204,9 @@ class Google2FA
     /**
      * Get a list of valid HMAC algorithms.
      *
-     * @return array
+     * @return list<string>
      */
-    protected function getValidAlgorithms()
+    protected function getValidAlgorithms(): array
     {
         return [
             Constants::SHA1,
@@ -371,7 +371,7 @@ class Google2FA
      *
      * @param mixed $keyRegeneration
      */
-    public function setKeyRegeneration($keyRegeneration)
+    public function setKeyRegeneration($keyRegeneration): void
     {
         $this->keyRegeneration = $keyRegeneration;
     }
@@ -381,7 +381,7 @@ class Google2FA
      *
      * @param mixed $oneTimePasswordLength
      */
-    public function setOneTimePasswordLength($oneTimePasswordLength)
+    public function setOneTimePasswordLength($oneTimePasswordLength): void
     {
         $this->oneTimePasswordLength = $oneTimePasswordLength;
     }
@@ -394,7 +394,7 @@ class Google2FA
     public function setSecret(
         #[\SensitiveParameter]
         $secret
-    ) {
+    ): void {
         $this->secret = $secret;
     }
 
@@ -403,7 +403,7 @@ class Google2FA
      *
      * @param mixed $window
      */
-    public function setWindow($window)
+    public function setWindow($window): void
     {
         $this->window = $window;
     }
