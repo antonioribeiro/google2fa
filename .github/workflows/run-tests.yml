@@ -12,15 +12,28 @@ jobs:
 
     strategy:
       matrix:
-        php: [8.2, 8.1, 8.0, 7.4]
+        php:
+          - '8.3'
+          - '8.2'
+          - '8.1'
+          - '8.0'
+          - '7.4'
+          - '7.3'
+          - '7.2'
 
     name: P${{ matrix.php }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ matrix.php }}
+
+      - name: Configure Git user
         run: |
           git config --global user.email "acr@antoniocarlosribeiro.com"; git config --global user.name "Antonio Ribeiro"
 
