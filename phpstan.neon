@@ -3,4 +3,4 @@ parameters:
     - src
     - tests
 
-  level: 8
+  level: max
