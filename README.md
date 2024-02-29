@@ -267,7 +267,7 @@ sudo service ntp start
 
 ## Validation Window
 
-To avoid problems with clocks that are slightly out of sync, we do not check against the current key only but also consider `$window` keys each from the past and future. You can pass `$window` as optional third parameter to `verifyKey`, it defaults to `1`. A new key is generated every 30 seconds, so this window includes keys from the previous 30 seconds and next 30 seconds.
+To avoid problems with clocks that are slightly out of sync, we do not check against the current key only but also consider `$window` keys each from the past and future. You can pass `$window` as optional third parameter to `verifyKey`, it defaults to `1`. When a new key is generated every 30 seconds, then with the default setting, keys from one previous, the current, and one next 30-seconds intervals will be considered. To the user with properly synchronized clock, it will look like the key is valid for 60 seconds instead of 30, as the system will accept it even when it is already expired for let's say 29 seconds.
 
 ```php
 $secret = $request->input('secret');
@@ -276,6 +276,8 @@ $window = 8; // 8 keys (respectively 4 minutes) past and future
 
 $valid = $google2fa->verifyKey($user->google2fa_secret, $secret, $window);
 ```
+
+Setting the `$window` parameter to `0` may also mean that the system will not accept a key that was valid when the user has seen it in their generator as it usually takes some time for the user to input the key to the particular form field.
 
 An attacker might be able to watch the user entering his credentials and one time key.
 Without further precautions, the key remains valid until it is no longer within the window of the server time. In order to prevent usage of a one time key that has already been used, you can utilize the `verifyKeyNewer` function.
