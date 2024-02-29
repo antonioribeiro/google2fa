@@ -27,6 +27,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ matrix.php }}
+
       - name: Configure Git user
         run: |
           git config --global user.email "acr@antoniocarlosribeiro.com"; git config --global user.name "Antonio Ribeiro"
