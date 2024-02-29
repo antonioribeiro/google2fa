@@ -267,7 +267,7 @@ sudo service ntp start
 
 ## Validation Window
 
-To avoid problems with clocks that are slightly out of sync, we do not check against the current key only but also consider `$window` keys each from the past and future. You can pass `$window` as optional third parameter to `verifyKey`, it defaults to `4`. A new key is generated every 30 seconds, so this window includes keys from the previous two and next two minutes.
+To avoid problems with clocks that are slightly out of sync, we do not check against the current key only but also consider `$window` keys each from the past and future. You can pass `$window` as optional third parameter to `verifyKey`, it defaults to `1`. A new key is generated every 30 seconds, so this window includes keys from the previous 30 seconds and next 30 seconds.
 
 ```php
 $secret = $request->input('secret');

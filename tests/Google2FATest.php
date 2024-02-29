@@ -628,6 +628,11 @@ class Google2FATest extends TestCase
         );
     }
 
+    public function testDefaultWindow()
+    {
+        $this->assertEquals(1, $this->google2fa->getWindow());
+    }
+
     public function testSetsTheWindow()
     {
         $this->google2fa->setWindow(6);
