@@ -235,9 +235,9 @@ class Google2FA
      * @param int      $timestamp
      * @param int|null $oldTimestamp
      *
-     * @return mixed
+     * @return int
      */
-    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null)
+    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null): int
     {
         return is_null($oldTimestamp)
             ? $timestamp - $this->getWindow($window)
@@ -341,12 +341,12 @@ class Google2FA
     /**
      * Setter for the enforce Google Authenticator compatibility property.
      *
-     * @param mixed $enforceGoogleAuthenticatorCompatibility
+     * @param bool $enforceGoogleAuthenticatorCompatibility
      *
      * @return $this
      */
     public function setEnforceGoogleAuthenticatorCompatibility(
-        $enforceGoogleAuthenticatorCompatibility
+        bool $enforceGoogleAuthenticatorCompatibility
     ) {
         $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
 
@@ -356,13 +356,13 @@ class Google2FA
     /**
      * Set the HMAC hashing algorithm.
      *
-     * @param mixed $algorithm
+     * @param string $algorithm
      *
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException
      *
      * @return \PragmaRX\Google2FA\Google2FA
      */
-    public function setAlgorithm($algorithm)
+    public function setAlgorithm(string $algorithm)
     {
         // Default to SHA1 HMAC algorithm
         if (!in_array($algorithm, $this->getValidAlgorithms())) {
@@ -377,9 +377,9 @@ class Google2FA
     /**
      * Set key regeneration.
      *
-     * @param mixed $keyRegeneration
+     * @param int $keyRegeneration
      */
-    public function setKeyRegeneration($keyRegeneration): void
+    public function setKeyRegeneration(int $keyRegeneration): void
     {
         $this->keyRegeneration = $keyRegeneration;
     }
@@ -387,9 +387,9 @@ class Google2FA
     /**
      * Set OTP length.
      *
-     * @param mixed $oneTimePasswordLength
+     * @param int $oneTimePasswordLength
      */
-    public function setOneTimePasswordLength($oneTimePasswordLength): void
+    public function setOneTimePasswordLength(int $oneTimePasswordLength): void
     {
         $this->oneTimePasswordLength = $oneTimePasswordLength;
     }
@@ -397,11 +397,11 @@ class Google2FA
     /**
      * Set secret.
      *
-     * @param mixed $secret
+     * @param string $secret
      */
     public function setSecret(
         #[\SensitiveParameter]
-        $secret
+        string $secret
     ): void {
         $this->secret = $secret;
     }
@@ -409,9 +409,9 @@ class Google2FA
     /**
      * Set the OTP window.
      *
-     * @param mixed $window
+     * @param int $window
      */
-    public function setWindow($window): void
+    public function setWindow(int $window): void
     {
         $this->window = $window;
     }
