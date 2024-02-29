@@ -7,5 +7,6 @@ use PragmaRX\Google2FA\Exceptions\Contracts\SecretKeyTooShort as SecretKeyTooSho
 
 class SecretKeyTooShortException extends Google2FAException implements Google2FAExceptionContract, SecretKeyTooShortExceptionContract
 {
+    /** @var string */
     protected $message = 'Secret key is too short. Must be at least 16 base32 characters';
 }
