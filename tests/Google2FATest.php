@@ -883,4 +883,11 @@ class Google2FATest extends TestCase
 
         $this->google2fa->oathTotp('', 0);
     }
+
+    public function testOathTruncateThrowsInvalidHashException(): void
+    {
+        $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidHashException::class);
+
+        $this->google2fa->oathTruncate('foo');
+    }
 }

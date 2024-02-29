@@ -3,6 +3,7 @@
 namespace PragmaRX\Google2FA;
 
 use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
+use PragmaRX\Google2FA\Exceptions\InvalidHashException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
@@ -296,6 +297,8 @@ class Google2FA
      *
      * @param string $hash
      *
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidHashException
+     *
      * @return string
      **/
     public function oathTruncate(
@@ -304,7 +307,12 @@ class Google2FA
     ) {
         $offset = ord($hash[strlen($hash) - 1]) & 0xF;
 
-        $temp = unpack('N', substr($hash, $offset, 4));
+        $temp = @unpack('N', substr($hash, $offset, 4)); // Intentionally @ - error converted to an exception
+        if ($temp === false) {
+            $lastError = error_get_last();
+
+            throw new InvalidHashException($lastError !== null ? $lastError['message'] : '');
+        }
 
         $temp = $temp[1] & 0x7FFFFFFF;
 
