@@ -393,7 +393,7 @@ class Google2FA
      */
     public function setSecret(
         #[\SensitiveParameter]
-        $secret,
+        $secret
     ) {
         $this->secret = $secret;
     }
