@@ -4,3 +4,6 @@ parameters:
     - tests
 
   level: max
+
+includes:
+  - phar://phpstan.phar/conf/bleedingEdge.neon
