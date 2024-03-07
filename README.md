@@ -246,7 +246,7 @@ And show it as an image:
 
 ## HMAC Algorithms 
 
-To comply with [RFC6238](https://tools.ietf.org/html/rfc6238), this package supports SHA1, SHA256 and SHA512. It defaults to SHA1, so to use a different algorithm you just have to use the method `setAlgorith()`:
+To comply with [RFC6238](https://tools.ietf.org/html/rfc6238), this package supports SHA1, SHA256 and SHA512. It defaults to SHA1, so to use a different algorithm you just have to use the method `setAlgorithm()`:
 
 ``` php
 
