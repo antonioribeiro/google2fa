@@ -17,6 +17,15 @@ jobs:
     name: P${{ matrix.php }}
 
     steps:
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring
+          ini-values: post_max_size=256M, max_execution_time=180
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -26,6 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          php --version
           composer require --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests
