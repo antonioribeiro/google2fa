@@ -3,6 +3,7 @@
 namespace PragmaRX\Google2FA;
 
 use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
+use PragmaRX\Google2FA\Exceptions\InvalidHashException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
@@ -204,9 +205,9 @@ class Google2FA
     /**
      * Get a list of valid HMAC algorithms.
      *
-     * @return array
+     * @return list<string>
      */
-    protected function getValidAlgorithms()
+    protected function getValidAlgorithms(): array
     {
         return [
             Constants::SHA1,
@@ -234,9 +235,9 @@ class Google2FA
      * @param int      $timestamp
      * @param int|null $oldTimestamp
      *
-     * @return mixed
+     * @return int
      */
-    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null)
+    private function makeStartingTimestamp($window, $timestamp, $oldTimestamp = null): int
     {
         return is_null($oldTimestamp)
             ? $timestamp - $this->getWindow($window)
@@ -296,6 +297,8 @@ class Google2FA
      *
      * @param string $hash
      *
+     * @throws \PragmaRX\Google2FA\Exceptions\InvalidHashException
+     *
      * @return string
      **/
     public function oathTruncate(
@@ -304,7 +307,12 @@ class Google2FA
     ) {
         $offset = ord($hash[strlen($hash) - 1]) & 0xF;
 
-        $temp = unpack('N', substr($hash, $offset, 4));
+        $temp = @unpack('N', substr($hash, $offset, 4)); // Intentionally @ - error converted to an exception
+        if ($temp === false) {
+            $lastError = error_get_last();
+
+            throw new InvalidHashException($lastError !== null ? $lastError['message'] : '');
+        }
 
         $temp = $temp[1] & 0x7FFFFFFF;
 
@@ -333,12 +341,12 @@ class Google2FA
     /**
      * Setter for the enforce Google Authenticator compatibility property.
      *
-     * @param mixed $enforceGoogleAuthenticatorCompatibility
+     * @param bool $enforceGoogleAuthenticatorCompatibility
      *
      * @return $this
      */
     public function setEnforceGoogleAuthenticatorCompatibility(
-        $enforceGoogleAuthenticatorCompatibility
+        bool $enforceGoogleAuthenticatorCompatibility
     ) {
         $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
 
@@ -348,13 +356,13 @@ class Google2FA
     /**
      * Set the HMAC hashing algorithm.
      *
-     * @param mixed $algorithm
+     * @param string $algorithm
      *
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException
      *
      * @return \PragmaRX\Google2FA\Google2FA
      */
-    public function setAlgorithm($algorithm)
+    public function setAlgorithm(string $algorithm)
     {
         // Default to SHA1 HMAC algorithm
         if (!in_array($algorithm, $this->getValidAlgorithms())) {
@@ -369,9 +377,9 @@ class Google2FA
     /**
      * Set key regeneration.
      *
-     * @param mixed $keyRegeneration
+     * @param int $keyRegeneration
      */
-    public function setKeyRegeneration($keyRegeneration)
+    public function setKeyRegeneration(int $keyRegeneration): void
     {
         $this->keyRegeneration = $keyRegeneration;
     }
@@ -379,9 +387,9 @@ class Google2FA
     /**
      * Set OTP length.
      *
-     * @param mixed $oneTimePasswordLength
+     * @param int $oneTimePasswordLength
      */
-    public function setOneTimePasswordLength($oneTimePasswordLength)
+    public function setOneTimePasswordLength(int $oneTimePasswordLength): void
     {
         $this->oneTimePasswordLength = $oneTimePasswordLength;
     }
@@ -389,21 +397,21 @@ class Google2FA
     /**
      * Set secret.
      *
-     * @param mixed $secret
+     * @param string $secret
      */
     public function setSecret(
         #[\SensitiveParameter]
-        $secret
-    ) {
+        string $secret
+    ): void {
         $this->secret = $secret;
     }
 
     /**
      * Set the OTP window.
      *
-     * @param mixed $window
+     * @param int $window
      */
-    public function setWindow($window)
+    public function setWindow(int $window): void
     {
         $this->window = $window;
     }

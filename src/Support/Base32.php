@@ -11,6 +11,8 @@ trait Base32
 {
     /**
      * Enforce Google Authenticator compatibility.
+     *
+     * @var bool
      */
     protected $enforceGoogleAuthenticatorCompatibility = true;
 
@@ -160,7 +162,7 @@ trait Base32
     protected function validateSecret(
         #[\SensitiveParameter]
         $b32
-    ) {
+    ): void {
         $this->checkForValidCharacters($b32);
 
         $this->checkGoogleAuthenticatorCompatibility($b32);
@@ -178,7 +180,7 @@ trait Base32
     protected function checkGoogleAuthenticatorCompatibility(
         #[\SensitiveParameter]
         $b32
-    ) {
+    ): void {
         if (
             $this->enforceGoogleAuthenticatorCompatibility &&
             $this->isCharCountNotAPowerOfTwo($b32) // Google Authenticator requires it to be a power of 2 base32 length string
@@ -197,7 +199,7 @@ trait Base32
     protected function checkForValidCharacters(
         #[\SensitiveParameter]
         $b32
-    ) {
+    ): void {
         if (
             preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $b32) !==
             $b32
@@ -216,7 +218,7 @@ trait Base32
     protected function checkIsBigEnough(
         #[\SensitiveParameter]
         $b32
-    ) {
+    ): void {
         // Minimum = 128 bits
         // Recommended = 160 bits
         // Compatible with Google Authenticator = 256 bits

@@ -1,7 +1,10 @@
 <?php
 
 if (!function_exists('d')) {
-    function d($args)
+    /**
+     * @param array<mixed> $args
+     */
+    function d(array $args): void
     {
         foreach ($args as $arg) {
             var_dump($arg);
@@ -10,7 +13,7 @@ if (!function_exists('d')) {
 }
 
 if (!function_exists('dd')) {
-    function dd()
+    function dd(): void
     {
         d(func_get_args());
 

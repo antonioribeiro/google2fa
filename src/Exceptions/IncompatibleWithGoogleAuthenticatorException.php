@@ -7,5 +7,6 @@ use PragmaRX\Google2FA\Exceptions\Contracts\IncompatibleWithGoogleAuthenticator 
 
 class IncompatibleWithGoogleAuthenticatorException extends Google2FAException implements Google2FAExceptionContract, IncompatibleWithGoogleAuthenticatorExceptionContract
 {
+    /** @var string */
     protected $message = 'This secret key is not compatible with Google Authenticator.';
 }
