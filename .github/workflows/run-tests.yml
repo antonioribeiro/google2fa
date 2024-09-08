@@ -19,7 +19,7 @@ jobs:
           - '8.1'
           - '8.0'
 
-    name: P${{ matrix.php }}
+    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Setup PHP ${{ matrix.php }}
