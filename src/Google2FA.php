@@ -245,6 +245,9 @@ class Google2FA
 
             throw new InvalidHashException($lastError !== null ? $lastError['message'] : '');
         }
+        if (!is_int($temp[1])) {
+            throw new InvalidHashException();
+        }
 
         $temp = $temp[1] & 0x7FFFFFFF;
 
