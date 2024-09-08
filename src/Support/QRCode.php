@@ -6,19 +6,13 @@ trait QRCode
 {
     /**
      * Creates a QR code url.
-     *
-     * @param string $company
-     * @param string $holder
-     * @param string $secret
-     *
-     * @return string
      */
     public function getQRCodeUrl(
-        $company,
-        $holder,
+        string $company,
+        string $holder,
         #[\SensitiveParameter]
-        $secret
-    ) {
+        string $secret
+    ): string  {
         return 'otpauth://totp/'.
             rawurlencode($company).
             ':'.

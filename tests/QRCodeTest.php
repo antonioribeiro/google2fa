@@ -7,10 +7,7 @@ use PragmaRX\Google2FA\Google2FA;
 
 class QRCodeTest extends TestCase
 {
-    /**
-     * @var \PragmaRX\Google2FA\Google2FA
-     */
-    public $google2fa;
+    public Google2FA $google2fa;
 
     public function setUp(): void
     {
