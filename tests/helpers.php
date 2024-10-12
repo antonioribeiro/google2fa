@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('d')) {
+if (! function_exists('d')) {
     function d($args)
     {
         foreach ($args as $arg) {
@@ -9,7 +9,7 @@ if (!function_exists('d')) {
     }
 }
 
-if (!function_exists('dd')) {
+if (! function_exists('dd')) {
     function dd()
     {
         d(func_get_args());

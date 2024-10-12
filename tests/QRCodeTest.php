@@ -14,7 +14,7 @@ class QRCodeTest extends TestCase
 
     public function setUp(): void
     {
-        $this->google2fa = new Google2FA();
+        $this->google2fa = new Google2FA;
     }
 
     public function testCanGetQRCode()

@@ -12,40 +12,32 @@ trait Base32
     /**
      * Enforce Google Authenticator compatibility.
      */
-    protected $enforceGoogleAuthenticatorCompatibility = true;
+    protected bool $enforceGoogleAuthenticatorCompatibility = true;
 
     /**
      * Calculate char count bits.
      *
-     * @param string $b32
-     *
-     * @return int
+     * @param  string  $b32
      */
     protected function charCountBits(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): float|int {
         return strlen($b32) * 8;
     }
 
     /**
      * Generate a digit secret key in base32 format.
      *
-     * @param int    $length
-     * @param string $prefix
+     * @param  string  $prefix
      *
-     * @throws \Exception
-     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
-     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
-     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
-     *
-     * @return string
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws InvalidCharactersException
+     * @throws SecretKeyTooShortException
      */
     public function generateBase32RandomKey(
-        $length = 16,
-        #[\SensitiveParameter]
-        $prefix = ''
-    ) {
+        int $length = 16,
+        #[\SensitiveParameter] string $prefix = ''
+    ): string {
         $secret = $prefix ? $this->toBase32($prefix) : '';
 
         $secret = $this->strPadBase32($secret, $length);
@@ -58,18 +50,15 @@ trait Base32
     /**
      * Decodes a base32 string into a binary string.
      *
-     * @param string $b32
+     * @param  string  $b32
      *
-     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
-     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
-     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
-     *
-     * @return string
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws InvalidCharactersException
+     * @throws SecretKeyTooShortException
      */
     public function base32Decode(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): string {
         $b32 = strtoupper($b32);
 
         $this->validateSecret($b32);
@@ -80,32 +69,25 @@ trait Base32
     /**
      * Check if the string length is power of two.
      *
-     * @param string $b32
-     *
-     * @return bool
+     * @param  string  $b32
      */
     protected function isCharCountNotAPowerOfTwo(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): bool {
         return (strlen($b32) & (strlen($b32) - 1)) !== 0;
     }
 
     /**
      * Pad string with random base 32 chars.
      *
-     * @param string $string
-     * @param int    $length
+     * @param  string  $string
      *
      * @throws \Exception
-     *
-     * @return string
      */
     private function strPadBase32(
-        #[\SensitiveParameter]
-        $string,
-        $length
-    ) {
+        #[\SensitiveParameter] string $string,
+        int $length
+    ): string {
         for ($i = 0; $i < $length; $i++) {
             $string .= substr(
                 Constants::VALID_FOR_B32_SCRAMBLED,
@@ -120,14 +102,11 @@ trait Base32
     /**
      * Encode a string to Base32.
      *
-     * @param string $string
-     *
-     * @return string
+     * @param  string  $string
      */
     public function toBase32(
-        #[\SensitiveParameter]
-        $string
-    ) {
+        #[\SensitiveParameter] string $string
+    ): string {
         $encoded = ParagonieBase32::encodeUpper($string);
 
         return str_replace('=', '', $encoded);
@@ -136,14 +115,10 @@ trait Base32
     /**
      * Get a random number.
      *
-     * @param int $from
-     * @param int $to
      *
      * @throws \Exception
-     *
-     * @return int
      */
-    protected function getRandomNumber($from = 0, $to = 31)
+    protected function getRandomNumber(int $from = 0, int $to = 31): int
     {
         return random_int($from, $to);
     }
@@ -151,16 +126,15 @@ trait Base32
     /**
      * Validate the secret.
      *
-     * @param string $b32
+     * @param  string  $b32
      *
-     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
-     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
-     * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
+     * @throws InvalidCharactersException
+     * @throws SecretKeyTooShortException
+     * @throws IncompatibleWithGoogleAuthenticatorException
      */
     protected function validateSecret(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): void {
         $this->checkForValidCharacters($b32);
 
         $this->checkGoogleAuthenticatorCompatibility($b32);
@@ -171,52 +145,49 @@ trait Base32
     /**
      * Check if the secret key is compatible with Google Authenticator.
      *
-     * @param string $b32
+     * @param  string  $b32
      *
      * @throws IncompatibleWithGoogleAuthenticatorException
      */
     protected function checkGoogleAuthenticatorCompatibility(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): void {
         if (
             $this->enforceGoogleAuthenticatorCompatibility &&
             $this->isCharCountNotAPowerOfTwo($b32) // Google Authenticator requires it to be a power of 2 base32 length string
         ) {
-            throw new IncompatibleWithGoogleAuthenticatorException();
+            throw new IncompatibleWithGoogleAuthenticatorException;
         }
     }
 
     /**
      * Check if all secret key characters are valid.
      *
-     * @param string $b32
+     * @param  string  $b32
      *
-     * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
+     * @throws InvalidCharactersException
      */
     protected function checkForValidCharacters(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): void {
         if (
             preg_replace('/[^'.Constants::VALID_FOR_B32.']/', '', $b32) !==
             $b32
         ) {
-            throw new InvalidCharactersException();
+            throw new InvalidCharactersException;
         }
     }
 
     /**
      * Check if secret key length is big enough.
      *
-     * @param string $b32
+     * @param  string  $b32
      *
-     * @throws \PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException
+     * @throws SecretKeyTooShortException
      */
     protected function checkIsBigEnough(
-        #[\SensitiveParameter]
-        $b32
-    ) {
+        #[\SensitiveParameter] string $b32
+    ): void {
         // Minimum = 128 bits
         // Recommended = 160 bits
         // Compatible with Google Authenticator = 256 bits
@@ -224,7 +195,7 @@ trait Base32
         if (
             $this->charCountBits($b32) < 128
         ) {
-            throw new SecretKeyTooShortException();
+            throw new SecretKeyTooShortException;
         }
     }
 }
