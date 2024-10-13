@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace PragmaRX\Google2FA\Tests;
 
@@ -8,10 +9,7 @@ use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
 
 class Google2FATest extends TestCase
 {
-    /**
-     * @var \PragmaRX\Google2FA\Google2FA
-     */
-    public $google2fa;
+    public Google2FA $google2fa;
 
     public function setUp(): void
     {
