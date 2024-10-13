@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace PragmaRX\Google2FA\Tests;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
 use PragmaRX\Google2FA\Support\Constants as Google2FAConstants;
@@ -18,7 +19,7 @@ class Google2FATest extends TestCase
 
     public function testIsInitializable(): void
     {
-        $this->assertInstanceOf(
+        Assert::assertInstanceOf(
             Google2FA::class,
             $this->google2fa
         );
@@ -26,24 +27,24 @@ class Google2FATest extends TestCase
 
     public function testGeneratesAValidSecretKey(): void
     {
-        $this->assertEquals(16, strlen($this->google2fa->generateSecretKey()));
+        Assert::assertEquals(16, strlen($this->google2fa->generateSecretKey()));
 
-        $this->assertEquals(
+        Assert::assertEquals(
             32,
             strlen($this->google2fa->generateSecretKey(32))
         );
 
-        $this->assertStringStartsWith(
+        Assert::assertStringStartsWith(
             'MFXHI',
             $this->google2fa->generateSecretKey(59, 'ant')
         );
 
-        $this->assertStringStartsWith(
+        Assert::assertStringStartsWith(
             'MFXHI',
             $this->google2fa->generateSecretKey(59, 'ant')
         );
 
-        $this->assertEquals(
+        Assert::assertEquals(
             $key = $this->google2fa->generateSecretKey(),
             preg_replace(
                 '/[^'.Google2FAConstants::VALID_FOR_B32.']/',
@@ -55,36 +56,36 @@ class Google2FATest extends TestCase
 
     public function testGeneratesASecretKeysCompatibleWithGoogleAuthenticator(): void
     {
-        $this->assertEquals($size = 16, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// minimum = 128 bits
-        $this->assertEquals($size = 20, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey($size))); /// recommended = 160 bits - not compatible
-        $this->assertEquals($size = 32, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// recommended = 256 bits - compatible
-        $this->assertEquals($size = 64, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
-        $this->assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        Assert::assertEquals($size = 16, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// minimum = 128 bits
+        Assert::assertEquals($size = 20, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(false)->generateSecretKey($size))); /// recommended = 160 bits - not compatible
+        Assert::assertEquals($size = 32, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));  /// recommended = 256 bits - compatible
+        Assert::assertEquals($size = 64, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        Assert::assertEquals($size = 128, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
     public function testGeneratesASecretKeysGenerationSize(): void
     {
         // 128 bits are allowed
-        $this->assertEquals($size = 16, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        Assert::assertEquals($size = 16, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
 
         // anything below 128 bits are NOT allowed
         $this->expectException(\PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException::class);
 
-        $this->assertEquals($size = 2, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
-        $this->assertEquals($size = 4, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
-        $this->assertEquals($size = 8, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        Assert::assertEquals($size = 2, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        Assert::assertEquals($size = 4, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
+        Assert::assertEquals($size = 8, strlen($this->google2fa->generateSecretKey($size)));  /// minimum = 128 bits
     }
 
     public function testGeneratesASecretKeysNotCompatibleWithGoogleAuthenticator(): void
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 15, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        Assert::assertEquals($size = 15, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
 
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        Assert::assertEquals($size = 17, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
 
         $this->expectException(\PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException::class);
-        $this->assertEquals($size = 21, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
+        Assert::assertEquals($size = 21, strlen($this->google2fa->setEnforceGoogleAuthenticatorCompatibility(true)->generateSecretKey($size)));
     }
 
     public function testConvertsInvalidCharsToBase32(): void
@@ -106,16 +107,16 @@ class Google2FATest extends TestCase
             $converted
         );
 
-        $this->assertEquals($converted, $valid);
+        Assert::assertEquals($converted, $valid);
     }
 
     public function testGetsValidTimestamps(): void
     {
         $ts = $this->google2fa->getTimestamp();
 
-        $this->assertLessThanOrEqual(PHP_INT_MAX, $ts);
+        Assert::assertLessThanOrEqual(PHP_INT_MAX, $ts);
 
-        $this->assertGreaterThanOrEqual(~PHP_INT_MAX, $ts);
+        Assert::assertGreaterThanOrEqual(~PHP_INT_MAX, $ts);
     }
 
     public function testDecodesBase32Strings(): void
@@ -132,7 +133,7 @@ class Google2FATest extends TestCase
             chr(145).
             chr(86);
 
-        $this->assertEquals(
+        Assert::assertEquals(
             $result,
             $this->google2fa->base32Decode(Constants::SECRET)
         );
@@ -140,7 +141,7 @@ class Google2FATest extends TestCase
 
     public function testCreatesAOneTimePassword(): void
     {
-        $this->assertEquals(
+        Assert::assertEquals(
             6,
             strlen($this->google2fa->getCurrentOtp(Constants::SECRET))
         );
@@ -151,7 +152,7 @@ class Google2FATest extends TestCase
         // $ts 26213400 with KEY_REGENERATION 30 seconds is
         // timestamp 786402000, which is 1994-12-02 21:00:00 UTC
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -159,7 +160,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213398
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '981084',
@@ -167,7 +168,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213399
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '512396',
@@ -175,7 +176,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '410272',
@@ -183,7 +184,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '239815',
@@ -192,7 +193,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213402
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '313366',
@@ -200,7 +201,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213403
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '093183',
@@ -212,14 +213,14 @@ class Google2FATest extends TestCase
 
     public function testVerifiesKeysNewer(): void
     {
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '512396',
                 null /// first time user gets in
             )
         ); // 26213400
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '512396',
@@ -228,7 +229,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '512396',
@@ -237,7 +238,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '410272',
@@ -246,7 +247,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -256,7 +257,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '313366',
@@ -266,7 +267,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213403
 
-        $this->assertEquals(
+        Assert::assertEquals(
             26213400,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -276,7 +277,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertEquals(
+        Assert::assertEquals(
             26213401,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -286,7 +287,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -296,7 +297,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '313366',
@@ -314,7 +315,7 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA256);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '230152',
@@ -323,7 +324,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213398
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '064978',
@@ -332,7 +333,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213399
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '758576',
@@ -341,7 +342,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213400
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '935741',
@@ -350,7 +351,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213401
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '044590',
@@ -359,7 +360,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213402
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '576276',
@@ -368,7 +369,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213403
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '152688',
@@ -382,7 +383,7 @@ class Google2FATest extends TestCase
     {
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA256);
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '758576',
@@ -391,7 +392,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '935741',
@@ -400,7 +401,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -410,7 +411,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '576276',
@@ -420,7 +421,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213403
 
-        $this->assertEquals(
+        Assert::assertEquals(
             26213400,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -430,7 +431,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertEquals(
+        Assert::assertEquals(
             26213401,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -440,7 +441,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -450,7 +451,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '576276',
@@ -468,7 +469,7 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA512);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '772377',
@@ -476,7 +477,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213398
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '048034',
@@ -484,7 +485,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213399
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '752139',
@@ -492,7 +493,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '572238',
@@ -500,7 +501,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '424074',
@@ -509,7 +510,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213402
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '237162',
@@ -517,7 +518,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213403
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '705476',
@@ -531,7 +532,7 @@ class Google2FATest extends TestCase
     {
         $this->google2fa->setAlgorithm(Google2FAConstants::SHA512);
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '752139',
@@ -540,7 +541,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '572238',
@@ -549,7 +550,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -559,7 +560,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '237162',
@@ -569,7 +570,7 @@ class Google2FATest extends TestCase
             )
         ); // 26213403
 
-        $this->assertEquals(
+        Assert::assertEquals(
             26213400,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -579,7 +580,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213400
-        $this->assertEquals(
+        Assert::assertEquals(
             26213401,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -589,7 +590,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213401
-        $this->assertEquals(
+        Assert::assertEquals(
             26213402,
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
@@ -599,7 +600,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         ); // 26213402
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKeyNewer(
                 Constants::SECRET,
                 '237162',
@@ -612,7 +613,7 @@ class Google2FATest extends TestCase
 
     public function testRemovesInvalidCharsFromSecret(): void
     {
-        $this->assertEquals(
+        Assert::assertEquals(
             Constants::SECRET,
             $this->google2fa->removeInvalidChars(Constants::SECRET.'!1-@@@')
         );
@@ -620,7 +621,7 @@ class Google2FATest extends TestCase
 
     public function testConvertsToBase32(): void
     {
-        $this->assertEquals(
+        Assert::assertEquals(
             'KBZGCZ3NMFJFQ',
             $this->google2fa->toBase32('PragmaRX')
         );
@@ -630,13 +631,13 @@ class Google2FATest extends TestCase
     {
         $this->google2fa->setWindow(6);
 
-        $this->assertEquals(6, $this->google2fa->getWindow());
+        Assert::assertEquals(6, $this->google2fa->getWindow());
 
-        $this->assertEquals(1, $this->google2fa->getWindow(1));
+        Assert::assertEquals(1, $this->google2fa->getWindow(1));
 
         $this->google2fa->setWindow(0);
 
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -647,7 +648,7 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setWindow(2);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -655,7 +656,7 @@ class Google2FATest extends TestCase
                 26213400
             )
         );
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -663,7 +664,7 @@ class Google2FATest extends TestCase
                 26213399
             )
         );
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -671,7 +672,7 @@ class Google2FATest extends TestCase
                 26213398
             )
         );
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -679,7 +680,7 @@ class Google2FATest extends TestCase
                 26213396
             )
         );
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -691,13 +692,13 @@ class Google2FATest extends TestCase
 
     public function testSetsTheSecret(): void
     {
-        $this->assertFalse(
+        Assert::assertFalse(
             $this->google2fa->verify('558854', Constants::WRONG_SECRET)
         );
 
         $this->google2fa->setWindow(2);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verify(
                 '558854',
                 Constants::SECRET,
@@ -713,18 +714,18 @@ class Google2FATest extends TestCase
     {
         $this->google2fa->setAlgorithm('sha1');
 
-        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
-        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
+        Assert::assertEquals('sha1', $this->google2fa->getAlgorithm());
+        Assert::assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
 
         $this->google2fa->setAlgorithm('sha256');
 
-        $this->assertEquals('sha256', $this->google2fa->getAlgorithm());
-        $this->assertEquals(Google2FAConstants::SHA256, $this->google2fa->getAlgorithm());
+        Assert::assertEquals('sha256', $this->google2fa->getAlgorithm());
+        Assert::assertEquals(Google2FAConstants::SHA256, $this->google2fa->getAlgorithm());
 
         $this->google2fa->setAlgorithm('sha512');
 
-        $this->assertEquals('sha512', $this->google2fa->getAlgorithm());
-        $this->assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
+        Assert::assertEquals('sha512', $this->google2fa->getAlgorithm());
+        Assert::assertEquals(Google2FAConstants::SHA512, $this->google2fa->getAlgorithm());
     }
 
     public function testSetWrongAlgorithm(): void
@@ -733,22 +734,22 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setAlgorithm('md5');
 
-        $this->assertEquals('sha1', $this->google2fa->getAlgorithm());
-        $this->assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
+        Assert::assertEquals('sha1', $this->google2fa->getAlgorithm());
+        Assert::assertEquals(Google2FAConstants::SHA1, $this->google2fa->getAlgorithm());
     }
 
     public function testGetsKeyRegeneration(): void
     {
         $this->google2fa->setKeyRegeneration(11);
 
-        $this->assertEquals(11, $this->google2fa->getKeyRegeneration());
+        Assert::assertEquals(11, $this->google2fa->getKeyRegeneration());
     }
 
     public function testGetsOtpLength(): void
     {
         $this->google2fa->setOneTimePasswordLength(7);
 
-        $this->assertEquals(7, $this->google2fa->getOneTimePasswordLength());
+        Assert::assertEquals(7, $this->google2fa->getOneTimePasswordLength());
     }
 
     public function testGeneratesPasswordsInManyDifferentSizes(): void
@@ -757,7 +758,7 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setOneTimePasswordLength(6);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '558854',
@@ -768,7 +769,7 @@ class Google2FATest extends TestCase
 
         $this->google2fa->setOneTimePasswordLength(7);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             $this->google2fa->verifyKey(
                 Constants::SECRET,
                 '8981084',
@@ -796,7 +797,7 @@ class Google2FATest extends TestCase
     {
         $this->expectException(\PragmaRX\Google2FA\Exceptions\InvalidCharactersException::class);
 
-        $this->assertTrue(
+        Assert::assertTrue(
             is_numeric($this->google2fa->getCurrentOtp(Constants::SECRET))
         );
 
@@ -865,7 +866,7 @@ class Google2FATest extends TestCase
             ->setEnforceGoogleAuthenticatorCompatibility(true)
             ->generateSecretKey(17);
 
-        $this->assertEquals(
+        Assert::assertEquals(
             17,
             strlen(
                 $this->google2fa

@@ -38,7 +38,7 @@ trait Base32
         #[\SensitiveParameter]
         string $prefix = ''
     ): string {
-        $secret = $prefix ? $this->toBase32($prefix) : '';
+        $secret = $prefix !== '' ? $this->toBase32($prefix) : '';
 
         $secret = $this->strPadBase32($secret, $length);
 
