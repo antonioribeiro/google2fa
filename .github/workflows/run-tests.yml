@@ -48,3 +48,6 @@ jobs:
 
       - name: Execute PHPStan
         run: vendor/bin/phpstan analyse -c phpstan.neon
+
+      - name: Execute Psalm
+        run: vendor/bin/psalm
