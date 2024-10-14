@@ -289,7 +289,7 @@ class Google2FA
     public function setAlgorithm(string $algorithm): static
     {
         // Default to SHA1 HMAC algorithm
-        if (!in_array($algorithm, $this->getValidAlgorithms())) {
+        if (!in_array($algorithm, $this->getValidAlgorithms(), true)) {
             throw new InvalidAlgorithmException();
         }
 
