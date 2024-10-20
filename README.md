@@ -411,7 +411,9 @@ Pull requests and issues are more than welcome.
 
 ### Contribution setup
 
-If you want to contribute, make sure code is checked, tested, linted and formatted before pushing it. Please install NPM packages to setup a husky pre-commit hook that will help you with that:
+If you want to contribute, make sure code is checked, tested, linted and formatted before pushing it.  
+
+Please install NPM packages to setup a husky pre-commit hook that will help you with that:
 
 ```bash
 npm install
