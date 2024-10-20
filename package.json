@@ -1,0 +1,29 @@
+{
+    "name": "twill-feature-flags",
+    "private": true,
+    "scripts": {
+        "precommit": "lint-staged",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "package.json": "sort-package-json",
+        "**/*": "sh tools/linters.sh conflict-markers",
+        "**/*.php": [
+            "sh tools/linters.sh phpstan",
+            "sh tools/linters.sh prettify"
+        ]
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@prettier/plugin-php": "~0.22.2",
+        "@shufo/prettier-plugin-blade": "~1.14.1",
+        "husky": "~9.0.11",
+        "lint-staged": "~15.2.2",
+        "prettier": "~3.2.5",
+        "sort-package-json": "~2.10.0"
+    },
+    "engines": {
+        "node": "~18",
+        "npm": "~10"
+    }
+}

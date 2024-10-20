@@ -1,0 +1,5 @@
+*.md
+*.lock
+
+**/vendor
+**/node_modules

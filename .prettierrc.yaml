@@ -1,0 +1,15 @@
+### General
+arrowParens: always
+tabWidth: 4
+useTabs: false
+requirePragma: false
+insertPragma:
+  false
+plugins:
+  - "@prettier/plugin-php"
+
+### PHP
+phpVersion: "8.2"
+trailingCommaPHP: true
+braceStyle: psr-2
+singleQuote: true
