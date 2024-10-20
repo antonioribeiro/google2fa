@@ -10,23 +10,16 @@ main() {
     init "$@"
 
     if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "lint" ]; then
-        phpStan
+        phpstan
+        psalm
     fi
 
     if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "conflict-markers" ]; then
         checkLeftConflictMarkers
     fi
 
-    if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "eslint" ]; then
-        eslint
-    fi
-
-    if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "stylelint" ]; then
-        stylelint
-    fi
-
     if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "prettify" ] || [ "$SERVICE" = "format" ]; then
-        phpCsFixer
+        phpcsfixer
         prettier
     fi
 
@@ -35,11 +28,15 @@ main() {
     fi
 
     if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "php-cs-fixer" ]; then
-        phpCsFixer
+        phpcsfixer
     fi
 
     if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "phpstan" ]; then
-        phpStan
+        phpstan
+    fi
+
+    if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "psalm" ]; then
+        psalm
     fi
 
     checkStatus "$@"
@@ -73,10 +70,14 @@ init() {
     if [ -z ${PHPSTAN+x} ]; then
         PHPSTAN="vendor/bin/phpstan"
     fi
+
+    if [ -z ${PSALM+x} ]; then
+        PSALM="vendor/bin/psalm"
+    fi
 }
 
-phpCsFixer() {
-    echo "phpCsFixer";
+phpcsfixer() {
+    echo "phpcsfixer";
     message "Running PHP-CS-Fixer..."
 
     checkExecutable "PHP CS Fixer" $PHPCSFIXER
@@ -156,7 +157,7 @@ prettier() {
     WAS_EXECUTED="$PRETTIER"
 }
 
-phpStan() {
+phpstan() {
     message "Running PHPStan..."
 
     checkExecutable "PHPStan" $PHPSTAN
@@ -243,6 +244,34 @@ buildArguments() {
     if [ "$FILES" = "" ]; then
         FILES='.'
     fi
+}
+
+psalm() {
+    message "Running Psalm..."
+
+    checkExecutable "Psalm" $PSALM
+
+    LOGFILE="$LOGS_PATH/psalm.log"
+    PATHS_FILE="$TEMP_PATH/psalm.files.txt"
+
+    if [ "$FILES" = "." ]; then
+        if ! $PSALM >>$LOGFILE; then
+            fatalError "Psalm finished with errors. Check the log file: $LOGFILE"
+        fi
+    else
+        if test -f "$PATHS_FILE"; then
+            \rm "$PATHS_FILE"
+        fi
+
+        for FILE in $FILES; do
+            if ! $PSALM analyse "$FILE" >$LOGFILE 2>&1; then
+                fatalError "Psalm finished with errors. Check the log file: $LOGFILE"
+            fi
+        done
+
+    fi
+
+    WAS_EXECUTED="$PSALM"
 }
 
 buildArguments "$@"
