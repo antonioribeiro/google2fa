@@ -38,6 +38,9 @@
         "files": ["tests/helpers.php"]
     },
     "scripts": {
+        "post-autoload-dump": [
+            "php tools/check-tools.php"
+        ],
         "test": "bash ./tests/tools/test.sh",
         "analyse": "bash ./tests/tools/analyse.sh"
     },
