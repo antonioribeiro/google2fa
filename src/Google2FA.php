@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace PragmaRX\Google2FA;
 
-use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
-use PragmaRX\Google2FA\Exceptions\InvalidHashException;
-use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
+use PragmaRX\Google2FA\Support\QRCode;
 use PragmaRX\Google2FA\Support\Base32;
 use PragmaRX\Google2FA\Support\Constants;
-use PragmaRX\Google2FA\Support\QRCode;
+use PragmaRX\Google2FA\Exceptions\InvalidHashException;
+use PragmaRX\Google2FA\Exceptions\InvalidAlgorithmException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 class Google2FA
 {
