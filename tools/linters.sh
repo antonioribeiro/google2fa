@@ -39,6 +39,10 @@ main() {
         psalm
     fi
 
+    if [ "$SERVICE" = "all" ] || [ "$SERVICE" = "phpunit" ]; then
+        phpunit
+    fi
+
     checkStatus "$@"
 }
 
@@ -73,6 +77,10 @@ init() {
 
     if [ -z ${PSALM+x} ]; then
         PSALM="vendor/bin/psalm"
+    fi
+
+    if [ -z ${PHPUNIT+x} ]; then
+        PHPUNIT="vendor/bin/phpunit"
     fi
 }
 
@@ -272,6 +280,34 @@ psalm() {
     fi
 
     WAS_EXECUTED="$PSALM"
+}
+
+phpunit() {
+    message "Running PHPUnit..."
+
+    checkExecutable "PHPUnit" $PHPUNIT
+
+    LOGFILE="$LOGS_PATH/phpunit.log"
+    PATHS_FILE="$TEMP_PATH/phpunit.files.txt"
+
+    if [ "$FILES" = "." ]; then
+        if ! $PHPUNIT >>$LOGFILE; then
+            fatalError "PHPUnit finished with errors. Check the log file: $LOGFILE"
+        fi
+    else
+        if test -f "$PATHS_FILE"; then
+            \rm "$PATHS_FILE"
+        fi
+
+        for FILE in $FILES; do
+            if ! $PHPUNIT analyse "$FILE" >$LOGFILE 2>&1; then
+                fatalError "PHPUnit finished with errors. Check the log file: $LOGFILE"
+            fi
+        done
+
+    fi
+
+    WAS_EXECUTED="$PHPUNIT"
 }
 
 buildArguments "$@"
