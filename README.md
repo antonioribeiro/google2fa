@@ -409,6 +409,15 @@ Google2FA is licensed under the MIT License - see the [LICENSE](LICENSE.md) file
 
 Pull requests and issues are more than welcome.
 
+### Contribution setup
+
+If you want to contribute, make sure code is checked, tested, linted and formatted before pushing it. Please install NPM packages to setup a husky pre-commit hook that will help you with that:
+
+```bash
+npm install
+npm run prepare
+```
+
 ## Sponsorships
 
 ### Direct
