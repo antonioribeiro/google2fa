@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace PragmaRX\Google2FA\Tests;
 
@@ -22,7 +23,7 @@ class QRCodeTest extends TestCase
 
         Assert::assertEquals(
             $this->google2fa->getQRCodeUrl('company', 'holder', $secretKey),
-            "otpauth://totp/company:holder?secret={$secretKey}&issuer=company&algorithm=SHA1&digits=6&period=30"
+            "otpauth://totp/company:holder?secret={$secretKey}&issuer=company&algorithm=SHA1&digits=6&period=30",
         );
     }
 }

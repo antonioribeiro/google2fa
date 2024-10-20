@@ -187,7 +187,6 @@ phpstan() {
                 fatalError "PHPStan finished with errors. Check the log file: $LOGFILE"
             fi
         done
-
     fi
 
     WAS_EXECUTED="$PHPSTAN"
@@ -272,11 +271,10 @@ psalm() {
         fi
 
         for FILE in $FILES; do
-            if ! $PSALM analyse "$FILE" >$LOGFILE 2>&1; then
+            if ! $PSALM "$FILE" >$LOGFILE 2>&1; then
                 fatalError "Psalm finished with errors. Check the log file: $LOGFILE"
             fi
         done
-
     fi
 
     WAS_EXECUTED="$PSALM"
@@ -300,11 +298,10 @@ phpunit() {
         fi
 
         for FILE in $FILES; do
-            if ! $PHPUNIT analyse "$FILE" >$LOGFILE 2>&1; then
+            if ! $PHPUNIT >$LOGFILE 2>&1; then
                 fatalError "PHPUnit finished with errors. Check the log file: $LOGFILE"
             fi
         done
-
     fi
 
     WAS_EXECUTED="$PHPUNIT"

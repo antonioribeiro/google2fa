@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace PragmaRX\Google2FA\Support;
 
@@ -8,25 +9,25 @@ class Constants
     /**
      * Characters valid for Base 32.
      */
-    const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    public const VALID_FOR_B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     /**
      * Characters valid for Base 32, scrambled.
      */
-    const VALID_FOR_B32_SCRAMBLED = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
+    public const VALID_FOR_B32_SCRAMBLED = '234567QWERTYUIOPASDFGHJKLZXCVBNM';
 
     /**
      * SHA1 algorithm.
      */
-    const SHA1 = 'sha1';
+    public const SHA1 = 'sha1';
 
     /**
      * SHA256 algorithm.
      */
-    const SHA256 = 'sha256';
+    public const SHA256 = 'sha256';
 
     /**
      * SHA512 algorithm.
      */
-    const SHA512 = 'sha512';
+    public const SHA512 = 'sha512';
 }

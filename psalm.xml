@@ -10,8 +10,30 @@
 >
     <projectFiles>
         <directory name="src" />
+        <directory name="tests" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <file name="tests/Google2FATest.php" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <file name="tests/QRCodeTest.php" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+        <MixedAssignment>
+            <errorLevel type="suppress">
+                <file name="tests/helpers.php" />
+            </errorLevel>
+        </MixedAssignment>
+        <ForbiddenCode>
+            <errorLevel type="suppress">
+                <file name="tests/helpers.php" />
+            </errorLevel>
+        </ForbiddenCode>
+    </issueHandlers>
 </psalm>
