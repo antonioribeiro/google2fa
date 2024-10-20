@@ -10,6 +10,8 @@
         "**/*": "sh tools/linters.sh conflict-markers",
         "**/*.php": [
             "sh tools/linters.sh phpstan",
+            "sh tools/linters.sh psalm",
+            "sh tools/linters.sh phpunit",
             "sh tools/linters.sh prettify"
         ]
     },

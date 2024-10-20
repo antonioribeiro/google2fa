@@ -2,18 +2,14 @@
 
 if (!areNpmPackagesInstalled(__DIR__ . '/../')) {
     displayErrorMessage('ERROR: NPM or necessary packages are not installed.');
-    displayErrorMessage(
-        'Please execute `npm install` in the project root directory.',
-    );
+    displayErrorMessage('Please execute `npm install` in the project root directory.');
 
     exit(1);
 }
 
 if (!isHooksPathSet(__DIR__ . '/../.git/config')) {
     displayErrorMessage('ERROR: Husky hooks are not in place');
-    displayErrorMessage(
-        'Please execute `npm run prepare` in the project root directory.',
-    );
+    displayErrorMessage('Please execute `npm run prepare` in the project root directory.');
 
     exit(1);
 }

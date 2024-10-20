@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace PragmaRX\Google2FA;
 
@@ -48,25 +49,16 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
     public function findValidOTP(
-        #[\SensitiveParameter]
-        string $secret,
-        #[\SensitiveParameter]
-        string $key,
+        #[\SensitiveParameter] string $secret,
+        #[\SensitiveParameter] string $key,
         ?int $window,
         int $startingTimestamp,
         int $timestamp,
-        ?int $oldTimestamp = null
+        ?int $oldTimestamp = null,
     ): bool|int {
-        for (;
-            $startingTimestamp <= $timestamp + $this->getWindow($window);
-            $startingTimestamp++
-        ) {
-            if (
-                hash_equals($this->oathTotp($secret, $startingTimestamp), $key)
-            ) {
-                return is_null($oldTimestamp)
-                    ? true
-                    : $startingTimestamp;
+        for (; $startingTimestamp <= $timestamp + $this->getWindow($window); $startingTimestamp++) {
+            if (hash_equals($this->oathTotp($secret, $startingTimestamp), $key)) {
+                return is_null($oldTimestamp) ? true : $startingTimestamp;
             }
         }
 
@@ -76,16 +68,13 @@ class Google2FA
     /**
      * Generate the HMAC OTP.
      */
-    protected function generateHotp(
-        #[\SensitiveParameter]
-        string $secret,
-        int $counter
-    ): string {
+    protected function generateHotp(#[\SensitiveParameter] string $secret, int $counter): string
+    {
         return hash_hmac(
             $this->getAlgorithm(),
             pack('N*', 0, $counter), // Counter must be 64-bit int
             $secret,
-            true
+            true,
         );
     }
 
@@ -108,10 +97,8 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
-    public function getCurrentOtp(
-        #[\SensitiveParameter]
-        string $secret
-    ): string {
+    public function getCurrentOtp(#[\SensitiveParameter] string $secret): string
+    {
         return $this->oathTotp($secret, $this->getTimestamp());
     }
 
@@ -142,10 +129,8 @@ class Google2FA
     /**
      * Get secret.
      */
-    public function getSecret(
-        #[\SensitiveParameter]
-        ?string $secret = null
-    ): string {
+    public function getSecret(#[\SensitiveParameter] ?string $secret = null): string
+    {
         return is_null($secret) ? $this->secret : $secret;
     }
 
@@ -165,11 +150,7 @@ class Google2FA
      */
     protected function getValidAlgorithms(): array
     {
-        return [
-            Constants::SHA1,
-            Constants::SHA256,
-            Constants::SHA512,
-        ];
+        return [Constants::SHA1, Constants::SHA256, Constants::SHA512];
     }
 
     /**
@@ -210,11 +191,8 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidCharactersException
      * @throws Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
-    public function oathTotp(
-        #[\SensitiveParameter]
-        string $secret,
-        int $counter
-    ): string {
+    public function oathTotp(#[\SensitiveParameter] string $secret, int $counter): string
+    {
         if (strlen($secret) < 8) {
             throw new SecretKeyTooShortException();
         }
@@ -225,7 +203,7 @@ class Google2FA
             $this->oathTruncate($this->generateHotp($secret, $counter)),
             $this->getOneTimePasswordLength(),
             '0',
-            STR_PAD_LEFT
+            STR_PAD_LEFT,
         );
     }
 
@@ -234,11 +212,9 @@ class Google2FA
      *
      * @throws \PragmaRX\Google2FA\Exceptions\InvalidHashException
      */
-    public function oathTruncate(
-        #[\SensitiveParameter]
-        string $hash
-    ): string {
-        $offset = ord($hash[strlen($hash) - 1]) & 0xF;
+    public function oathTruncate(#[\SensitiveParameter] string $hash): string
+    {
+        $offset = ord($hash[strlen($hash) - 1]) & 0xf;
 
         $temp = @unpack('N', substr($hash, $offset, 4)); // Intentionally @ - error converted to an exception
         if ($temp === false) {
@@ -250,12 +226,9 @@ class Google2FA
             throw new InvalidHashException();
         }
 
-        $temp = $temp[1] & 0x7FFFFFFF;
+        $temp = $temp[1] & 0x7fffffff;
 
-        return substr(
-            (string) $temp,
-            -$this->getOneTimePasswordLength()
-        );
+        return substr((string) $temp, -$this->getOneTimePasswordLength());
     }
 
     /**
@@ -263,19 +236,14 @@ class Google2FA
      */
     public function removeInvalidChars(string $string): ?string
     {
-        return preg_replace(
-            '/[^'.Constants::VALID_FOR_B32.']/',
-            '',
-            $string
-        );
+        return preg_replace('/[^' . Constants::VALID_FOR_B32 . ']/', '', $string);
     }
 
     /**
      * Setter for the enforce Google Authenticator compatibility property.
      */
-    public function setEnforceGoogleAuthenticatorCompatibility(
-        bool $enforceGoogleAuthenticatorCompatibility
-    ): static {
+    public function setEnforceGoogleAuthenticatorCompatibility(bool $enforceGoogleAuthenticatorCompatibility): static
+    {
         $this->enforceGoogleAuthenticatorCompatibility = $enforceGoogleAuthenticatorCompatibility;
 
         return $this;
@@ -317,10 +285,8 @@ class Google2FA
     /**
      * Set secret.
      */
-    public function setSecret(
-        #[\SensitiveParameter]
-        string $secret
-    ): void {
+    public function setSecret(#[\SensitiveParameter] string $secret): void
+    {
         $this->secret = $secret;
     }
 
@@ -341,21 +307,13 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
     public function verify(
-        #[\SensitiveParameter]
-        string $key,
-        #[\SensitiveParameter]
-        string $secret,
+        #[\SensitiveParameter] string $key,
+        #[\SensitiveParameter] string $secret,
         ?int $window = null,
         ?int $timestamp = null,
-        ?int $oldTimestamp = null
+        ?int $oldTimestamp = null,
     ): bool|int {
-        return $this->verifyKey(
-            $secret,
-            $key,
-            $window,
-            $timestamp,
-            $oldTimestamp
-        );
+        return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
     }
 
     /**
@@ -367,13 +325,11 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
     public function verifyKey(
-        #[\SensitiveParameter]
-        string $secret,
-        #[\SensitiveParameter]
-        string $key,
+        #[\SensitiveParameter] string $secret,
+        #[\SensitiveParameter] string $key,
         ?int $window = null,
         ?int $timestamp = null,
-        ?int $oldTimestamp = null
+        ?int $oldTimestamp = null,
     ): bool|int {
         $timestamp = $this->makeTimestamp($timestamp);
 
@@ -383,7 +339,7 @@ class Google2FA
             $window,
             $this->makeStartingTimestamp($window, $timestamp, $oldTimestamp),
             $timestamp,
-            $oldTimestamp
+            $oldTimestamp,
         );
     }
 
@@ -398,20 +354,12 @@ class Google2FA
      * @throws \PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException
      */
     public function verifyKeyNewer(
-        #[\SensitiveParameter]
-        string $secret,
-        #[\SensitiveParameter]
-        string $key,
+        #[\SensitiveParameter] string $secret,
+        #[\SensitiveParameter] string $key,
         ?int $oldTimestamp,
         ?int $window = null,
-        ?int $timestamp = null
+        ?int $timestamp = null,
     ): bool|int {
-        return $this->verifyKey(
-            $secret,
-            $key,
-            $window,
-            $timestamp,
-            $oldTimestamp
-        );
+        return $this->verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
     }
 }
