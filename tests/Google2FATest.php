@@ -28,11 +28,11 @@ class Google2FATest extends TestCase
 
     public function testGeneratesAValidSecretKey()
     {
-        $this->assertEquals(16, strlen($this->google2fa->generateSecretKey()));
+        $this->assertEquals(32, strlen($this->google2fa->generateSecretKey()));
 
         $this->assertEquals(
-            32,
-            strlen($this->google2fa->generateSecretKey(32))
+            16,
+            strlen($this->google2fa->generateSecretKey(16))
         );
 
         $this->assertStringStartsWith(
