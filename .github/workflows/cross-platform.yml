@@ -87,6 +87,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Node.js
+      if: hashFiles('package.json') != ''
       uses: actions/setup-node@v4
       with:
         node-version: '18'
@@ -100,6 +101,10 @@ jobs:
       if: hashFiles('package.json') != ''
       run: npm run format:check
       continue-on-error: true
+
+    - name: Skip Node.js checks (no package.json found)
+      if: hashFiles('package.json') == ''
+      run: echo "No package.json found, skipping Node.js code quality checks"
 
   security:
     runs-on: ubuntu-latest
