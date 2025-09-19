@@ -1,0 +1,138 @@
+name: Cross Platform
+
+on:
+  push:
+    branches:
+      - '*.x'
+  pull_request:
+    branches:
+      - '*.x'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        dependency-version: [prefer-lowest, prefer-stable]
+        exclude:
+          # Exclude older PHP versions from newer OS to reduce matrix size
+          - os: windows-latest
+            php: '7.4'
+          - os: windows-latest
+            php: '8.0'
+          - os: macos-latest
+            php: '7.4'
+          - os: macos-latest
+            php: '8.0'
+          # PHPUnit 12 has compatibility issues with prefer-lowest on multiple PHP versions
+          - php: '8.1'
+            dependency-version: prefer-lowest
+          - php: '8.2'
+            dependency-version: prefer-lowest
+          - php: '8.3'
+            dependency-version: prefer-lowest
+          - php: '8.4'
+            dependency-version: prefer-lowest
+          - php: '8.5'
+            dependency-version: prefer-lowest
+
+    name: P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, fileinfo, json
+        coverage: none
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php }}-
+
+    - name: Configure platform for PHP 8.5
+      if: matrix.php == '8.5'
+      run: composer config platform.php 8.4.0
+
+    - name: Install dependencies
+      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
+
+    - name: List Installed Dependencies
+      run: composer show -D
+
+    - name: Execute tests
+      run: vendor/bin/phpunit --no-coverage
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      if: hashFiles('package.json') != ''
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install Node.js dependencies
+      if: hashFiles('package.json') != ''
+      run: npm install
+
+    - name: Check code style with Prettier
+      if: hashFiles('package.json') != ''
+      run: npm run format:check
+      continue-on-error: true
+
+    - name: Skip Node.js checks (no package.json found)
+      if: hashFiles('package.json') == ''
+      run: echo "No package.json found, skipping Node.js code quality checks"
+
+  security:
+    runs-on: ubuntu-latest
+    name: Security Audit
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, json
+        coverage: none
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-8.3-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-8.3-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
+
+    - name: Security audit
+      run: composer audit
+      continue-on-error: true

@@ -1,0 +1,49 @@
+name: Static Analysis
+
+on:
+  push:
+    branches:
+      - '*.x'
+  pull_request:
+    branches:
+      - '*.x'
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    name: PHPStan P${{ matrix.php-version }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, json
+        coverage: none
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-version }}-
+
+    - name: Configure platform for PHP 8.5
+      if: matrix.php-version == '8.5'
+      run: composer config platform.php 8.4.0
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
+
+    - name: Execute static analysis
+      run: vendor/bin/phpstan analyse --no-progress --level=5

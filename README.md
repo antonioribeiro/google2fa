@@ -8,13 +8,13 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square"></a>
     <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
-    <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Code Quality" src="https://img.shields.io/scrutinizer/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
-    <a href="https://github.com/antonioribeiro/google2fa/actions/workflows/run-tests.yml"><img alt="Run tests" src="https://github.com/antonioribeiro/google2fa/actions/workflows/run-tests.yml/badge.svg"></a>
-    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square"></a>
+    <a href="https://github.com/antonioribeiro/google2fa/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/phpunit.yml?style=flat-square"></a>
+    <a href="https://github.com/antonioribeiro/google2fa/actions"><img alt="Static Analysis" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/static-analysis.yml?style=flat-square&label=static-analysis"></a>
 </p>
 <p align="center">
-    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Monthly Downloads" src="https://poser.pugx.org/pragmarx/google2fa/d/monthly?format=flat-square"></a>
-    <a href="https://scrutinizer-ci.com/g/antonioribeiro/google2fa/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/google2fa.svg?style=flat-square"></a>
+    <a href="https://codecov.io/gh/antonioribeiro/google2fa"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/antonioribeiro/google2fa/9.x?style=flat-square"></a>
+    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%20%7C%208.0%20%7C%208.1%20%7C%208.2%20%7C%208.3%20%7C%208.4%20%7C%208.5-green.svg?style=flat-square"></a>
+    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square"></a>
 </p>
 
 ---
@@ -48,14 +48,56 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
  PHP     | Google2FA
 :--------|:----------
- 5.4     | 7.x LTS
- 5.5     | 7.x LTS
- 5.6     | 7.x LTS
- 7.1     | 8.x
- 7.2     | 8.x
- 7.3     | 8.x
- 7.4     | 8.x
- 8.0 (β) | 8.x
+ 7.4        | 8.x & 9.x
+ 8.0        | 8.x & 9.x
+ 8.1        | 8.x & 9.x
+ 8.2        | 8.x & 9.x
+ 8.3        | 8.x & 9.x
+ 8.4        | 8.x & 9.x
+ 8.5 (beta) | 8.x & 9.x
+
+## ⚠️ Version 9.0.0 Breaking Change
+
+### Default Secret Key Length Increased
+
+**Version 9.0.0** introduces a **breaking change**: The default secret key length has been increased from **16 to 32 characters** for enhanced security.
+
+#### What Changed?
+- `generateSecretKey()` now generates 32-character secrets by default (previously 16)
+- This increases cryptographic entropy from 80 bits to 160 bits
+- Maintains full compatibility with Google Authenticator and other TOTP apps
+
+#### Migration Guide
+
+**If you want to keep the previous behavior (16-character secrets):**
+```php
+// Old default behavior (v8.x and below)
+$secret = $google2fa->generateSecretKey();
+
+// New way to get 16-character secrets (v9.0+)
+$secret = $google2fa->generateSecretKey(16);
+```
+
+**If you want to use the new default (32-character secrets):**
+```php
+// This now generates 32-character secrets by default
+$secret = $google2fa->generateSecretKey();
+```
+
+#### Potential Impact Areas
+- **Database schemas**: Check if your `google2fa_secret` columns can handle 32 characters
+- **Validation rules**: Update any length validations that expect exactly 16 characters
+- **Tests**: Update test assertions expecting 16-character secrets
+- **UI components**: Ensure QR code displays and secret key fields accommodate longer secrets
+
+**Important**: Existing 16-character secrets remain fully functional. Database updates are only needed if you want to use the new 32-character default behavior.
+
+#### Why This Change?
+While 16-character secrets meet RFC 6238 minimum requirements, 32-character secrets provide significantly better security:
+- **16 chars**: 80 bits of entropy (adequate but minimal)
+- **32 chars**: 160 bits of entropy (much stronger against brute force)
+
+This change aligns with modern security best practices for cryptographic applications.
 
 ## Laravel bridge
 
@@ -108,7 +150,11 @@ return $google2fa->generateSecretKey();
 Generate a secret key for your user and save it:
 
 ```php
+// Generates a 32-character secret key (v9.0.0+ default)
 $user->google2fa_secret = $google2fa->generateSecretKey();
+
+// Or explicitly specify 16 characters for compatibility
+$user->google2fa_secret = $google2fa->generateSecretKey(16);
 ```
 
 ## Generating QRCodes
@@ -303,7 +349,8 @@ Although the probability of collision of a 16 bytes (128 bits) random string is 
 #### Use a bigger key
 
 ```php
-$secretKey = $google2fa->generateSecretKey(32); // defaults to 16 bytes
+$secretKey = $google2fa->generateSecretKey(32); // now defaults to 32 bytes (v9.0.0+)
+$secretKey = $google2fa->generateSecretKey(16); // for 16 byte keys (v8.x behavior)
 ```
 
 #### You can prefix your secret keys
