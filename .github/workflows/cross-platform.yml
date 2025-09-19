@@ -28,6 +28,17 @@ jobs:
             php: '7.4'
           - os: macos-latest
             php: '8.0'
+          # PHPUnit 12 has compatibility issues with prefer-lowest on multiple PHP versions
+          - php: '8.1'
+            dependency-version: prefer-lowest
+          - php: '8.2'
+            dependency-version: prefer-lowest
+          - php: '8.3'
+            dependency-version: prefer-lowest
+          - php: '8.4'
+            dependency-version: prefer-lowest
+          - php: '8.5'
+            dependency-version: prefer-lowest
 
     name: P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
