@@ -97,10 +97,33 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-interaction --no-progress
 
+    - name: Check Xdebug status
+      run: php -m | grep -i xdebug
+
     - name: Execute tests with coverage
-      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+      run: |
+        echo "Current working directory: $(pwd)"
+        echo "PHPUnit command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
+        export XDEBUG_MODE=coverage
+        echo "Xdebug mode set to: $XDEBUG_MODE"
+        vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+        echo "PHPUnit exit code: $?"
+
+    - name: Check if coverage file was created
+      run: |
+        echo "Checking for coverage file..."
+        echo "Current directory contents:"
+        ls -la
+        echo "Looking for clover files:"
+        ls -la *.clover 2>/dev/null || echo "No clover files found in current directory"
+        echo "Searching entire directory tree:"
+        find . -name "*.clover" -type f 2>/dev/null || echo "No clover files found anywhere"
+        echo "Checking if Xdebug coverage mode is working:"
+        php -r "echo 'Xdebug mode: ' . (getenv('XDEBUG_MODE') ?: 'not set') . PHP_EOL;"
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        files: coverage.clover
+        fail_ci_if_error: false
