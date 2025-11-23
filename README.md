@@ -55,7 +55,12 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
  7.2     | 8.x
  7.3     | 8.x
  7.4     | 8.x
- 8.0 (β) | 8.x
+ 8.0     | 8.x
+ 8.1     | 8.x
+ 8.2     | 8.x
+ 8.3     | 8.x
+ 8.4     | 8.x
+ 8.5     | 8.x
 
 ## Laravel bridge
 
