@@ -7,3 +7,4 @@
 /RELICENSED.md export-ignore
 /upgrading.md export-ignore
 /phpstan.neon export-ignore
+/.github export-ignore
