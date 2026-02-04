@@ -17,6 +17,7 @@
     </projectFiles>
 
     <issueHandlers>
+        <ClassMustBeFinal errorLevel="suppress" />
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
                 <file name="tests/Google2FATest.php" />
