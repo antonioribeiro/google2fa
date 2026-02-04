@@ -140,7 +140,7 @@ class Google2FA
      */
     public function getTimestamp(): int
     {
-        return (int) floor(microtime(true) / $this->keyRegeneration);
+        return (int) (time() / $this->keyRegeneration);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PragmaRX\Google2FA\Tests;
 
+use Override;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use PragmaRX\Google2FA\Google2FA;
@@ -12,6 +13,7 @@ class QRCodeTest extends TestCase
 {
     public Google2FA $google2fa;
 
+    #[Override]
     public function setUp(): void
     {
         $this->google2fa = new Google2FA();
