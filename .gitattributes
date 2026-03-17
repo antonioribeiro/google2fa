@@ -5,6 +5,6 @@
 /.scrutinizer.yml export-ignore
 /phpunit.xml export-ignore
 /RELICENSED.md export-ignore
-/upgrading.md export-ignore
+/CHANGELOG.md export-ignore
 /phpstan.neon export-ignore
 /.github export-ignore
