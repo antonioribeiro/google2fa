@@ -12,118 +12,77 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    name: PHP ${{ matrix.php }} / PHPUnit ${{ matrix.phpunit }}${{ matrix.coverage && ' / coverage' || '' }}
+
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
-        dependency-version: [prefer-lowest, prefer-stable]
-        exclude:
-          # PHPUnit 12 has compatibility issues with prefer-lowest on multiple PHP versions
-          - php: '8.1'
-            dependency-version: prefer-lowest
-          - php: '8.2'
-            dependency-version: prefer-lowest
-          - php: '8.3'
-            dependency-version: prefer-lowest
-          - php: '8.4'
-            dependency-version: prefer-lowest
-          - php: '8.5'
-            dependency-version: prefer-lowest
+        include:
+          # PHP 7.4 — PHPUnit 9 only (10+ requires PHP 8.1+)
+          - { php: '7.4', phpunit: '^9.0' }
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+          # PHP 8.0 — PHPUnit 9 only (10+ requires PHP 8.1+)
+          - { php: '8.0', phpunit: '^9.0' }
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+          # PHP 8.1 — PHPUnit 9 and 10
+          - { php: '8.1', phpunit: '^9.0' }
+          - { php: '8.1', phpunit: '^10.0' }
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, json
-        coverage: none
+          # PHP 8.2 — PHPUnit 10 and 11
+          - { php: '8.2', phpunit: '^10.0' }
+          - { php: '8.2', phpunit: '^11.0' }
 
-    - name: Setup problem matchers
-      run: |
-        echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-        echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+          # PHP 8.3 — PHPUnit 11 and 12
+          - { php: '8.3', phpunit: '^11.0' }
+          - { php: '8.3', phpunit: '^12.0' }
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-${{ matrix.php }}-
+          # PHP 8.4 — PHPUnit 12 and 13
+          # The PHPUnit 13 row also computes coverage for Codecov.
+          - { php: '8.4', phpunit: '^12.0' }
+          - { php: '8.4', phpunit: '^13.0', coverage: 'pcov' }
 
-    - name: Configure platform for PHP 8.5
-      if: matrix.php == '8.5'
-      run: composer config platform.php 8.4.0
-
-    - name: Install dependencies
-      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
-
-    - name: List Installed Dependencies
-      run: composer show -D
-
-    - name: Execute tests
-      run: vendor/bin/phpunit --no-coverage
-
-  coverage:
-    runs-on: ubuntu-latest
-    name: Coverage
+          # PHP 8.5 — PHPUnit 12 and 13
+          - { php: '8.5', phpunit: '^12.0' }
+          - { php: '8.5', phpunit: '^13.0' }
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.3
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, json
-        coverage: xdebug3
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl
+          coverage: ${{ matrix.coverage || 'none' }}
+          tools: composer:v2
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-8.3-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-8.3-
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Pin PHPUnit version
+        run: composer require --dev --no-update "phpunit/phpunit:${{ matrix.phpunit }}"
 
-    - name: Check Xdebug status
-      run: php -m | grep -i xdebug
+      - name: Install dependencies
+        run: composer update --no-interaction --prefer-dist --no-progress
 
-    - name: Execute tests with coverage
-      run: |
-        echo "Current working directory: $(pwd)"
-        echo "PHPUnit command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
-        export XDEBUG_MODE=coverage
-        echo "Xdebug mode set to: $XDEBUG_MODE"
-        vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-        echo "PHPUnit exit code: $?"
+      - name: List installed dependencies
+        run: composer show -D
 
-    - name: Check if coverage file was created
-      run: |
-        echo "Checking for coverage file..."
-        echo "Current directory contents:"
-        ls -la
-        echo "Looking for clover files:"
-        ls -la *.clover 2>/dev/null || echo "No clover files found in current directory"
-        echo "Searching entire directory tree:"
-        find . -name "*.clover" -type f 2>/dev/null || echo "No clover files found anywhere"
-        echo "Checking if Xdebug coverage mode is working:"
-        php -r "echo 'Xdebug mode: ' . (getenv('XDEBUG_MODE') ?: 'not set') . PHP_EOL;"
+      - name: Run tests
+        run: |
+          flags="--fail-on-skipped"
+          if [ -n "${{ matrix.coverage }}" ]; then
+            flags="$flags --coverage-clover=coverage.xml --coverage-filter=src"
+          fi
+          vendor/bin/phpunit $flags
 
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: coverage.clover
-        fail_ci_if_error: false
+      - name: Upload coverage to Codecov
+        if: matrix.coverage == 'pcov'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true

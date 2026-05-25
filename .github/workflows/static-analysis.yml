@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -31,7 +31,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -46,4 +46,35 @@ jobs:
       run: composer install --prefer-dist --no-interaction --no-progress
 
     - name: Execute static analysis
+      run: vendor/bin/phpstan analyse --no-progress --level=5
+
+  phpstan-legacy:
+    runs-on: ubuntu-latest
+    name: PHPStan 1.x + PHPUnit 11 (legacy stack)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Setup PHP 8.2
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        coverage: none
+        tools: composer:v2
+
+    - name: Pin legacy stack (PHPStan ^1.0 + phpstan-phpunit ^1.0 + PHPUnit ^11)
+      run: |
+        composer require --dev --no-update \
+          "phpstan/phpstan:^1.0" \
+          "phpstan/phpstan-phpunit:^1.0" \
+          "phpunit/phpunit:^11"
+
+    - name: Install dependencies
+      run: composer update --no-interaction --prefer-dist --no-progress
+
+    - name: List installed dependencies
+      run: composer show -D | grep -E '^(phpstan|phpunit)'
+
+    - name: Execute static analysis on legacy stack
       run: vendor/bin/phpstan analyse --no-progress --level=5
