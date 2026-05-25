@@ -1,6 +1,13 @@
+includes:
+  - vendor/phpstan/phpstan-phpunit/extension.neon
+
 parameters:
   paths:
     - src
     - tests
 
   level: 5
+
+  # Tests use assertInstanceOf as runtime sanity checks. PHPStan 2.x infers types
+  # aggressively from setUp() and flags those as tautologies — they are not, at runtime.
+  treatPhpDocTypesAsCertain: false
