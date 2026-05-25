@@ -8,8 +8,8 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 <p align="center">
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/google2fa.svg?style=flat-square"></a>
     <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
-    <a href="https://github.com/antonioribeiro/google2fa/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/phpunit.yml?style=flat-square"></a>
-    <a href="https://github.com/antonioribeiro/google2fa/actions"><img alt="Static Analysis" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/static-analysis.yml?style=flat-square&label=static-analysis"></a>
+    <a href="https://github.com/antonioribeiro/google2fa/actions/workflows/phpunit.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/phpunit.yml?branch=9.x&style=flat-square"></a>
+    <a href="https://github.com/antonioribeiro/google2fa/actions/workflows/static-analysis.yml"><img alt="Static Analysis" src="https://img.shields.io/github/actions/workflow/status/antonioribeiro/google2fa/static-analysis.yml?branch=9.x&style=flat-square&label=static-analysis"></a>
 </p>
 <p align="center">
     <a href="https://codecov.io/gh/antonioribeiro/google2fa"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/antonioribeiro/google2fa/9.x?style=flat-square"></a>
@@ -22,6 +22,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 ## Menu
 
   - [Version Compatibility](#version-compatibility)
+  - [Version Support](#version-support)
   - [Google Two-Factor Authentication for PHP](#google-two-factor-authentication-for-php)
   - [Laravel bridge](#laravel-bridge)
   - [Demos, Example & Playground](#demos-example--playground)
@@ -55,6 +56,18 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
  8.3        | 8.x & 9.x
  8.4        | 8.x & 9.x
  8.5 (beta) | 8.x & 9.x
+
+## Version Support
+
+| Major           | Status          | What gets merged                                                       |
+| --------------- | --------------- | ---------------------------------------------------------------------- |
+| `9.x`           | **Active**      | New features, bug fixes, PHP/PHPUnit compatibility, dependency updates |
+| `8.x`           | **Maintenance** | Security fixes and low-risk maintenance only (CI bumps, doc fixes)     |
+| `7.x` and older | **Unsupported** | Please upgrade                                                         |
+
+When a new major is released, the previous major moves to *Maintenance*. The major before that becomes *Unsupported*. PHP version support roughly tracks [PHP's own support window](https://www.php.net/supported-versions.php).
+
+For security vulnerabilities, see [SECURITY.md](SECURITY.md) — do **not** open a public issue.
 
 ## ⚠️ Version 9.0.0 Breaking Change
 
