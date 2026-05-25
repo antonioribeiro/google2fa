@@ -49,13 +49,13 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
  PHP     | Google2FA
 :--------|:----------
- 7.4        | 8.x & 9.x
- 8.0        | 8.x & 9.x
- 8.1        | 8.x & 9.x
- 8.2        | 8.x & 9.x
- 8.3        | 8.x & 9.x
- 8.4        | 8.x & 9.x
- 8.5 (beta) | 8.x & 9.x
+ 7.4     | 8.x & 9.x
+ 8.0     | 8.x & 9.x
+ 8.1     | 8.x & 9.x
+ 8.2     | 8.x & 9.x
+ 8.3     | 8.x & 9.x
+ 8.4     | 8.x & 9.x
+ 8.5     | 8.x & 9.x
 
 ## Version Support
 
