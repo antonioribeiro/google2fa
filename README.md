@@ -117,8 +117,6 @@ Please check the [Google2FA Package Playground](http://pragmarx.com/playground/g
 
 Here's a demo app showing how to use Google2FA: [google2fa-example](https://github.com/antonioribeiro/google2fa-example).
 
-You can scan the QR code on [this (old) demo page](https://antoniocarlosribeiro.com/technology/google2fa) with a Google Authenticator app and view the code changing (almost) in real time.
-
 ## Requirements
 
 - PHP 7.1 or greater
