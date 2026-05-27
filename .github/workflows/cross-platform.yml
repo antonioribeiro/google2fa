@@ -65,10 +65,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-${{ matrix.php }}-
 
-    - name: Configure platform for PHP 8.5
-      if: matrix.php == '8.5'
-      run: composer config platform.php 8.4.0
-
     - name: Install dependencies
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
