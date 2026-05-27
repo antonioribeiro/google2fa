@@ -78,3 +78,24 @@ jobs:
 
     - name: Execute static analysis on legacy stack
       run: vendor/bin/phpstan analyse --no-progress --level=5
+
+  psalm:
+    runs-on: ubuntu-latest
+    name: Psalm
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Setup PHP 8.3
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        coverage: none
+        tools: composer:v2
+
+    - name: Install dependencies
+      run: composer update --no-interaction --prefer-dist --no-progress
+
+    - name: Execute Psalm
+      run: vendor/bin/psalm --no-cache --no-progress
