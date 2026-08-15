@@ -11,12 +11,14 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    # PHP 8.6 is still in beta — don't let its inherent instability block the matrix.
+    continue-on-error: ${{ matrix.php == '8.6' }}
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
         dependency-version: [prefer-lowest, prefer-stable]
         exclude:
           # Exclude older PHP versions from newer OS to reduce matrix size
@@ -38,6 +40,8 @@ jobs:
           - php: '8.4'
             dependency-version: prefer-lowest
           - php: '8.5'
+            dependency-version: prefer-lowest
+          - php: '8.6'
             dependency-version: prefer-lowest
 
     name: P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
@@ -64,6 +68,10 @@ jobs:
         key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-${{ matrix.php }}-
+
+    - name: Configure platform for PHP 8.6 (beta)
+      if: matrix.php == '8.6'
+      run: composer config platform.php 8.5.0
 
     - name: Install dependencies
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress

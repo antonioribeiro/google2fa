@@ -13,7 +13,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 </p>
 <p align="center">
     <a href="https://codecov.io/gh/antonioribeiro/google2fa"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/antonioribeiro/google2fa/9.x?style=flat-square"></a>
-    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%20%7C%208.0%20%7C%208.1%20%7C%208.2%20%7C%208.3%20%7C%208.4%20%7C%208.5-green.svg?style=flat-square"></a>
+    <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.4%20%7C%208.0%20%7C%208.1%20%7C%208.2%20%7C%208.3%20%7C%208.4%20%7C%208.5%20%7C%208.6--beta-green.svg?style=flat-square"></a>
     <a href="https://packagist.org/packages/pragmarx/google2fa"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/google2fa.svg?style=flat-square"></a>
 </p>
 
@@ -56,6 +56,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
  8.3     | 8.x & 9.x
  8.4     | 8.x & 9.x
  8.5     | 8.x & 9.x
+ 8.6 (beta) | CI-tested, not yet a supported target
 
 ## Version Support
 

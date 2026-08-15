@@ -11,6 +11,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # PHP 8.6 is still in beta — don't let its inherent instability block the matrix.
+    continue-on-error: ${{ matrix.experimental == true }}
 
     name: PHP ${{ matrix.php }} / PHPUnit ${{ matrix.phpunit }}${{ matrix.coverage && ' / coverage' || '' }}
 
@@ -45,6 +47,11 @@ jobs:
           - { php: '8.5', phpunit: '^12.0' }
           - { php: '8.5', phpunit: '^13.0' }
 
+          # PHP 8.6 (beta) — PHPUnit 12 and 13. Marked experimental until the
+          # toolchain (Psalm in particular) declares 8.6 support.
+          - { php: '8.6', phpunit: '^12.0', experimental: true }
+          - { php: '8.6', phpunit: '^13.0', experimental: true }
+
     steps:
       - uses: actions/checkout@v5
 
@@ -63,6 +70,10 @@ jobs:
 
       - name: Pin PHPUnit version
         run: composer require --dev --no-update "phpunit/phpunit:${{ matrix.phpunit }}"
+
+      - name: Configure platform for PHP 8.6 (beta)
+        if: matrix.php == '8.6'
+        run: composer config platform.php 8.5.0
 
       - name: Install dependencies
         run: composer update --no-interaction --prefer-dist --no-progress
