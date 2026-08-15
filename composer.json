@@ -5,7 +5,14 @@
         "authentication",
         "two factor authentication",
         "google2fa",
-        "2fa"
+        "2fa",
+        "mfa",
+        "totp",
+        "hotp",
+        "otp",
+        "rfc4226",
+        "rfc6238",
+        "google-authenticator"
     ],
     "license": "MIT",
     "authors": [
@@ -15,13 +22,22 @@
             "role": "Creator & Designer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/antonioribeiro/google2fa/issues",
+        "source": "https://github.com/antonioribeiro/google2fa",
+        "docs": "https://github.com/antonioribeiro/google2fa#readme",
+        "security": "https://github.com/antonioribeiro/google2fa/security/policy"
+    },
     "require": {
         "php": "^7.1|^8.0",
         "paragonie/constant_time_encoding": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5.15|^8.5|^9.0",
-        "phpstan/phpstan": "^1.9"
+        "phpunit/phpunit": "~9|~10|~11|~12|~13",
+        "phpstan/phpstan": "^1.0|^2.0",
+        "phpstan/phpstan-phpunit": "^1.0|^2.0",
+        "vimeo/psalm": "^5.26|^6.13",
+        "psalm/plugin-phpunit": "^0.19|^0.20"
     },
     "autoload": {
         "psr-4": {

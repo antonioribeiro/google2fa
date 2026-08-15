@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
+>
+    <projectFiles>
+        <directory name="src" />
+        <directory name="tests" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
+    </plugins>
+
+    <issueHandlers>
+        <ClassMustBeFinal errorLevel="suppress" />
+        <ForbiddenCode>
+            <errorLevel type="suppress">
+                <!-- tests/helpers.php's d()/dd() are intentional debug dump helpers, never shipped (tests/ is export-ignored). -->
+                <file name="tests/helpers.php" />
+            </errorLevel>
+        </ForbiddenCode>
+        <MissingDependency>
+            <errorLevel type="suppress">
+                <!--
+                    False positive: psalm/plugin-phpunit's require-dev only tests against
+                    PHPUnit ^10-^12 (not our ^13). PHPUnit\Framework\Assert is a real class
+                    (vendor/phpunit/phpunit/src/Framework/Assert.php) that TestCase genuinely
+                    extends — verified directly, and all 35 tests pass at runtime. Revisit once
+                    psalm/plugin-phpunit ships PHPUnit 13 support.
+                -->
+                <file name="tests/Google2FATest.php" />
+                <file name="tests/QRCodeTest.php" />
+            </errorLevel>
+        </MissingDependency>
+    </issueHandlers>
+</psalm>

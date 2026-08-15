@@ -1,6 +1,23 @@
 ## Change Log
 
-## [9.0.0] - 202-09-18
+## [9.1.0] - 2026-08-15
+### Added
+- Support for PHP 8.6 (beta) in the CI test matrix, with automatic fallback (`continue-on-error`) while the toolchain catches up
+- Psalm static analysis alongside PHPStan, including the `psalm/plugin-phpunit` plugin so PHPUnit's `TestCase` hierarchy resolves correctly
+- SECURITY.md, SUPPORT.md, and a Version Support policy documenting which branches receive fixes
+- `composer.json` `support` block (issues/source/docs/security) and expanded keywords (`totp`, `hotp`, `otp`, `mfa`, `rfc4226`, `rfc6238`)
+### Changed
+- Widened dev-tooling constraints: PHPUnit `~9|~10|~11|~12|~13`, PHPStan `^1.0|^2.0`
+- Modernized CI: explicit PHP↔PHPUnit compatibility matrix, pcov coverage, updated action versions, added a legacy-stack verification job
+- Simplified `getTimestamp()`'s division (credit: Michal Špaček, cherry-picked from #232)
+### Fixed
+- Codecov upload no longer hard-fails CI when `secrets.CODECOV_TOKEN` is unavailable (e.g. on fork pull requests)
+- Removed the dead `code-quality` job (Prettier/Node.js) that never ran against this PHP-only package
+- Retired `.scrutinizer.yml`, which pointed at a coverage file no longer produced; Codecov already covers this
+### Security
+- No behavioral change to secret generation, HMAC computation, or OTP verification — see `docs/audit/9.x-ci-and-governance/03-src-security-review.md` for the line-by-line review
+
+## [9.0.0] - 2025-09-18
 ### ⚠️ Breaking Change
 ### Added
 - Increased default secret key length from 16 to 32 characters for enhanced security

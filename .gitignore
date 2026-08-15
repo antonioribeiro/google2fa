@@ -1,5 +1,8 @@
 .phpunit.result.cache
+.phpunit.cache
 coverage
 composer.lock
 composer.phar
 vendor
+.claude
+CLAUDE.md

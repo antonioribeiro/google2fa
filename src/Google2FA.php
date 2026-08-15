@@ -103,7 +103,7 @@ class Google2FA
         $secret,
         $counter
     ) {
-        return hash_hmac(
+        return (string) hash_hmac(
             $this->getAlgorithm(),
             pack('N*', 0, $counter), // Counter must be 64-bit int
             $secret,
@@ -198,7 +198,7 @@ class Google2FA
      **/
     public function getTimestamp()
     {
-        return (int) floor(microtime(true) / $this->keyRegeneration);
+        return (int) (time() / $this->keyRegeneration);
     }
 
     /**
@@ -308,7 +308,7 @@ class Google2FA
 
         $temp = $temp[1] & 0x7FFFFFFF;
 
-        return substr(
+        return (string) substr(
             (string) $temp,
             -$this->getOneTimePasswordLength()
         );
