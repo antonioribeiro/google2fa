@@ -82,34 +82,6 @@ jobs:
     - name: Execute tests
       run: vendor/bin/phpunit --no-coverage
 
-  code-quality:
-    runs-on: ubuntu-latest
-    name: Code Quality
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
-
-    - name: Setup Node.js
-      if: hashFiles('package.json') != ''
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-
-    - name: Install Node.js dependencies
-      if: hashFiles('package.json') != ''
-      run: npm install
-
-    - name: Check code style with Prettier
-      if: hashFiles('package.json') != ''
-      run: npm run format:check
-      continue-on-error: true
-
-    - name: Skip Node.js checks (no package.json found)
-      if: hashFiles('package.json') == ''
-      run: echo "No package.json found, skipping Node.js code quality checks"
-
   security:
     runs-on: ubuntu-latest
     name: Security Audit

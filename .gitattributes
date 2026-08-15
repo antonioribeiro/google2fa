@@ -2,9 +2,9 @@
 /docs export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
-/.scrutinizer.yml export-ignore
 /phpunit.xml export-ignore
 /RELICENSED.md export-ignore
 /CHANGELOG.md export-ignore
 /phpstan.neon export-ignore
+/psalm.xml export-ignore
 /.github export-ignore

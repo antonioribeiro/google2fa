@@ -95,5 +95,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
-          fail_ci_if_error: true
+          # false, not true: fork PRs don't receive secrets.CODECOV_TOKEN, so a
+          # true here would hard-fail this job on every external contribution.
+          fail_ci_if_error: false
           verbose: true

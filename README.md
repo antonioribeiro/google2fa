@@ -23,8 +23,10 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 
   - [Version Compatibility](#version-compatibility)
   - [Version Support](#version-support)
+  - [⚠️ Version 9.0.0 Breaking Change](#️-version-900-breaking-change)
   - [Google Two-Factor Authentication for PHP](#google-two-factor-authentication-for-php)
   - [Laravel bridge](#laravel-bridge)
+  - [About QRCode generation](#about-qrcode-generation)
   - [Demos, Example & Playground](#demos-example--playground)
   - [Requirements](#requirements)
   - [Installing](#installing)
@@ -44,6 +46,7 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
   - [Authors](#authors)
   - [License](#license)
   - [Contributing](#contributing)
+  - [Sponsorships](#sponsorships)
 
 ## Version Compatibility
 
@@ -67,6 +70,8 @@ Google2FA is a PHP implementation of the Google Two-Factor Authentication Module
 | `7.x` and older | **Unsupported** | Please upgrade                                                         |
 
 When a new major is released, the previous major moves to *Maintenance*. The major before that becomes *Unsupported*. PHP version support roughly tracks [PHP's own support window](https://www.php.net/supported-versions.php).
+
+This table lists released majors only. Unreleased development branches (if any) aren't part of the support policy until they ship.
 
 For security vulnerabilities, see [SECURITY.md](SECURITY.md) — do **not** open a public issue.
 
@@ -454,7 +459,7 @@ PHPUnit:
 composer test
 ````
 
-PHPStan analysis:
+Static analysis (PHPStan, then Psalm):
 
 ````
 composer analyse
@@ -472,7 +477,7 @@ Google2FA is licensed under the MIT License - see the [LICENSE](LICENSE.md) file
 
 ## Contributing
 
-Pull requests and issues are more than welcome.
+Pull requests and issues are more than welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to run tests and static analysis, and [SUPPORT.md](SUPPORT.md) for where to ask questions or report bugs. For security vulnerabilities, see [SECURITY.md](SECURITY.md) instead of opening a public issue. Participation is governed by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Sponsorships
 

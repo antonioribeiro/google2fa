@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & usage help
+    url: https://github.com/antonioribeiro/google2fa/discussions
+    about: Ask a question or discuss usage — not for bug reports.
+  - name: Report a security vulnerability
+    url: https://github.com/antonioribeiro/google2fa/security/advisories/new
+    about: Please do not open a public issue for security vulnerabilities — see SECURITY.md.
